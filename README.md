@@ -99,6 +99,10 @@ MCU to IC:
 The above turns into the hex value 0x0253, which will then give the following CRC back:
 `[0x81][0x8D][0x70][0x33]`
 
+IC to MCU:
+
+`[0xFF]` indicating CRC32's match, acknowledging the receipt.
+
 Then the MCU will respond to the request:
 
 From MCU to IC:
@@ -120,3 +124,7 @@ Finally we have `['m'][1][0xf1]` which is the methane sensor 1 which has a state
 Finally the IC responds to the MCU with a CRC-32.
 
 `[Bytes 8/32][Bytes 16/32][Bytes 24/32][Bytes 32/32]`
+
+And then the MCU replies to the IC:
+
+`[0xFF]` indicating CRC32's match, acknowledging the receipt.
