@@ -9,8 +9,19 @@ IC = Integrated Computer
 MCU = MicroController Unit
 
 # How to Build
+## PlatformIO 
+### Arduino connected to Jetson Nano
+SSH into the Jetson Nano and start the pio agent:
+```
+pio agent remote start
+```
 
-TODO
+From your local machine, run the following if using the Mega 2560, which will compile your code locally and upload it to the remote device:
+```
+pio remote run --environment megaatmega2560 --target upload
+```
+### Arduino connected to computer
+Just use Platformio in VSCode or whatever you prefer. There are guides online to help.
 
 # How to Test
 
