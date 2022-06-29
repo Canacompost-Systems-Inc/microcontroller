@@ -46,6 +46,8 @@ SHT40::SHT40(Mode initialMode, unsigned long initialPollingInterval): Sensor(ini
 void SHT40::begin()
 {
     uint32_t id = 0;
+
+    sht40.begin();
     
     // TODO: add timeout case to remove inf loop
 	while((id = sht40.getDeviceID()) == 0)
