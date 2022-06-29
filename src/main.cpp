@@ -7,31 +7,40 @@
 #include <Arduino.h>
 #include <Wire.h>
 #include "Sensor.hpp"
-#include "MQSensor.hpp"
+#include "Boards/MQX.hpp"
+#include "Boards/SHT40.hpp"
 
 // ----- CONSTANTS ----- //
 const unsigned long DEFAULT_POLLING_INTERVAL = 5000;
 
 // ----- OBJECTS ----- //
-MQSensor mq3(0, DEFAULT_POLLING_INTERVAL);
-MQSensor mq4(1, DEFAULT_POLLING_INTERVAL);
-MQSensor mq7(2, DEFAULT_POLLING_INTERVAL);
-MQSensor mq8(3, DEFAULT_POLLING_INTERVAL);
-MQSensor mq9(4, DEFAULT_POLLING_INTERVAL);
+MQX alcohol(0, DEFAULT_POLLING_INTERVAL);
+MQX methane(1, DEFAULT_POLLING_INTERVAL);
+MQX carbonMonoxide(2, DEFAULT_POLLING_INTERVAL);
+MQX hydrogen(3, DEFAULT_POLLING_INTERVAL);
+MQX gas(4, DEFAULT_POLLING_INTERVAL);
+SHT40 temp(TEMP, DEFAULT_POLLING_INTERVAL);
+SHT40 hum(HUM, DEFAULT_POLLING_INTERVAL);
 
 void setup() 
 {
 	Serial.begin(9600);
+	temp.begin();
+	hum.begin();
 }	
 
 void loop() 
 {
 	unsigned long currentTimeMs = millis();
-	mq3.FSM(currentTimeMs);
-	mq4.FSM(currentTimeMs);
-	mq7.FSM(currentTimeMs);
-	mq8.FSM(currentTimeMs);
-	mq9.FSM(currentTimeMs);
+
+	alcohol.FSM(currentTimeMs);
+	methane.FSM(currentTimeMs);
+	carbonMonoxide.FSM(currentTimeMs);
+	hydrogen.FSM(currentTimeMs);
+	gas.FSM(currentTimeMs);
+
+	temp.FSM(currentTimeMs);
+	hum.FSM(currentTimeMs);
 }
 
 // TODO: integrate new code into existing code below

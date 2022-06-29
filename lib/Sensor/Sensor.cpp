@@ -1,6 +1,14 @@
 #include "Sensor.hpp"
-#include "Arduino.h"
 
+
+Sensor::Sensor(unsigned long initialPollingInterval)
+{
+    state = IDLE;
+    pin = -1;
+    data = -1;
+    pollingInterval = initialPollingInterval;
+    dataTimestamp = 0;
+}
 
 Sensor::Sensor(int initialPin, unsigned long initialPollingInterval)
 {

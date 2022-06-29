@@ -1,16 +1,16 @@
-#ifndef MQSENSOR_H
-#define MQSENSOR_H
+#ifndef MQX_H
+#define MQX_H
 
 #include "Sensor.hpp"
 
 
-class MQSensor: public Sensor 
+class MQX: public Sensor 
 {
     // Inherit base constructor
     using Sensor::Sensor;
 
     private:
-        int read();
+        float read();
 };
 
 #endif
