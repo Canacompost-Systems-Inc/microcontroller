@@ -1,7 +1,8 @@
+#include <Arduino.h>
 #include "MQSensor.hpp"
 
 
 int MQSensor::read()
 {
-    return data + 1;
-};
+    return analogRead(pin);
+}

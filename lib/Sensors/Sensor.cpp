@@ -9,7 +9,7 @@ Sensor::Sensor(int initialPin, unsigned long initialPollingInterval)
     data = -1;
     pollingInterval = initialPollingInterval;
     dataTimestamp = 0;
-};
+}
 
 void Sensor::FSM(unsigned long currentTimestamp)
 { 
@@ -24,10 +24,11 @@ void Sensor::FSM(unsigned long currentTimestamp)
                 dataTimestamp = currentTimestamp; 
 
                 // DEBUG ---
+                Serial.print("Pin ");
                 Serial.print(pin);
                 Serial.print(": ");
                 Serial.print(data);
-                Serial.print(" ");
+                Serial.print(" @ T=");
                 Serial.println(dataTimestamp);
                 // --- DEBUG
             } 
@@ -39,4 +40,24 @@ void Sensor::FSM(unsigned long currentTimestamp)
         default:
             state = IDLE;
     }
-};
+}
+
+int Sensor::getPin()
+{
+    return pin;
+}
+
+unsigned long Sensor::getPollingInterval()
+{
+    return pollingInterval;
+}
+
+void Sensor::setPin(int newPin)
+{
+    pin = newPin;
+}
+
+void Sensor::setPollingInterval(unsigned long newPollingInterval)
+{
+    pollingInterval = newPollingInterval;
+}

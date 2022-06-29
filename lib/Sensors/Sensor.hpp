@@ -7,14 +7,14 @@ enum State { IDLE, READING };
 class Sensor
 {
     protected:
-        // Member Varibales
         State state;
         int pin;
         int data;
         unsigned long dataTimestamp;
         unsigned long pollingInterval;
 
-        // Private helper functions
+        // Inheriting class must override the read() virtual function and implement the logic for reading 
+        // from sensor. If no override is present will return current value of data. 
         virtual int read() { return data; };
 
     public:
@@ -26,8 +26,8 @@ class Sensor
         unsigned long getPollingInterval();
 
         // Setters
-        bool setPin();
-        bool setPollingInterval();
+        void setPin(int newPin);
+        void setPollingInterval(unsigned long newPollingInterval);
 };
 
 #endif

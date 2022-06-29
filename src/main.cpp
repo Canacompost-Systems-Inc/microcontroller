@@ -9,11 +9,15 @@
 #include "Sensor.hpp"
 #include "MQSensor.hpp"
 
+// ----- CONSTANTS ----- //
+const unsigned long DEFAULT_POLLING_INTERVAL = 5000;
 
-const unsigned long DEFUALT_POLLING_INTERVAL = 1000;
-
-Sensor s0(0, DEFUALT_POLLING_INTERVAL);
-MQSensor s1(1, DEFUALT_POLLING_INTERVAL);
+// ----- OBJECTS ----- //
+MQSensor mq3(0, DEFAULT_POLLING_INTERVAL);
+MQSensor mq4(1, DEFAULT_POLLING_INTERVAL);
+MQSensor mq7(2, DEFAULT_POLLING_INTERVAL);
+MQSensor mq8(3, DEFAULT_POLLING_INTERVAL);
+MQSensor mq9(4, DEFAULT_POLLING_INTERVAL);
 
 void setup() 
 {
@@ -23,8 +27,11 @@ void setup()
 void loop() 
 {
 	unsigned long currentTimeMs = millis();
-	s0.FSM(currentTimeMs);
-	s1.FSM(currentTimeMs);
+	mq3.FSM(currentTimeMs);
+	mq4.FSM(currentTimeMs);
+	mq7.FSM(currentTimeMs);
+	mq8.FSM(currentTimeMs);
+	mq9.FSM(currentTimeMs);
 }
 
 // TODO: integrate new code into existing code below
