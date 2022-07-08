@@ -1,22 +1,42 @@
 #include "Sensor.hpp"
 
 
-Sensor::Sensor(unsigned long initialPollingInterval)
+Sensor::Sensor(String inName, int inPin, unsigned long inPollingFrequency)
 {
     state = IDLE;
-    pin = -1;
-    data = -1;
-    pollingInterval = initialPollingInterval;
+    pollingFrequency = inPollingFrequency;
     dataTimestamp = 0;
+    pin = inPin;
+    name = inName;
+
+    clearData();
 }
 
-Sensor::Sensor(int initialPin, unsigned long initialPollingInterval)
+void Sensor::debugReport()
 {
-    state = IDLE;
-    pin = initialPin;
-    data = -1;
-    pollingInterval = initialPollingInterval;
-    dataTimestamp = 0;
+    Serial.print("\n");
+    Serial.print(name);
+    Serial.print(" [");
+    Serial.print(dataTimestamp);
+    Serial.print("]: ");
+
+    for(int i; i < DATA_ARRAY_SIZE; i++)
+    {
+        if (valid[i])
+        {
+            Serial.print(data[i]);
+            Serial.print(' ');
+        }
+    }
+}
+
+void Sensor::clearData()
+{
+    for (int i; i < DATA_ARRAY_SIZE; i++)
+    {
+        data[i] = 0;
+        valid[i] = false;
+    }
 }
 
 void Sensor::FSM(unsigned long currentTimestamp)
@@ -24,21 +44,13 @@ void Sensor::FSM(unsigned long currentTimestamp)
     switch(state) 
     {
         case IDLE:
-            if(currentTimestamp - dataTimestamp >= pollingInterval)
+            if(currentTimestamp - dataTimestamp >= pollingFrequency)
             {
                 // Take reading once polling interval elapsed
                 state = READING;
-                data = read();
-                dataTimestamp = currentTimestamp; 
-
-                // DEBUG ---
-                Serial.print("Pin ");
-                Serial.print(pin);
-                Serial.print(": ");
-                Serial.print(data);
-                Serial.print(" @ T=");
-                Serial.println(dataTimestamp);
-                // --- DEBUG
+                read();
+                dataTimestamp = currentTimestamp;
+                debugReport();
             } 
 
         case READING:
@@ -50,22 +62,12 @@ void Sensor::FSM(unsigned long currentTimestamp)
     }
 }
 
-int Sensor::getPin()
+unsigned long Sensor::getPollingFrequency()
 {
-    return pin;
+    return pollingFrequency;
 }
 
-unsigned long Sensor::getPollingInterval()
+void Sensor::setPollingFrequency(unsigned long newPollingFrequency)
 {
-    return pollingInterval;
-}
-
-void Sensor::setPin(int newPin)
-{
-    pin = newPin;
-}
-
-void Sensor::setPollingInterval(unsigned long newPollingInterval)
-{
-    pollingInterval = newPollingInterval;
+    pollingFrequency = newPollingFrequency;
 }

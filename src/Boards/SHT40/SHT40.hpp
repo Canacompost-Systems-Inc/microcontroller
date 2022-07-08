@@ -5,18 +5,16 @@
 #include "DFRobot_SHT40.h"
 
 
-enum Mode { TEMP, HUM };
-
 class SHT40: public Sensor 
-{
+{    
     private:
         DFRobot_SHT40 sht40;
-        Mode mode;
-
-        float read();
+        virtual void read();
 
     public:
-        SHT40(Mode initialMode, unsigned long initialPollingInterval);
+        SHT40(String inName, int inPin, unsigned long inPollingFrequency):
+            Sensor(inName, inPin, inPollingFrequency), sht40(SHT40_AD1B_IIC_ADDR) {};
+
         void begin();
 };
 
