@@ -12,6 +12,7 @@ class Sensor
     protected:
         String name;
         State state;
+        bool enabled;
         float data[DATA_ARRAY_SIZE];
         bool valid[DATA_ARRAY_SIZE];
         unsigned long dataTimestamp;
@@ -40,9 +41,10 @@ class Sensor
         /**
          * @param inName used for identifying sensor when debugging
          * @param inPin GPIO pin connected to the board 
-         * @param inPollingFrequency number of milliseconds between data samples  
+         * @param inPollingFrequency number of milliseconds between data samples
+         * @param inEnabled if true, sensor will take readings at the desired polling frequency
          */ 
-        Sensor(String inName, int inPin, unsigned long inPollingFrequency);
+        Sensor(String inName, int inPin, unsigned long inPollingFrequency, bool inEnabled);
 
         /**
          * Inheriting class can override the begin() virtual function and implement any setup logic needed 

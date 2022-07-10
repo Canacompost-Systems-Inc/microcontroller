@@ -1,9 +1,10 @@
 #include "Sensor.hpp"
 
 
-Sensor::Sensor(String inName, int inPin, unsigned long inPollingFrequency)
+Sensor::Sensor(String inName, int inPin, unsigned long inPollingFrequency, bool inEnabled)
 {
     state = IDLE;
+    enabled = inEnabled;
     pollingFrequency = inPollingFrequency;
     dataTimestamp = 0;
     pin = inPin;
@@ -41,24 +42,27 @@ void Sensor::clearData()
 
 void Sensor::FSM(unsigned long currentTimestamp)
 { 
-    switch(state) 
+    if (enabled)
     {
-        case IDLE:
-            if(currentTimestamp - dataTimestamp >= pollingFrequency)
-            {
-                // Take reading once polling interval elapsed
-                state = READING;
-                read();
-                dataTimestamp = currentTimestamp;
-                debugReport();
-            } 
+        switch(state) 
+        {
+            case IDLE:
+                if(currentTimestamp - dataTimestamp >= pollingFrequency)
+                {
+                    // Take reading once polling interval elapsed
+                    state = READING;
+                    read();
+                    dataTimestamp = currentTimestamp;
+                    debugReport();
+                } 
 
-        case READING:
-            // Sensor reading done
-            state = IDLE;
+            case READING:
+                // Sensor reading done
+                state = IDLE;
 
-        default:
-            state = IDLE;
+            default:
+                state = IDLE;
+        }
     }
 }
 

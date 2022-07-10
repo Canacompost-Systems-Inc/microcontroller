@@ -31,6 +31,9 @@ void SCD41::begin()
 {
     uint16_t error;
     char errorMessage[256];
+    uint16_t serial0;
+    uint16_t serial1;
+    uint16_t serial2;
 
     Wire.begin();
     scd41.begin(Wire);
@@ -45,9 +48,6 @@ void SCD41::begin()
         return;
     }
 
-    uint16_t serial0;
-    uint16_t serial1;
-    uint16_t serial2;
     error = scd41.getSerialNumber(serial0, serial1, serial2);
     if (error) {
         Serial.print("Error trying to execute getSerialNumber(): ");

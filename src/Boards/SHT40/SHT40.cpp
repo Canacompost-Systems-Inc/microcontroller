@@ -42,6 +42,7 @@ void SHT40::begin()
     uint32_t id = 0;
     sht40.begin();
     
+    // TODO: Avoid inf loop
 	while((id = sht40.getDeviceID()) == 0)
     {
 		Serial.println("ID retrieval error, please check whether the device is connected correctly!!!");

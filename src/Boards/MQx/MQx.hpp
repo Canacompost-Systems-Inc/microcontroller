@@ -10,8 +10,8 @@ class MQx: public Sensor
         void read();
 
     public:
-        MQx(String inName, int inPin, unsigned long inPollingFrequency):
-            Sensor(inName, inPin, inPollingFrequency) {};
+        MQx(String inName, int inPin, unsigned long inPollingFrequency, bool inEnabled):
+            Sensor(inName, inPin, inPollingFrequency, inEnabled) {};
 };
 
 #endif

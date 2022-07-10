@@ -13,8 +13,8 @@ class SCD41: public Sensor
         void read();
 
     public:
-        SCD41(String inName, int inPin, unsigned long inPollingFrequency):
-            Sensor(inName, inPin, inPollingFrequency) {};
+        SCD41(String inName, int inPin, unsigned long inPollingFrequency, bool inEnabled):
+            Sensor(inName, inPin, inPollingFrequency, inEnabled) {};
 
         void begin();
 };

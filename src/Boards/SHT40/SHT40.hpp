@@ -12,8 +12,8 @@ class SHT40: public Sensor
         virtual void read();
 
     public:
-        SHT40(String inName, int inPin, unsigned long inPollingFrequency):
-            Sensor(inName, inPin, inPollingFrequency), sht40(SHT40_AD1B_IIC_ADDR) {};
+        SHT40(String inName, int inPin, unsigned long inPollingFrequency, bool inEnabled):
+            Sensor(inName, inPin, inPollingFrequency, inEnabled), sht40(SHT40_AD1B_IIC_ADDR) {};
 
         void begin();
 };
