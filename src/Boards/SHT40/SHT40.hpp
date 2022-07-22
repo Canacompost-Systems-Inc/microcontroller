@@ -9,11 +9,11 @@ class SHT40: public Sensor
 {    
     private:
         DFRobot_SHT40 sht40;
-        virtual void read();
+        Array<float> read();
 
     public:
-        SHT40(String inName, int inPin, unsigned long inPollingFrequency, bool inEnabled):
-            Sensor(inName, inPin, inPollingFrequency, inEnabled), sht40(SHT40_AD1B_IIC_ADDR) {};
+        SHT40(String inName, unsigned long inPollingFrequency, int inPin):
+            Sensor(inName, inPollingFrequency, inPin), sht40(SHT40_AD1B_IIC_ADDR) {};
 
         void begin();
 };

@@ -2,49 +2,42 @@
 #define SENSOR_H
 
 #include <Arduino.h>
-
+#include "Array.hpp"
 
 const int DATA_ARRAY_SIZE = 4;
 enum State { IDLE, READING };
 
 class Sensor
 {
-    protected:
-        String name;
+    private:
         State state;
-        bool enabled;
-        float data[DATA_ARRAY_SIZE];
-        bool valid[DATA_ARRAY_SIZE];
+        String name;
+        Array<float> data;
         unsigned long dataTimestamp;
         unsigned long pollingFrequency;
         int pin;
-        int mode;
-
-        /**
-         * Inheriting class should override the read() virtual function and implement the logic for reading 
-         * from sensor. If no override is present will return current value of data. 
-         */ 
-        virtual void read() {};
 
         /**
          * Used to print data to serial monitor when debugging.
          */ 
         void debugReport();
 
+
+    protected:
         /**
-         * Will set all elements in data will to 0; and  all elements in valid to false
+         * Inheriting class should override the read() virtual function and implement the logic for reading 
+         * from sensor. If no override is present will return current value of data. 
          */ 
-        void clearData();
+        virtual Array<float> read() { return data; };
 
     public:
 
         /**
          * @param inName used for identifying sensor when debugging
-         * @param inPin GPIO pin connected to the board 
          * @param inPollingFrequency number of milliseconds between data samples
-         * @param inEnabled if true, sensor will take readings at the desired polling frequency
+         * @param inPin GPIO pin connected to the board 
          */ 
-        Sensor(String inName, int inPin, unsigned long inPollingFrequency, bool inEnabled);
+        Sensor(String inName, unsigned long inPollingFrequency, int inPin);
 
         /**
          * Inheriting class can override the begin() virtual function and implement any setup logic needed 
@@ -64,6 +57,8 @@ class Sensor
          * @return current value for pollingFrequency
          */ 
         unsigned long getPollingFrequency();
+
+        int getPin();
 
         /**
          * @param newPollingFrequency milliseconds of new desired frequency

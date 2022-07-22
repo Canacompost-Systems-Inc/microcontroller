@@ -7,11 +7,11 @@
 class MQx: public Sensor 
 {
     private:
-        void read();
+        Array<float> read();
 
     public:
-        MQx(String inName, int inPin, unsigned long inPollingFrequency, bool inEnabled):
-            Sensor(inName, inPin, inPollingFrequency, inEnabled) {};
+        MQx(String inName, unsigned long inPollingFrequency, int inPin):
+            Sensor(inName, inPollingFrequency, inPin) {};
 };
 
 #endif

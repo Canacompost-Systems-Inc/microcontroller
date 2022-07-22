@@ -1,16 +1,12 @@
 #include "DS18B20.hpp"
 
 
-void DS18B20::read()
+Array<float> DS18B20::read()
 {
-    float temperature;
-
+    Array<float> reading;
     ds18b20.requestTemperatures(); 
-    temperature = ds18b20.getTempCByIndex(0);
-
-    clearData();
-    data[0] = temperature;
-    valid[0] = true;
+    reading.insert(ds18b20.getTempCByIndex(0));
+    return reading;
 }   
 
 void DS18B20::begin()

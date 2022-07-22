@@ -1,8 +1,9 @@
 #include "SCD41.hpp"
 
 
-void SCD41::read()
+Array<float> SCD41::read()
 {
+    Array<float> reading;
     uint16_t error;
     char errorMessage[256];
     uint16_t co2;
@@ -18,13 +19,10 @@ void SCD41::read()
         return;
     }
 
-    clearData();
-    data[0] = co2;
-    data[1] = temperature;
-    data[2] = humidity;
-    valid[0] = true;
-    valid[1] = true;
-    valid[2] = true;
+    reading.insert(co2);
+    reading.insert(temperature);
+    reading.insert(humidity);
+    return reading;
 }
 
 void SCD41::begin()

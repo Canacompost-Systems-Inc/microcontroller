@@ -1,9 +1,9 @@
 #include "MQx.hpp"
 
 
-void MQx::read()
+Array<float> MQx::read()
 {
-    clearData();
-    data[0] = analogRead(pin);
-    valid[0] = true;
+    Array<float> reading;
+    reading.insert(analogRead(getPin()));
+    return reading;
 }

@@ -1,26 +1,21 @@
 #include "IPC101xx.hpp"
 
 
-void IPC101xx::read()
+Array<float> IPC101xx::read()
 {
-	float temperature = data[0];
-	float pressure = data[1];
+	Array<float> reading;
 
 	if (ipc101xx.dataReady()) 
 	{
 		// Read and output measured temperature in Fahrenheit and pressure in Pascal.
-		temperature = ipc101xx.getTemperatureC();
-		pressure = ipc101xx.getPressurePa();
+		reading.insert(ipc101xx.getTemperatureC());
+		reading.insert(ipc101xx.getPressurePa());
 
 		// start the next measurement cycle.
 		ipc101xx.measureStart(ipc101xx.VERY_ACCURATE);
   	}
 
-	clearData();
-	data[0] = temperature;
-	data[1] = pressure;
-	valid[0] = true;
-	valid[1] = true;
+	return reading;
 }
 
 void IPC101xx::begin()

@@ -1,16 +1,20 @@
 #include "SHT40.hpp"
 
 
-void SHT40::read()
+Array<float> SHT40::read()
 {
-    float temperature = sht40.getTemperature(PRECISION_HIGH);
+    Array<float> reading;
+    float temperature;
+    float humidity;
+
+    temperature = sht40.getTemperature(PRECISION_HIGH);
     if(temperature == MODE_ERR)
     {
         Serial.println("Incorrect mode configuration to get temperature");
         return;
     }
 
-    float humidity = sht40.getHumidity(PRECISION_HIGH);
+    humidity = sht40.getHumidity(PRECISION_HIGH);
     if(humidity == MODE_ERR)
     {
         Serial.println("The mode for getting humidity was misconfigured");
@@ -30,11 +34,9 @@ void SHT40::read()
         sht40.enHeater(POWER_CONSUMPTION_H_HEATER_1S);
     }
 
-    clearData();
-    data[0] = temperature;
-    data[1] = humidity;
-    valid[0] = true;
-    valid[1] = true;
+    reading.insert(temperature);
+    reading.insert(humidity);
+    return reading;
 }
 
 void SHT40::begin()

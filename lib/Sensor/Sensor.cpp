@@ -1,16 +1,16 @@
 #include "Sensor.hpp"
 
 
-Sensor::Sensor(String inName, int inPin, unsigned long inPollingFrequency, bool inEnabled)
+Sensor::Sensor(String inName, unsigned long inPollingFrequency, int inPin)
 {
     state = IDLE;
-    enabled = inEnabled;
-    pollingFrequency = inPollingFrequency;
     dataTimestamp = 0;
-    pin = inPin;
     name = inName;
+    pollingFrequency = inPollingFrequency;
+    pin = inPin;
 
-    clearData();
+    Array<float> emptyData;
+    data = emptyData;
 }
 
 void Sensor::debugReport()
@@ -21,54 +21,44 @@ void Sensor::debugReport()
     Serial.print(dataTimestamp);
     Serial.print("]: ");
 
-    for(int i; i < DATA_ARRAY_SIZE; i++)
+    for(int i = 0; i < data.getSize(); i++)
     {
-        if (valid[i])
-        {
-            Serial.print(data[i]);
-            Serial.print(' ');
-        }
-    }
-}
-
-void Sensor::clearData()
-{
-    for (int i; i < DATA_ARRAY_SIZE; i++)
-    {
-        data[i] = 0;
-        valid[i] = false;
+        Serial.print(data.read(i));
+        Serial.print(' ');
     }
 }
 
 void Sensor::FSM(unsigned long currentTimestamp)
 { 
-    if (enabled)
+    switch(state) 
     {
-        switch(state) 
-        {
-            case IDLE:
-                if(currentTimestamp - dataTimestamp >= pollingFrequency)
-                {
-                    // Take reading once polling interval elapsed
-                    state = READING;
-                    read();
-                    dataTimestamp = currentTimestamp;
-                    debugReport();
-                } 
+        case IDLE:
+            if(currentTimestamp - dataTimestamp >= pollingFrequency)
+            {
+                // Take reading once polling interval elapsed
+                state = READING;
+                data = read();
+                dataTimestamp = currentTimestamp;
+                debugReport();
+            } 
 
-            case READING:
-                // Sensor reading done
-                state = IDLE;
+        case READING:
+            // Sensor reading done
+            state = IDLE;
 
-            default:
-                state = IDLE;
-        }
+        default:
+            state = IDLE;
     }
 }
 
 unsigned long Sensor::getPollingFrequency()
 {
     return pollingFrequency;
+}
+
+int Sensor::getPin()
+{
+    return pin;
 }
 
 void Sensor::setPollingFrequency(unsigned long newPollingFrequency)

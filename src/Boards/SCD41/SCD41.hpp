@@ -10,11 +10,11 @@ class SCD41: public Sensor
 {
     private:
         SensirionI2CScd4x scd41;
-        void read();
+        Array<float> read();
 
     public:
-        SCD41(String inName, int inPin, unsigned long inPollingFrequency, bool inEnabled):
-            Sensor(inName, inPin, inPollingFrequency, inEnabled) {};
+        SCD41(String inName, unsigned long inPollingFrequency, int inPin):
+            Sensor(inName, inPollingFrequency, inPin) {};
 
         void begin();
 };

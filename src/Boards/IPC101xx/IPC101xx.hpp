@@ -9,11 +9,11 @@ class IPC101xx: public Sensor
 {
     private:
         ICP101xx ipc101xx;
-        void read();
+        Array<float> read();
 
     public:
-        IPC101xx(String inName, int inPin, unsigned long inPollingFrequency, bool inEnabled):
-            Sensor(inName, inPin, inPollingFrequency, inEnabled) {};
+        IPC101xx(String inName, unsigned long inPollingFrequency, int inPin):
+            Sensor(inName, inPollingFrequency,  inPin) {};
 
         void begin();
 };
