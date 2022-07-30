@@ -1,11 +1,11 @@
 #include "Sensor.hpp"
 
 
-Sensor::Sensor(String inName, unsigned long inPollingFrequency, int inPin)
+Sensor::Sensor(char inBaseDID, unsigned long inPollingFrequency, int inPin)
 {
     state = IDLE;
     dataTimestamp = 0;
-    name = inName;
+    baseDID = inBaseDID;
     pollingFrequency = inPollingFrequency;
     pin = inPin;
 
@@ -28,6 +28,24 @@ void Sensor::debugReport()
     }
 }
 
+void Sensor::report()
+{
+    for(int i = 0; i < data.getSize(); i++)
+    {
+        float dataToWrite = data.read(i);
+        const unsigned char *bytesPtr = reinterpret_cast<const unsigned char*>(&dataToWrite);
+
+        // Write out transmission block
+        Serial.write(0x02); // STX: Start of text
+        Serial.write(baseDID + i); // DID: Device ID
+        for(size_t j = 0; j != sizeof(float); j++)
+        {
+            Serial.write(bytesPtr[j]); // DATA
+        }
+        Serial.write(0x03); // ETX: End of text
+    }
+}
+
 void Sensor::FSM(unsigned long currentTimestamp)
 { 
     switch(state) 
@@ -39,7 +57,7 @@ void Sensor::FSM(unsigned long currentTimestamp)
                 state = READING;
                 data = read();
                 dataTimestamp = currentTimestamp;
-                debugReport();
+                report();
             } 
 
         case READING:

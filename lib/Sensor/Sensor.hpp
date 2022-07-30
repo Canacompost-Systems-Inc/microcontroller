@@ -12,6 +12,7 @@ class Sensor
     private:
         State state;
         String name;
+        char baseDID;
         Array<float> data;
         unsigned long dataTimestamp;
         unsigned long pollingFrequency;
@@ -22,6 +23,10 @@ class Sensor
          */ 
         void debugReport();
 
+        /**
+         * 
+         */
+        void report();
 
     protected:
         /**
@@ -37,7 +42,7 @@ class Sensor
          * @param inPollingFrequency number of milliseconds between data samples
          * @param inPin GPIO pin connected to the board 
          */ 
-        Sensor(String inName, unsigned long inPollingFrequency, int inPin);
+        Sensor(char inBaseDID, unsigned long inPollingFrequency, int inPin);
 
         /**
          * Inheriting class can override the begin() virtual function and implement any setup logic needed 

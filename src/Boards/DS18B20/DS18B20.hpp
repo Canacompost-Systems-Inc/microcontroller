@@ -14,8 +14,8 @@ class DS18B20: public Sensor
         Array<float> read();
 
     public:
-        DS18B20(String inName, unsigned long inPollingFrequency, int inPin):
-            Sensor(inName, inPollingFrequency, inPin), oneWire(inPin), ds18b20(&oneWire) {};
+        DS18B20(char inBaseDID, unsigned long inPollingFrequency, int inPin):
+            Sensor(inBaseDID, inPollingFrequency, inPin), oneWire(inPin), ds18b20(&oneWire) {};
 
         void begin();
 };

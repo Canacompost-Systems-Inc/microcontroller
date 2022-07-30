@@ -12,8 +12,8 @@ class SHT40: public Sensor
         Array<float> read();
 
     public:
-        SHT40(String inName, unsigned long inPollingFrequency, int inPin):
-            Sensor(inName, inPollingFrequency, inPin), sht40(SHT40_AD1B_IIC_ADDR) {};
+        SHT40(char inBaseDID, unsigned long inPollingFrequency, int inPin):
+            Sensor(inBaseDID, inPollingFrequency, inPin), sht40(SHT40_AD1B_IIC_ADDR) {};
 
         void begin();
 };

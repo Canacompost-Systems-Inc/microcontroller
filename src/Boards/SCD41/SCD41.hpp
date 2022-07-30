@@ -13,8 +13,8 @@ class SCD41: public Sensor
         Array<float> read();
 
     public:
-        SCD41(String inName, unsigned long inPollingFrequency, int inPin):
-            Sensor(inName, inPollingFrequency, inPin) {};
+        SCD41(char inBaseDID, unsigned long inPollingFrequency, int inPin):
+            Sensor(inBaseDID, inPollingFrequency, inPin) {};
 
         void begin();
 };

@@ -10,8 +10,8 @@ class MQx: public Sensor
         Array<float> read();
 
     public:
-        MQx(String inName, unsigned long inPollingFrequency, int inPin):
-            Sensor(inName, inPollingFrequency, inPin) {};
+        MQx(char inBaseDID, unsigned long inPollingFrequency, int inPin):
+            Sensor(inBaseDID, inPollingFrequency, inPin) {};
 };
 
 #endif
