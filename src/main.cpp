@@ -21,10 +21,10 @@ const unsigned long DEFAULT_POLLING_INTERVAL = 5000;
 // MQx 	  	  mq7("mq7-co2           ", DEFAULT_POLLING_INTERVAL, 2);
 // MQx 	  	  mq8("mq8-hydrogen      ", DEFAULT_POLLING_INTERVAL, 3);
 // MQx 	 	  mq9("mq9-co            ", DEFAULT_POLLING_INTERVAL, 4);
-SHT40 	    sht40(0x00, DEFAULT_POLLING_INTERVAL, -1);
-SCD41 	    scd41(0x10, DEFAULT_POLLING_INTERVAL, -1);
 // IPC101xx ipc101xx("ipc101xx-temp-pres", DEFAULT_POLLING_INTERVAL, -1);
 // DS18B20	  ds18b20("ds18b20-temp      ", DEFAULT_POLLING_INTERVAL, 2);
+SHT40 	    sht40(0x00, DEFAULT_POLLING_INTERVAL, -1);
+SCD41 	    scd41(0x10, DEFAULT_POLLING_INTERVAL, -1);
 
 Array<Sensor*> sensors;
 

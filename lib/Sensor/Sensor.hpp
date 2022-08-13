@@ -11,7 +11,6 @@ class Sensor
 {
     private:
         State state;
-        String name;
         char baseDID;
         Array<float> data;
         unsigned long dataTimestamp;
