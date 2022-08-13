@@ -4,7 +4,7 @@
 #include <Arduino.h>
 #include "Array.hpp"
 
-const int DATA_ARRAY_SIZE = 4;
+const int DATA_ARRAY_SIZE = 3;
 enum State { IDLE, READING };
 
 class Sensor
@@ -19,19 +19,14 @@ class Sensor
 
         /**
          * Used to print data to serial monitor when debugging.
-         */ 
-        void debugReport();
-
-        /**
-         * 
          */
-        void report();
+        void debugReport();
 
     protected:
         /**
          * Inheriting class should override the read() virtual function and implement the logic for reading 
          * from sensor. If no override is present will return current value of data. 
-         */ 
+         */
         virtual Array<float> read() { return data; };
 
     public:
@@ -40,7 +35,7 @@ class Sensor
          * @param inName used for identifying sensor when debugging
          * @param inPollingFrequency number of milliseconds between data samples
          * @param inPin GPIO pin connected to the board 
-         */ 
+         */
         Sensor(char inBaseDID, unsigned long inPollingFrequency, int inPin);
 
         /**
@@ -58,15 +53,20 @@ class Sensor
         void FSM(unsigned long currentTimestamp);
 
         /**
+         * Transmits sensor data in a package format.
+         */
+        void report();
+
+        /**
          * @return current value for pollingFrequency
-         */ 
+         */
         unsigned long getPollingFrequency();
 
         int getPin();
 
         /**
          * @param newPollingFrequency milliseconds of new desired frequency
-         */ 
+         */
         void setPollingFrequency(unsigned long newPollingFrequency);
 };
 

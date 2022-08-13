@@ -16,7 +16,7 @@ Sensor::Sensor(char inBaseDID, unsigned long inPollingFrequency, int inPin)
 void Sensor::debugReport()
 {
     Serial.print("\n");
-    Serial.print(name);
+    Serial.print(baseDID);
     Serial.print(" [");
     Serial.print(dataTimestamp);
     Serial.print("]: ");
@@ -30,19 +30,27 @@ void Sensor::debugReport()
 
 void Sensor::report()
 {
-    for(int i = 0; i < data.getSize(); i++)
-    {
-        float dataToWrite = data.read(i);
-        const unsigned char *bytesPtr = reinterpret_cast<const unsigned char*>(&dataToWrite);
+    Serial.write(baseDID); // DID: Device ID
 
+    // Send float value DATA_ARRAY_SIZE number of times
+    for(int i = 0; i < DATA_ARRAY_SIZE; i++)
+    {
+        float dataToWrite = 0.0;
+
+        // If sensor stores less data the DATA_ARRAY_SIZE zero pad transmission
+        if (i < data.getSize())
+        {
+            dataToWrite = data.read(i);
+        }
+
+        // Convert float to bytes
+        const unsigned char *bytesPtr = reinterpret_cast<const unsigned char*>(&dataToWrite);
+        
         // Write out transmission block
-        Serial.write(0x02); // STX: Start of text
-        Serial.write(baseDID + i); // DID: Device ID
         for(size_t j = 0; j != sizeof(float); j++)
         {
-            Serial.write(bytesPtr[j]); // DATA
+            Serial.write(bytesPtr[j]); 
         }
-        Serial.write(0x03); // ETX: End of text
     }
 }
 
@@ -57,7 +65,6 @@ void Sensor::FSM(unsigned long currentTimestamp)
                 state = READING;
                 data = read();
                 dataTimestamp = currentTimestamp;
-                report();
             } 
 
         case READING:

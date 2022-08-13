@@ -27,13 +27,14 @@ SHT40 	    sht40(0x00, DEFAULT_POLLING_INTERVAL, -1);
 SCD41 	    scd41(0x10, DEFAULT_POLLING_INTERVAL, -1);
 
 Array<Sensor*> sensors;
+char buf[200];
 
 void setup() 
 {
 	Serial.begin(9600);
 
 	sensors.insert(&sht40);
-	sensors.insert(&scd41);
+	// sensors.insert(&scd41);
 
 	for (int i = 0; i < sensors.getSize(); i++)
 	{
@@ -42,7 +43,7 @@ void setup()
 
 	// Wait to allow for sensors to take an initial reading
 	delay(DEFAULT_POLLING_INTERVAL);
-}	
+}
 
 void loop() 
 {
@@ -51,5 +52,22 @@ void loop()
 	for (int i = 0; i < sensors.getSize(); i++)
 	{
 		sensors.read(i)->FSM(currentTimeMs);
+	}
+
+	// Application Layer 
+	if (Serial.available()) 
+	{
+		byte inByte = Serial.read();
+
+		// 's' = state of sensors
+		if (inByte == 0x73)
+		{
+			Serial.write(0x02); // STX: Start of text
+			for (int i = 0; i < sensors.getSize(); i++)
+			{
+				sensors.read(i)->report();
+			}
+        	Serial.write(0x03); // ETX: End of text
+		}
 	}
 }
