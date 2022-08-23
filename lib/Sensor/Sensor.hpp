@@ -50,7 +50,7 @@ class Sensor
          * 
          * @param currentTimestamp arduino timestamp returned from the function millis()
          */ 
-        void FSM(unsigned long currentTimestamp);
+        void loop(unsigned long currentTimestamp);
 
         /**
          * Transmits sensor data in a package format.

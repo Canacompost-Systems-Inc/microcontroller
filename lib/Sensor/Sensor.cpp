@@ -54,7 +54,7 @@ void Sensor::report()
     }
 }
 
-void Sensor::FSM(unsigned long currentTimestamp)
+void Sensor::loop(unsigned long currentTimestamp)
 { 
     switch(state) 
     {

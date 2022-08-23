@@ -11,11 +11,14 @@
 #include "Boards/SCD41/SCD41.hpp"
 #include "Boards/IPC101xx/IPC101xx.hpp"
 #include "Boards/DS18B20/DS18B20.hpp"
+#include "Transceiver/Transceiver.hpp"
 
 // ----- CONSTANTS ----- //
 const unsigned long DEFAULT_POLLING_INTERVAL = 5000;
 
 // ----- OBJECTS ----- //
+Transceiver transceiver;
+
 // MQx 	  	  mq3("mq3-alcohol       ", DEFAULT_POLLING_INTERVAL, 0);
 // MQx 	  	  mq4("mq4-methane       ", DEFAULT_POLLING_INTERVAL, 1);
 // MQx 	  	  mq7("mq7-co2           ", DEFAULT_POLLING_INTERVAL, 2);
@@ -49,25 +52,27 @@ void loop()
 {
 	unsigned long currentTimeMs = millis();
 
+	transceiver.loop();
+
 	for (int i = 0; i < sensors.getSize(); i++)
 	{
-		sensors.read(i)->FSM(currentTimeMs);
+		sensors.read(i)->loop(currentTimeMs);
 	}
 
-	// Application Layer 
-	if (Serial.available()) 
-	{
-		byte inByte = Serial.read();
+	// // Application Layer 
+	// if (Serial.available()) 
+	// {
+	// 	byte inByte = Serial.read();
 
-		// 's' = state of sensors
-		if (inByte == 0x73)
-		{
-			Serial.write(0x02); // STX: Start of text
-			for (int i = 0; i < sensors.getSize(); i++)
-			{
-				sensors.read(i)->report();
-			}
-        	Serial.write(0x03); // ETX: End of text
-		}
-	}
+	// 	// 's' = state of sensors
+	// 	if (inByte == 0x73)
+	// 	{
+	// 		Serial.write(0x02); // STX: Start of text
+	// 		for (int i = 0; i < sensors.getSize(); i++)
+	// 		{
+	// 			sensors.read(i)->report();
+	// 		}
+    //     	Serial.write(0x03); // ETX: End of text
+	// 	}
+	// }
 }
