@@ -1,13 +1,11 @@
 #include "ControlUnit.hpp"
 
+
 ControlUnit::ControlUnit() 
 {
     state = IDLE;
     buffer[MAX_BUFFER_SIZE] = { NULL };
     bufferCount = 0;
-    opcode = NULL;
-    did = NULL;
-    payload[MAX_PAYLOAD_SIZE] = { NULL };
 }
 
 void ControlUnit::pollSensorsLoop()
@@ -44,11 +42,13 @@ void ControlUnit::fetchHandler()
 
             if (inByte == ETX)
             {
-                state = DECODE;
+                state = EXECUTE;
             }
             else
             {
+                Serial.write(STX);
                 Serial.write(NAK);
+                Serial.write(ETX);
                 state = IDLE;
             }
         }
@@ -58,19 +58,6 @@ void ControlUnit::fetchHandler()
             bufferCount++;
         }
     }
-}
-
-void ControlUnit::decodeHandler()
-{
-    opcode = buffer[0];
-    did = buffer[1];
-
-    for (int i=0; i < MAX_PAYLOAD_SIZE; i++)
-    {
-        payload[i] = (buffer[i]+2);
-    }
-
-    state = EXECUTE;
 }
 
 void ControlUnit::executeGetSnapshot()
@@ -83,7 +70,8 @@ void ControlUnit::executeGetSnapshot()
 
 void ControlUnit::executeGetSensor()
 {
-    int arrayPosition = int(did) - 127;
+    byte did = buffer[1];
+    int arrayPosition = int(did);
 
     if (arrayPosition >= 0 && arrayPosition < sensors.getSize())
     {
@@ -97,24 +85,25 @@ void ControlUnit::executeGetSensor()
 
 void ControlUnit::executeHandler()
 { 
+    byte opcode = buffer[0];
+
+    Serial.write(STX);
     switch (opcode)
     {
-        case 0xFF:
-            Serial.write(STX);
+
+        case GET_SNAPSHOT_OPCODE:
             executeGetSnapshot();
-            Serial.write(ETX);
             break;
         
-        case 0xFE:
-            Serial.write(STX);
+        case GET_SENSOR_OPCODE:
             executeGetSensor();
-            Serial.write(ETX);
             break;
 
         default:
             Serial.write(NAK);
             break;
     }
+    Serial.write(ETX);
 
     state = IDLE;
 }
@@ -129,10 +118,6 @@ void ControlUnit::transceiverLoop()
         
         case FETCH:
             fetchHandler();
-            break;
-
-        case DECODE:
-            decodeHandler();
             break;
 
         case EXECUTE:
@@ -151,6 +136,6 @@ void ControlUnit::begin(Array<Sensor*> configuredSensors)
 
 void ControlUnit::loop()
 {
-    pollSensorsLoop();
     transceiverLoop();
+    pollSensorsLoop();
 }
