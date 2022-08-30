@@ -4,7 +4,7 @@
 
 |  | OPCODE |
 |--|--------|
-| [GET System Snapshot](docs/api.md) | `0xA0` |
+| [GET System Snapshot](endpoints/getSnapshot.md) | `0xA0` |
 | [GET Sensor State]() | `0xA1` |
 | [GET Actuator State]() | `0xA2` |
 | [SET Sensor Polling Frequency]() | `0xC0` |
