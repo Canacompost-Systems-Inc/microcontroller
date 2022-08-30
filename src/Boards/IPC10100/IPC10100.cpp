@@ -1,32 +1,32 @@
-#include "IPC101xx.hpp"
+#include "IPC10100.hpp"
 
 
-Array<float> IPC101xx::read()
+Array<float> IPC10100::read()
 {
 	Array<float> reading;
 
-	if (ipc101xx.dataReady()) 
+	if (ipc10100.dataReady()) 
 	{
 		// Read and output measured temperature in Fahrenheit and pressure in Pascal.
-		reading.insert(ipc101xx.getTemperatureC());
-		reading.insert(ipc101xx.getPressurePa());
+		reading.insert(ipc10100.getTemperatureC());
+		reading.insert(ipc10100.getPressurePa());
 
 		// start the next measurement cycle.
-		ipc101xx.measureStart(ipc101xx.VERY_ACCURATE);
+		ipc10100.measureStart(ipc10100.VERY_ACCURATE);
   	}
 
 	return reading;
 }
 
-void IPC101xx::begin()
+void IPC10100::begin()
 {
 	// TODO: Handle error case
-	if (!ipc101xx.begin()) 
+	if (!ipc10100.begin()) 
     {
 	  Serial.println("Mikroe-3328 baro sensor failed to connect");
 	}
 
-	if (!ipc101xx.isConnected()) 
+	if (!ipc10100.isConnected()) 
     {
 		Serial.println("Mikroe-3328 baro sensor failed to connect");
 	} 

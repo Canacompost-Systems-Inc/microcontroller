@@ -5,14 +5,14 @@
 #include <icp101xx.h>
 
 
-class IPC101xx: public Sensor 
+class IPC10100: public Sensor 
 {
     private:
-        ICP101xx ipc101xx;
+        ICP101xx ipc10100;
         Array<float> read();
 
     public:
-        IPC101xx(char inBaseDID, unsigned long inPollingFrequency, int inPin):
+        IPC10100(char inBaseDID, unsigned long inPollingFrequency, int inPin):
             Sensor(inBaseDID, inPollingFrequency,  inPin) {};
 
         void begin();

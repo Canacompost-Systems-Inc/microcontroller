@@ -10,13 +10,20 @@
 | [SET Sensor Polling Frequency]() | `0xC0` |
 | [SET Actuator State]() | `0xC1` |
 
-## Devices
+## Sensors
 
-| Name | DID | Type |
-|------|-----|------|
+| Name | DID | D0 | D1 | D2 |
+|------|-----|----|----|----|
+| SHT40 | `0x00` | Temperature (C) | Humidity (%) | - |
+| SCD41 | `0x01` | CO2 (ppm) | Temperature (C) | Humidity (%) |
+| IPC10100 | `0x02` | Temperature (C) | Pressure (Pa) | - |
+| DS18B20 | `0x03` | Temperature (C) | - | - |
 
+## Actuators
+| Name | DID | D0 | D1 | D2 |
+|------|-----|----|----|----|
 
-## Standerdization
+## Standardization
 
 ### Request
 
