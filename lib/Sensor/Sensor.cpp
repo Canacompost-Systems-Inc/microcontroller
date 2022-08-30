@@ -1,11 +1,10 @@
 #include "Sensor.hpp"
 
 
-Sensor::Sensor(char inBaseDID, unsigned long inPollingFrequency, int inPin)
+Sensor::Sensor(char inDid, unsigned long inPollingFrequency, int inPin)
 {
-    state = IDLE;
     dataTimestamp = 0;
-    baseDID = inBaseDID;
+    did = inDid;
     pollingFrequency = inPollingFrequency;
     pin = inPin;
 
@@ -16,7 +15,6 @@ Sensor::Sensor(char inBaseDID, unsigned long inPollingFrequency, int inPin)
 void Sensor::debugReport()
 {
     Serial.print("\n");
-    Serial.print(baseDID);
     Serial.print(" [");
     Serial.print(dataTimestamp);
     Serial.print("]: ");
@@ -30,7 +28,7 @@ void Sensor::debugReport()
 
 void Sensor::report()
 {
-    Serial.write(baseDID); // DID: Device ID
+    Serial.write(did); // DID: Device ID
 
     // Send float value DATA_ARRAY_SIZE number of times
     for(int i = 0; i < DATA_ARRAY_SIZE; i++)
@@ -56,23 +54,11 @@ void Sensor::report()
 
 void Sensor::loop(unsigned long currentTimestamp)
 { 
-    switch(state) 
+    // Take reading once polling interval elapsed
+    if(currentTimestamp - dataTimestamp >= pollingFrequency)
     {
-        case IDLE:
-            if(currentTimestamp - dataTimestamp >= pollingFrequency)
-            {
-                // Take reading once polling interval elapsed
-                state = READING;
-                data = read();
-                dataTimestamp = currentTimestamp;
-            } 
-
-        case READING:
-            // Sensor reading done
-            state = IDLE;
-
-        default:
-            state = IDLE;
+        data = read();
+        dataTimestamp = currentTimestamp;
     }
 }
 

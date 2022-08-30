@@ -11,13 +11,12 @@
 #include "Boards/SCD41/SCD41.hpp"
 #include "Boards/IPC101xx/IPC101xx.hpp"
 #include "Boards/DS18B20/DS18B20.hpp"
-#include "Transceiver/Transceiver.hpp"
+#include "ControlUnit/ControlUnit.hpp"
 
 // ----- CONSTANTS ----- //
 const unsigned long DEFAULT_POLLING_INTERVAL = 5000;
 
 // ----- OBJECTS ----- //
-Transceiver transceiver;
 
 // MQx 	  	  mq3("mq3-alcohol       ", DEFAULT_POLLING_INTERVAL, 0);
 // MQx 	  	  mq4("mq4-methane       ", DEFAULT_POLLING_INTERVAL, 1);
@@ -30,49 +29,30 @@ SHT40 	    sht40(0x00, DEFAULT_POLLING_INTERVAL, -1);
 SCD41 	    scd41(0x10, DEFAULT_POLLING_INTERVAL, -1);
 
 Array<Sensor*> sensors;
-char buf[200];
+ControlUnit controller;
 
-void setup() 
+void setupSensors()
 {
-	Serial.begin(9600);
-
 	sensors.insert(&sht40);
-	// sensors.insert(&scd41);
+	sensors.insert(&scd41);
 
 	for (int i = 0; i < sensors.getSize(); i++)
 	{
 		sensors.read(i)->begin();
 	}
 
-	// Wait to allow for sensors to take an initial reading
+	// Wait to allow for sensors to setup
 	delay(DEFAULT_POLLING_INTERVAL);
+}
+
+void setup() 
+{
+	Serial.begin(9600);
+	setupSensors();
+	controller.begin(sensors);
 }
 
 void loop() 
 {
-	unsigned long currentTimeMs = millis();
-
-	transceiver.loop();
-
-	for (int i = 0; i < sensors.getSize(); i++)
-	{
-		sensors.read(i)->loop(currentTimeMs);
-	}
-
-	// // Application Layer 
-	// if (Serial.available()) 
-	// {
-	// 	byte inByte = Serial.read();
-
-	// 	// 's' = state of sensors
-	// 	if (inByte == 0x73)
-	// 	{
-	// 		Serial.write(0x02); // STX: Start of text
-	// 		for (int i = 0; i < sensors.getSize(); i++)
-	// 		{
-	// 			sensors.read(i)->report();
-	// 		}
-    //     	Serial.write(0x03); // ETX: End of text
-	// 	}
-	// }
+	controller.loop();
 }

@@ -4,14 +4,13 @@
 #include <Arduino.h>
 #include "Array.hpp"
 
-const int DATA_ARRAY_SIZE = 3;
-enum State { IDLE, READING };
 
 class Sensor
 {
     private:
-        State state;
-        char baseDID;
+        static const int DATA_ARRAY_SIZE = 3;
+
+        char did;
         Array<float> data;
         unsigned long dataTimestamp;
         unsigned long pollingFrequency;
@@ -32,11 +31,11 @@ class Sensor
     public:
 
         /**
-         * @param inName used for identifying sensor when debugging
+         * @param inDid Device ID, used for identifying sensor
          * @param inPollingFrequency number of milliseconds between data samples
          * @param inPin GPIO pin connected to the board 
          */
-        Sensor(char inBaseDID, unsigned long inPollingFrequency, int inPin);
+        Sensor(char inDid, unsigned long inPollingFrequency, int inPin);
 
         /**
          * Inheriting class can override the begin() virtual function and implement any setup logic needed 
@@ -45,7 +44,7 @@ class Sensor
         virtual void begin() {};
 
         /**
-         * Runs Sensor Finite State Machine (FSM), controls when to take readings from sensor based on the
+         * Sensor main loop, controls when to take readings from sensor based on the
          * desired pollingFrequency.
          * 
          * @param currentTimestamp arduino timestamp returned from the function millis()
@@ -62,6 +61,9 @@ class Sensor
          */
         unsigned long getPollingFrequency();
 
+        /**
+         * @return pin value
+         */
         int getPin();
 
         /**
