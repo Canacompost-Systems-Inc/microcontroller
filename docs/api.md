@@ -37,10 +37,10 @@ The below control characters used during transmission. Note that these follow th
 
 | Name | Hex Code | Abbreviation | Description |
 |------|----------|--------------|-------------|
-| Start of Transmission | `0x01` | STX | Used to mark start of transmission |
-| End of Transmission | `0x03` | ETX | Used to mark end of transmission |
-| Acknowledge | `0x06` | ACK | Indicates request was completed successfully |
-| Negative Acknowledge | `0x15` | NAK | Indicates that an error was identified in last received request |
+| Start of Transmission | `0x01` | `STX` | Used to mark start of transmission |
+| End of Transmission | `0x03` | `ETX` | Used to mark end of transmission |
+| Acknowledge | `0x06` | `ACK` | Indicates request was completed successfully |
+| Negative Acknowledge | `0x15` | `NAK` | Indicates that an error was identified in last received request |
 
 ### Request
 
