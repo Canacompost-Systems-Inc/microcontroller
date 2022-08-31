@@ -44,16 +44,19 @@ The below control characters used during transmission. Note that these follow th
 
 ### Request
 
-Every request must follow the format below. Note that the payload is expected to be 4 bytes. If a parameter is not used by the operation its bytes must still be filled in the request. For example a particular endpoint may not use `PAYLOAD` parameter. However the request sent must fill these bytes with any value; we call these bytes "Don't Cares" (DC).
+Every request must follow the format below.
 
 ```
 <STX><OPCODE><DID><PAYLOAD><ETX>
 ```
 
+Where: 
 * `STX` and `ETX` are 1 byte control characters representing the start and end of transmission.
 * `OPCODE` is a 1 byte code that controls which operation to preform.
 * `DID` is the 1 byte device ID in which to preform the operation to.
-* `PAYLOAD` is the data passed by transmitter (variable size with minimum of 4 bytes).
+* `PAYLOAD` is 4 bytes representing some data (ex: float).
+
+Note that all parameters must be filled in, even if it is not used by an endpoint. This ensures that each request has the same number of total bytes. For example, a particular endpoint may not use `PAYLOAD` parameter. In this case the request sent must still fill these bytes with some value; we call these bytes "Don't Cares" (DC) since they do not effect the program flow.
 
 ### GET Response
 
