@@ -5,7 +5,7 @@
 |  | OPCODE |
 |--|--------|
 | [GET System Snapshot](endpoints/getSnapshot.md) | `0xA0` |
-| [GET Sensor State](endpoints/getSensorState.md) | `0xA1` |
+| GET Sensor State (WIP) | `0xA1` |
 | GET Actuator State (WIP) | `0xA2` |
 | SET Sensor Polling Frequency (WIP) | `0xC0` |
 | SET Actuator State (WIP) | `0xC1` |
