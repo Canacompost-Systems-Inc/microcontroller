@@ -34,7 +34,11 @@ TODO
 
 # Protocol
 
-## Transport Layer
+## API
+
+The API allows the IC to interface with the MCU and its devices using Serial communication. The full API reference is located [here](/docs/api.md)
+
+## Transport Layer **DEPRECIATED**
 The protocol on top of serial will adhere to the format, where one set of brackets is 1-byte:
 
 From IC to MCU:
@@ -49,7 +53,7 @@ This is an unsigned CRC-32: https://stackoverflow.com/a/30092291
 
 The IC will do the same CRC-32 calculation and if they match return one-byte `0xFF` to acknowledge receipt. Otherwise it will return `0x00` for retry, but anything other than the acknowledgement byte will trigger a resend.
 
-## Application Layer
+## Application Layer **DEPRECIATED**
 
 On top of this transport layer, we'll need to do a few things:
 1. Configure polling frequency of the sensors
