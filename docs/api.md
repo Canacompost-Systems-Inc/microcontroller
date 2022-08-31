@@ -2,6 +2,8 @@
 
 ## Endpoints
 
+All GET endpoints start with the `A` representing `Acquire`, and all SET endpoints start with `C` representing `Configure`.
+
 |  | OPCODE |
 |--|--------|
 | [GET System Snapshot](endpoints/getSnapshot.md) | `0xA0` |
