@@ -12,7 +12,7 @@
 
 ## Sensors
 
-Each sensor can hold up to three data values (D0, D1, D2). All data values are polled at a configured polling frequency.
+Each sensor can hold up to three data values (D0, D1, D2). All data values are polled at a configured polling frequency. Sensor DID's range from `0x00` to `0x7F`.
 
 | Name | DID | D0 | D1 | D2 |
 |------|-----|----|----|----|
@@ -34,7 +34,7 @@ WIP
 
 ### Request
 
-Every request must follow the format below. Note that the payload is expected to be 4 bytes. If a value is not used by the operation its bytes must still be filled in the request. For example a particular endpoint may not use payload value. However the request sent must fill these bytes with any value; we call these bytes "Don't Cares" (DC).
+Every request must follow the format below. Note that the payload is expected to be 4 bytes. If a parameter is not used by the operation its bytes must still be filled in the request. For example a particular endpoint may not use `PAYLOAD` parameter. However the request sent must fill these bytes with any value; we call these bytes "Don't Cares" (DC).
 
 ```
 <STX><OPCODE><DID><PAYLOAD><ETX>
