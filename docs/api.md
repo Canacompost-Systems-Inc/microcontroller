@@ -2,7 +2,7 @@
 
 ## Endpoints
 
-All GET endpoints start with the `A` representing `Acquire`, and all SET endpoints start with `C` representing `Configure`.
+The table below shows all the available API endpoints. All GET endpoints start with the `A` representing `Acquire`, and all SET endpoints start with `C` representing `Configure`.
 
 |  | OPCODE |
 |--|--------|
