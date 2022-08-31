@@ -1,4 +1,4 @@
-# MCU API Docs
+# API Docs
 
 ## Endpoints
 
