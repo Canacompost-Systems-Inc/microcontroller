@@ -1,4 +1,4 @@
-# MCU API
+# MCU API Docs
 
 ## Endpoints
 
@@ -7,10 +7,10 @@ All GET endpoints start with the `A` representing `Acquire`, and all SET endpoin
 |  | OPCODE |
 |--|--------|
 | [GET System Snapshot](endpoints/getSnapshot.md) | `0xA0` |
-| GET Sensor State (WIP) | `0xA1` |
-| GET Actuator State (WIP) | `0xA2` |
-| SET Sensor Polling Frequency (WIP) | `0xC0` |
-| SET Actuator State (WIP) | `0xC1` |
+| GET Sensor State (**WIP**) | `0xA1` |
+| GET Actuator State (**WIP**) | `0xA2` |
+| SET Sensor Polling Frequency (**WIP**) | `0xC0` |
+| SET Actuator State (**WIP**) | `0xC1` |
 
 ## Sensors
 
@@ -25,14 +25,22 @@ Each sensor can hold up to three data values (D0, D1, D2). All data values are p
 
 ## Actuators
 
-WIP
+Sensor DID's range from `0x80` to `0xFF`.
+
+**WIP**
 
 ## Standardization
 
-* `STX` and `ETX` are 1 byte control characters representing the start and end of transmission.
-* `OPCODE` is a 1 byte code that controls which operation to preform.
-* `DID` is the 1 byte device ID in which to preform the operation to.
-* `PAYLOAD` is the data passed by transmitter (variable size with minimum of 4 bytes).
+## Control Characters
+
+The below control characters used during transmission. Note that these follow the [standard control characters](https://www.geeksforgeeks.org/control-characters/) with some minor modifications.
+
+| Name | Hex Code | Abbreviation | Description |
+|------|----------|--------------|-------------|
+| Start of Transmission | `0x01` | STX | Used to mark start of transmission |
+| End of Transmission | `0x03` | ETX | Used to mark end of transmission |
+| Acknowledge | '0x06` | ACK | Indicates request was completed successfully |
+| Negative Acknowledge | '0x15` | NAK | Indicates that an error was identified in last received request |
 
 ### Request
 
@@ -41,6 +49,11 @@ Every request must follow the format below. Note that the payload is expected to
 ```
 <STX><OPCODE><DID><PAYLOAD><ETX>
 ```
+
+* `STX` and `ETX` are 1 byte control characters representing the start and end of transmission.
+* `OPCODE` is a 1 byte code that controls which operation to preform.
+* `DID` is the 1 byte device ID in which to preform the operation to.
+* `PAYLOAD` is the data passed by transmitter (variable size with minimum of 4 bytes).
 
 ### GET Response
 
