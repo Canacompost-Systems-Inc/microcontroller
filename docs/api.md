@@ -42,7 +42,7 @@ Every request must follow the format below. Note that the payload is expected to
 
 ### GET Response
 
-All successful get request will have the response format below.
+All successful get request will have the response format, or variation of it, below.
 
 ```
 <STX><DID><PAYLOAD><ETX>
