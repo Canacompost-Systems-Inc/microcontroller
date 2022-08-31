@@ -25,13 +25,13 @@ Each sensor can hold up to three data values (D0, D1, D2). All data values are p
 
 ## Actuators
 
-Sensor DID's range from `0x80` to `0xFF`.
+Actuators DID's range from `0x80` to `0xFF`.
 
 **WIP**
 
 ## Standardization
 
-## Control Characters
+### Control Characters
 
 The below control characters used during transmission. Note that these follow the [standard control characters](https://www.geeksforgeeks.org/control-characters/) with some minor modifications.
 
@@ -39,8 +39,8 @@ The below control characters used during transmission. Note that these follow th
 |------|----------|--------------|-------------|
 | Start of Transmission | `0x01` | STX | Used to mark start of transmission |
 | End of Transmission | `0x03` | ETX | Used to mark end of transmission |
-| Acknowledge | '0x06` | ACK | Indicates request was completed successfully |
-| Negative Acknowledge | '0x15` | NAK | Indicates that an error was identified in last received request |
+| Acknowledge | `0x06` | ACK | Indicates request was completed successfully |
+| Negative Acknowledge | `0x15` | NAK | Indicates that an error was identified in last received request |
 
 ### Request
 
