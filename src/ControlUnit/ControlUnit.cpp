@@ -71,7 +71,8 @@ void ControlUnit::executeGetSnapshot()
 void ControlUnit::executeGetSensor()
 {
     byte did = buffer[1];
-    int arrayPosition = int(did);
+    int indexOffset = 192;
+    int arrayPosition = ((int) did) - indexOffset;
 
     if (arrayPosition >= 0 && arrayPosition < sensors.getSize())
     {

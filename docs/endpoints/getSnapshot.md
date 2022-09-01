@@ -33,6 +33,8 @@ ser.write(b'\x01\xA0\x00\x00\x00\x00\x00\x03')
 <STX><DID_0><D0><D1><D2>...<DID_n><D0><D1><D2><ETX>
 ```
 
+Where D0, D1, and D2 are a sensors three data values (floats) represented by a little-endian encoded 4 byte hex string.
+
 ```
 [0x01][0xc0][0x41dc044c][0x4257315b][0x00000000][0xc1][0x443b4000][0x41e95110][0x42490040][0x03] 
 ```
@@ -40,4 +42,3 @@ ser.write(b'\x01\xA0\x00\x00\x00\x00\x00\x03')
 * In this example two devices are connected to the MCU.
 * The first device with `did = [0xc0]` is SHT40, so D0 and D1 are temperature and humidity. `[0x41dc044c]` converted to float is `27.5021` which is the temperature value. `[0x4257315b]` converted to float is `53.7982` which is the humidity value. 
 * The second device with `did = [0xc1]` is SCD41, so D0, D1, and D2, are CO2, temperature, and humidity.
-* Note that the data values (D0, D1, D2) are encoded using "Big-Endian".
