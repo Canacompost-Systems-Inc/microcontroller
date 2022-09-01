@@ -1,6 +1,6 @@
-# GET System Snapshot
+# GET Sensor State
 
-Get the data values of a specific sensor.
+Get the data values (state) of a specific sensor.
 
 | Parameter | Value | # Bytes |
 |-----------|-------|-------|
