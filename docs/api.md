@@ -56,7 +56,7 @@ Where:
 * `DID` is the 1 byte device ID in which to preform the operation to.
 * `PAYLOAD` is 4 bytes representing some data (ex: float).
 
-Note that all parameters must be filled in, even if it is not used by an endpoint. This ensures that each request has the same number of total bytes. For example, a particular endpoint may not use `PAYLOAD` parameter. In this case the request sent must still fill these bytes with some value; we call these bytes "Don't Cares" (DC) since they do not effect the program flow.
+Note that all parameters must be filled in, even if it is not used by an endpoint. This ensures that each request has the same number of total bytes. For example, a particular endpoint may not use `PAYLOAD` parameter. In this case the request sent must still fill these bytes with some value; we call these bytes "Don't Cares" `DC` since they do not effect the program flow.
 
 ### GET Response
 
