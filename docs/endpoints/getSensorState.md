@@ -4,7 +4,7 @@ Get the data values (state) of a specific sensor.
 
 | Parameter | Value | # Bytes |
 |-----------|-------|-------|
-| OPCODE | `0xA0` | 1 |
+| OPCODE | `0xA1` | 1 |
 | DID | Device ID of sensor to get | 1 |
 | PAYLOAD | `DC` | 4 |
 
