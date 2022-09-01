@@ -1,6 +1,6 @@
 # GET System Snapshot
 
-Get the state of all sensors and actuators connected to the MCU.
+Get the data values of a specific sensor.
 
 | Parameter | Value | # Bytes |
 |-----------|-------|-------|
