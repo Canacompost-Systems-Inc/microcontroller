@@ -1,59 +1,62 @@
-# MCU API Docs
+# API Docs
 
 ## Endpoints
 
-All GET endpoints start with the `A` representing `Acquire`, and all SET endpoints start with `C` representing `Configure`.
+The table below shows all the available API endpoints.
 
 |  | OPCODE |
 |--|--------|
 | [GET System Snapshot](endpoints/getSnapshot.md) | `0xA0` |
 | GET Sensor State (**WIP**) | `0xA1` |
 | GET Actuator State (**WIP**) | `0xA2` |
-| SET Sensor Polling Frequency (**WIP**) | `0xC0` |
-| SET Actuator State (**WIP**) | `0xC1` |
+| SET Sensor Polling Frequency (**WIP**) | `0xB0` |
+| SET Actuator State (**WIP**) | `0xB1` |
 
 ## Sensors
 
-Each sensor can hold up to three data values (D0, D1, D2). All data values are polled at a configured polling frequency. Sensor DID's range from `0x00` to `0x7F`.
+Each sensor can hold up to three data values (D0, D1, D2). All data values are polled at a configured polling frequency. Sensor DID's range from `0xC0` to `0xDF`.
 
 | Name | DID | D0 | D1 | D2 |
 |------|-----|----|----|----|
-| SHT40 | `0x00` | Temperature (C) | Humidity (%) | - |
-| SCD41 | `0x01` | CO2 (ppm) | Temperature (C) | Humidity (%) |
-| IPC10100 | `0x02` | Temperature (C) | Pressure (Pa) | - |
-| DS18B20 | `0x03` | Temperature (C) | - | - |
+| SHT40 | `0xC0` | Temperature (C) | Humidity (%) | - |
+| SCD41 | `0xC1` | CO2 (ppm) | Temperature (C) | Humidity (%) |
+| IPC10100 | `0xC2` | Temperature (C) | Pressure (Pa) | - |
+| DS18B20 | `0xC3` | Temperature (C) | - | - |
 
 ## Actuators
 
-Sensor DID's range from `0x80` to `0xFF`.
+Actuators DID's range from `0xE0` to `0xFF`.
 
 **WIP**
 
 ## Standardization
 
-## Control Characters
+### Control Characters
 
 The below control characters used during transmission. Note that these follow the [standard control characters](https://www.geeksforgeeks.org/control-characters/) with some minor modifications.
 
 | Name | Hex Code | Abbreviation | Description |
 |------|----------|--------------|-------------|
-| Start of Transmission | `0x01` | STX | Used to mark start of transmission |
-| End of Transmission | `0x03` | ETX | Used to mark end of transmission |
-| Acknowledge | '0x06` | ACK | Indicates request was completed successfully |
-| Negative Acknowledge | '0x15` | NAK | Indicates that an error was identified in last received request |
+| Start of Transmission | `0x01` | `STX` | Used to mark start of transmission |
+| End of Transmission | `0x03` | `ETX` | Used to mark end of transmission |
+| Acknowledge | `0x06` | `ACK` | Indicates request was completed successfully |
+| Negative Acknowledge | `0x15` | `NAK` | Indicates that an error was identified in last received request |
 
 ### Request
 
-Every request must follow the format below. Note that the payload is expected to be 4 bytes. If a parameter is not used by the operation its bytes must still be filled in the request. For example a particular endpoint may not use `PAYLOAD` parameter. However the request sent must fill these bytes with any value; we call these bytes "Don't Cares" (DC).
+Every request must follow the format below.
 
 ```
 <STX><OPCODE><DID><PAYLOAD><ETX>
 ```
 
+Where: 
 * `STX` and `ETX` are 1 byte control characters representing the start and end of transmission.
 * `OPCODE` is a 1 byte code that controls which operation to preform.
 * `DID` is the 1 byte device ID in which to preform the operation to.
-* `PAYLOAD` is the data passed by transmitter (variable size with minimum of 4 bytes).
+* `PAYLOAD` is 4 bytes representing some data (ex: float).
+
+Note that all parameters must be filled in, even if it is not used by an endpoint. This ensures that each request has the same number of total bytes. For example, a particular endpoint may not use `PAYLOAD` parameter. In this case the request sent must still fill these bytes with some value; we call these bytes "Don't Cares" (DC) since they do not effect the program flow.
 
 ### GET Response
 

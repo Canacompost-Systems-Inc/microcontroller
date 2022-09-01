@@ -34,10 +34,10 @@ ser.write(b'\x01\xA0\x00\x00\x00\x00\x00\x03')
 ```
 
 ```
-[0x01][0x00][0xA881F641][0xA6AE2A42][0x00000000][0x01][0x00405144][0xe0620042][0x10002942][0x03]
+[0x01][0xc0][0x41dc044c][0x4257315b][0x00000000][0xc1][0x443b4000][0x41e95110][0x42490040][0x03] 
 ```
 
 * In this example two devices are connected to the MCU.
-* The first device with `did = [0x00]` is SHT40, so D0 and D1 are temperature and humidity. `[0xA881F641]` converted to float is `30.81` which is the temperature value. `[0xA6AE2A42]` converted to float is `42.67` which is the humidity value. 
-* The second device with `did = [0x01]` is SCD41, so D0, D1, and D2, are CO2, temperature, and humidity.
+* The first device with `did = [0xc0]` is SHT40, so D0 and D1 are temperature and humidity. `[0x41dc044c]` converted to float is `27.5021` which is the temperature value. `[0x4257315b]` converted to float is `53.7982` which is the humidity value. 
+* The second device with `did = [0xc1]` is SCD41, so D0, D1, and D2, are CO2, temperature, and humidity.
 * Note that the data values (D0, D1, D2) are encoded using "Big-Endian".

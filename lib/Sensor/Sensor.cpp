@@ -44,10 +44,10 @@ void Sensor::report()
         // Convert float to bytes
         const unsigned char *bytesPtr = reinterpret_cast<const unsigned char*>(&dataToWrite);
         
-        // Write out transmission block
+        // Write out transmission block in little-endian (reverse order of bytesPtr)
         for(size_t j = 0; j != sizeof(float); j++)
         {
-            Serial.write(bytesPtr[j]); 
+            Serial.write(bytesPtr[sizeof(float) - 1 - j]); 
         }
     }
 }

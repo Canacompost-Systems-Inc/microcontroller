@@ -16,7 +16,9 @@ class ControlUnit
 
         static const byte GET_SNAPSHOT_OPCODE = 0xA0;
         static const byte GET_SENSOR_OPCODE = 0xA1;
-        static const byte SET_SENSOR_OPCODE = 0xC2;
+        static const byte GET_ACTUATOR_OPCODE = 0xA2;
+        static const byte SET_SENSOR_OPCODE = 0xC0;
+        static const byte SET_ACTUATOR_OPCODE = 0xC1;
 
         enum State { IDLE, FETCH, EXECUTE };
         
