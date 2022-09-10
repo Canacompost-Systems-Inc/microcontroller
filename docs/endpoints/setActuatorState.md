@@ -6,7 +6,7 @@ Set state of a specific Actuator (HIGH or LOW).
 |-----------|-------|-------|
 | OPCODE | `0xA1` | 1 |
 | DID | Device ID of sensor to get | 1 |
-| PAYLOAD | either `0x00000000` for `LOW` or `0xFFFFFFFF` for `HIGH` | 4 |
+| PAYLOAD | either `0x00000000` for `LOW` or `0x11111111` for `HIGH` | 4 |
 
 ## Example Request
 
