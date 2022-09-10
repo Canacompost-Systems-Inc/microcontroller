@@ -66,6 +66,11 @@ void ControlUnit::executeGetSnapshot()
     {
         sensors.read(i)->report();
     }
+
+    for (int j = 0; j < actuators.getSize(); j++)
+    {
+        actuators.read(j)->report();
+    }
 }
 
 void ControlUnit::executeGetSensor()
@@ -84,6 +89,47 @@ void ControlUnit::executeGetSensor()
     }
 }
 
+void ControlUnit::executeGetActuator()
+{
+    byte did = buffer[1];
+    int indexOffset = 224;
+    int arrayPosition = ((int) did) - indexOffset;
+
+    if (arrayPosition >= 0 && arrayPosition < actuators.getSize())
+    {
+        actuators.read(arrayPosition)->report();
+    }
+    else
+    {
+        Serial.write(NAK);
+    }
+}
+
+void ControlUnit::executeSetActuator()
+{
+    byte did = buffer[1];
+    byte newState = buffer[2];
+    int indexOffset = 224;
+    int arrayPosition = ((int) did) - indexOffset;
+
+    if (arrayPosition >= 0 && arrayPosition < actuators.getSize())
+    {
+        if (actuators.read(arrayPosition)->setState(newState) == true)
+        {
+            Serial.write(ACK);
+        }
+        else
+        {
+            Serial.write(NAK);
+        }
+    }
+    else
+    {
+        Serial.write(NAK);
+    }
+
+}
+
 void ControlUnit::executeHandler()
 { 
     byte opcode = buffer[0];
@@ -98,6 +144,14 @@ void ControlUnit::executeHandler()
         
         case GET_SENSOR_OPCODE:
             executeGetSensor();
+            break;
+
+        case GET_ACTUATOR_OPCODE:
+            executeGetActuator();
+            break;
+
+        case SET_ACTUATOR_OPCODE:
+            executeSetActuator();
             break;
 
         default:
@@ -130,8 +184,9 @@ void ControlUnit::transceiverLoop()
     }
 }
 
-void ControlUnit::begin(Array<Sensor*> configuredSensors)
+void ControlUnit::begin(Array<Actuator*> configuredActuators, Array<Sensor*> configuredSensors)
 {
+    actuators = configuredActuators;
     sensors = configuredSensors;
 }
 

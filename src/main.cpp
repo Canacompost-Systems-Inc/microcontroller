@@ -17,20 +17,28 @@
 const unsigned long DEFAULT_POLLING_INTERVAL = 5000;
 
 // ----- OBJECTS ----- //
+// Actuator Objects
+Actuator valve0(0xE0, 0);
 
-// MQx 	  	  mq3("mq3-alcohol       ", DEFAULT_POLLING_INTERVAL, 0);
-// MQx 	  	  mq4("mq4-methane       ", DEFAULT_POLLING_INTERVAL, 1);
-// MQx 	  	  mq7("mq7-co2           ", DEFAULT_POLLING_INTERVAL, 2);
-// MQx 	  	  mq8("mq8-hydrogen      ", DEFAULT_POLLING_INTERVAL, 3);
-// MQx 	 	  mq9("mq9-co            ", DEFAULT_POLLING_INTERVAL, 4);
-
+// Sensor Objects
 SHT40 	    sht40(0xC0, DEFAULT_POLLING_INTERVAL, -1);
 SCD41 	    scd41(0xC1, DEFAULT_POLLING_INTERVAL, -1);
 IPC10100 ipc10100(0xC2, DEFAULT_POLLING_INTERVAL, -1);
 DS18B20	  ds18b20(0xC3, DEFAULT_POLLING_INTERVAL, 2);
 
 Array<Sensor*> sensors;
+Array<Actuator*> actuators;
 ControlUnit controller;
+
+void setupActuators()
+{
+	actuators.insert(&valve0);
+
+	for (int i = 0; i < actuators.getSize(); i++)
+	{
+		actuators.read(i)->begin();
+	}
+}
 
 void setupSensors()
 {
@@ -46,13 +54,16 @@ void setupSensors()
 	delay(DEFAULT_POLLING_INTERVAL);
 }
 
+//  Runs every time serial connection is established OR when arduino is powered on.
 void setup() 
 {
 	Serial.begin(9600);
+	setupActuators();
 	setupSensors();
-	controller.begin(sensors);
+	controller.begin(actuators, sensors);
 }
 
+// Runs every clock cycle
 void loop() 
 {
 	controller.loop();

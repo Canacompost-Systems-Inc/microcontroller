@@ -31,15 +31,15 @@ void Sensor::report()
     Serial.write(did); // DID: Device ID
 
     // Send float value DATA_ARRAY_SIZE number of times
-    for(int i = 0; i < DATA_ARRAY_SIZE; i++)
+    for(int i = 0; i < data.getSize(); i++)
     {
-        float dataToWrite = 0.0;
+        // float dataToWrite = 0.0;
 
-        // If sensor stores less data the DATA_ARRAY_SIZE zero pad transmission
-        if (i < data.getSize())
-        {
-            dataToWrite = data.read(i);
-        }
+        // // If sensor stores less data the DATA_ARRAY_SIZE zero pad transmission
+        // if (i < data.getSize())
+        // {
+        float dataToWrite = data.read(i);
+        // }
 
         // Convert float to bytes
         const unsigned char *bytesPtr = reinterpret_cast<const unsigned char*>(&dataToWrite);
