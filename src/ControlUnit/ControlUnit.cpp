@@ -111,8 +111,12 @@ void ControlUnit::executeSetActuator()
     byte newState = buffer[2];
     int indexOffset = 224;
     int arrayPosition = ((int) did) - indexOffset;
+    
+    // Payload verification
+    bool payloadIsConsistant = (newState == buffer[3] && newState == buffer[4] && newState == buffer[5]);
+    bool positionInRange = (arrayPosition >= 0 && arrayPosition < actuators.getSize());
 
-    if (arrayPosition >= 0 && arrayPosition < actuators.getSize())
+    if (payloadIsConsistant && positionInRange)
     {
         if (actuators.read(arrayPosition)->setState(newState) == true)
         {
