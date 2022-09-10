@@ -8,7 +8,7 @@
 class Actuator
 {
     private:
-        static const byte B_HIGH = 0xFF;
+        static const byte B_HIGH = 0x11;
         static const byte B_LOW = 0x00;
 
         char did;
