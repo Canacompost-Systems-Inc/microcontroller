@@ -39,7 +39,7 @@ Where D0, D1, and D2 are a sensors three data values (floats) represented by a l
 [0x01][0xc0][0x41dc044c][0x4257315b][0xc1][0x443b4000][0x41e95110][0x42490040][0xe0][0x00000000][0x03]
 ```
 
-* In this example two devices are connected to the MCU.
+* In this example three devices are connected to the MCU.
 * The first device with `did = [0xc0]` is SHT40, so D0 and D1 are temperature and humidity. `[0x41dc044c]` converted to float is `27.5021` which is the temperature value. `[0x4257315b]` converted to float is `53.7982` which is the humidity value. 
 * The second device with `did = [0xc1]` is SCD41, so D0, D1, and D2, are CO2, temperature, and humidity.
 * The third device with `did = [0xe0]` is an actuator so it only has one data value, which in this case is `[0x00000000]` or `LOW`.
