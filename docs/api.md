@@ -8,8 +8,8 @@ The table below shows all the available API endpoints.
 |--|--------|
 | [GET System Snapshot](endpoints/getSnapshot.md) | `0xA0` |
 | [GET Sensor State](endpoints/getSensorState.md) | `0xA1` |
-| GET Actuator State (**WIP**) | `0xA2` |
-| SET Actuator State (**WIP**) | `0xB0` |
+| [GET Actuator State](endpoints/getActuatorState.md) | `0xA2` |
+| [SET Actuator State](endpoints/setActuatorState.md) | `0xB0` |
 
 ## Sensors
 
