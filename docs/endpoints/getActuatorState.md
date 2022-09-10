@@ -30,7 +30,7 @@ ser.write(b'\x01\xA2\xE0\x00\x00\x00\x00\x03')
 ## Example Response
 
 ```
-<STX><DID><D0><D1><D2><ETX>
+<STX><DID><D0><ETX>
 ```
 
 Where D0 is the actuator state (either `HIGH = [0xffffffff]` or `LOW = [0x00000000]`represented by a 4 byte hex string.
