@@ -5,6 +5,7 @@
 #include "Boards/SHT40/SHT40.hpp"
 #include "Boards/SCD41/SCD41.hpp"
 
+
 class ControlUnit
 {
     private:
@@ -24,27 +25,90 @@ class ControlUnit
         static const byte GET_ACTUATOR_OPCODE = 0xA2;
         static const byte SET_ACTUATOR_OPCODE = 0xB0;
 
+        // States for Control unit transceiver
         enum State { IDLE, FETCH, EXECUTE };
+        State state;
         
+        // Arrays of connected devices
         Array<Actuator*> actuators;
         Array<Sensor*> sensors;
-        State state;
+
+        // Transceiver buffer of incoming bytes for current request
         byte buffer[MAX_BUFFER_SIZE];
         int bufferCount;
 
-        void pollSensorsLoop();
-        void transceiverLoop();
+        // ----- Helpers ----- //
+        /**
+         * @param inDID Device ID byte to convert to element position
+         * @return element position of sensor or actuator with given did. If inDID is not within sensor or
+         *      actuator byte range then returns -1 indicating an error.
+         */
+        int calculateArrayPositionFromDID(byte inDID);
 
+        // ----- Executors ----- //
+        /**
+         * Invokes self reporting from sensors and actuators in order (elements 0 to n).
+         * @post Current sensors and actuators states will be written to Serial port
+         */
+        void executeGetSnapshot();
+
+        /**
+         * Invokes self reporting for sensor with specified DID
+         * @post Sensor matching provided DID will report its state, NAK returned if provided DID is out 
+         *      of range
+         */
+        void executeGetSensor();
+
+        /**
+         * Invokes self reporting actuator with specified DID
+         * @post Actuator matching provided DID will report its state, NAK returned if provided DID is out 
+         *      of range
+         */
+        void executeGetActuator();
+
+        /**
+         * Updates actuator state with specified DID
+         * @post Actuator matching provided DID will be set to the defined new value (either HIGH or LOW). 
+         *      NAK returned if provided DID is out of range OR if the actuator setState() function returns 
+         *      false indicating failure.
+         */
+        void executeSetActuator();
+
+        // ----- FSM State Handlers ----- //
+        /**
+         * Handles IDLE transceiver state. Reads incoming bytes (if serial is available), moves to FETCH state
+         * if read byte == STX
+         */
         void idleHandler();
+
+        /**
+         * Handles FETCH transceiver state. Reads incoming transmission bytes into a buffer. Once a total of
+         * MAX_BUFFER_SIZE bytes (not including STX and ETX characters) ia read, moves to EXECUTE state. Moves 
+         * to IDLE if request is incorrectly formatted. 
+         */
         void fetchHandler();
 
-        void executeGetSnapshot();
-        void executeGetSensor();
-        void executeGetActuator();
-        void executeSetActuator();
+        /**
+         * Handles EXECUTE transceiver state. Invokes appropriate executor based on received opcode. Moves to
+         * IDLE after executor has returned regardless if request executed successfully.
+         */
         void executeHandler();
 
+        // ----- Loops ----- //
+        /**
+         * Invokes Sensor::loop() for each sensor in sensors array
+         */
+        void pollSensorsLoop();
+
+        /**
+         * Maps current state of transceiver to corresponding state handler
+         */
+        void transceiverLoop();
+
     public:
+        /**
+         * @post State set to IDLE, buffer initialized to NULL and bufferCount to 0
+         */
         ControlUnit();
 
         /**
