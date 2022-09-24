@@ -6,17 +6,16 @@
 #include <SensirionI2CScd4x.h>
 
 
-class SCD41: public Sensor 
-{
-    private:
-        SensirionI2CScd4x scd41;
-        Array<float> read();
+class SCD41: public Sensor {
+ private:
+  SensirionI2CScd4x scd41;
+  Array<float> read();
 
-    public:
-        SCD41(char inBaseDID, unsigned long inPollingFrequency, int inPin):
-            Sensor(inBaseDID, inPollingFrequency, inPin) {};
+ public:
+  SCD41(char inBaseDID, unsigned long inPollingFrequency, int inPin):
+    Sensor(inBaseDID, inPollingFrequency, inPin) {};
 
-        void begin();
+  void begin();
 };
 
 #endif

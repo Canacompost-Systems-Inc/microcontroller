@@ -30,23 +30,19 @@ Array<Sensor*> sensors;
 Array<Actuator*> actuators;
 ControlUnit controller;
 
-void setupActuators()
-{
-	actuators.insert(&valve0);
+void setupActuators() {
+  actuators.insert(&valve0);
 
-	for (int i = 0; i < actuators.getSize(); i++)
-	{
+	for (int i = 0; i < actuators.getSize(); i++) {
 		actuators.read(i)->begin();
 	}
 }
 
-void setupSensors()
-{
+void setupSensors() {
 	sensors.insert(&sht40);
 	sensors.insert(&scd41);
 
-	for (int i = 0; i < sensors.getSize(); i++)
-	{
+	for (int i = 0; i < sensors.getSize(); i++) {
 		sensors.read(i)->begin();
 	}
 
@@ -55,8 +51,7 @@ void setupSensors()
 }
 
 //  Runs every time serial connection is established OR when arduino is powered on.
-void setup() 
-{
+void setup() {
 	Serial.begin(9600);
 	setupActuators();
 	setupSensors();
@@ -64,7 +59,6 @@ void setup()
 }
 
 // Runs every clock cycle
-void loop() 
-{
+void loop() {
 	controller.loop();
 }

@@ -5,17 +5,16 @@
 #include "DFRobot_SHT40.h"
 
 
-class SHT40: public Sensor 
-{    
-    private:
-        DFRobot_SHT40 sht40;
-        Array<float> read();
+class SHT40: public Sensor {
+ private:
+  DFRobot_SHT40 sht40;
+  Array<float> read();
 
-    public:
-        SHT40(char inBaseDID, unsigned long inPollingFrequency, int inPin):
-            Sensor(inBaseDID, inPollingFrequency, inPin), sht40(SHT40_AD1B_IIC_ADDR) {};
+ public:
+  SHT40(char inBaseDID, unsigned long inPollingFrequency, int inPin):
+    Sensor(inBaseDID, inPollingFrequency, inPin), sht40(SHT40_AD1B_IIC_ADDR) {};
 
-        void begin();
+  void begin();
 };
 
 #endif
