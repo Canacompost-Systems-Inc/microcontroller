@@ -128,17 +128,14 @@ void ControlUnit::executeHandler(){
   state = IDLE;
 }
 
-void ControlUnit::pollSensorsLoop()
-{
+void ControlUnit::pollSensorsLoop() {
   unsigned long currentTimeMs = millis();
-  for (int i = 0; i < sensors.getSize(); i++)
-  {
+  for (int i = 0; i < sensors.getSize(); i++) {
     sensors.read(i)->loop(currentTimeMs);
   }
 }
 
-void ControlUnit::transceiverLoop()
-{
+void ControlUnit::transceiverLoop() {
   switch (state) {
     case IDLE:
       idleHandler();
@@ -157,21 +154,18 @@ void ControlUnit::transceiverLoop()
   }
 }
 
-ControlUnit::ControlUnit() 
-{
+ControlUnit::ControlUnit() {
   state = IDLE;
   buffer[MAX_BUFFER_SIZE] = { NULL };
   bufferCount = 0;
 }
 
-void ControlUnit::begin(Array<Actuator*> configuredActuators, Array<Sensor*> configuredSensors)
-{
+void ControlUnit::begin(Array<Actuator*> configuredActuators, Array<Sensor*> configuredSensors) {
   actuators = configuredActuators;
   sensors = configuredSensors;
 }
 
-void ControlUnit::loop()
-{
+void ControlUnit::loop() {
   transceiverLoop();
   pollSensorsLoop();
 }

@@ -14,7 +14,7 @@ void Actuator::report() {
   Serial.write(did);
 
   for (int i = 0; i < 4; i++) {
-  Serial.write(state);
+    Serial.write(state);
   }
 }
 
