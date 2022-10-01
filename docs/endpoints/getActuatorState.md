@@ -39,4 +39,4 @@ Where D0 is the actuators current state (integer) represented by a 4 byte hex st
 [0x01][0xe0][0x00000001][0x03]
 ```
 
-* From the above response we can see that the device with `did = [0xe0]` is currently in `state=0` which is its `HIGH` state.
+* From the above response we can see that the device with `did = [0xe0]` is currently in `state=1` which is its `HIGH` state.
