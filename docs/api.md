@@ -24,9 +24,21 @@ Each sensor can hold up to three data values (D0, D1, D2). All data values are p
 
 ## Actuators
 
-Actuators DID's range from `0xE0` to `0xFF`.
+Actuators DID's range from `0xE0` to `0xFF`. Each actuator begins in their 0th state, and can be actuated into any of their defined states via the [SET Actuator State endpoint](endpoints/setActuatorState.md).
 
-**WIP**
+| Name | DID | Number of States | Domain [0, ..., n] | 
+|------|-----|------------------|--------------------|
+| Relay0 | `0xE0` | 2 | `[LOW, HIGH]` |
+| Relay1 | `0xE1` | 2 | `[LOW, HIGH]` |
+| Relay2 | `0xE2` | 2 | `[LOW, HIGH]` |
+| Relay3 | `0xE3` | 2 | `[LOW, HIGH]` |
+| Relay4 | `0xE4` | 2 | `[LOW, HIGH]` |
+| Relay5 | `0xE5` | 2 | `[LOW, HIGH]` |
+| Relay6 | `0xE6` | 2 | `[LOW, HIGH]` |
+| FlapDiverterValve0 | `0xE7` | 3 | `[LEFT, MIDDLE, RIGHT]` |
+
+- Relays turn off/on (LOW/HIGH) the device connected to it.
+- FlapDiverterValves actuate the position of the interal flap to predefined positions. 
 
 ## Standardization
 
