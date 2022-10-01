@@ -38,7 +38,7 @@ Actuators DID's range from `0xE0` to `0xFF`. Each actuator begins in their 0th s
 | FlapDiverterValve0 | `0xE7` | 3 | `[LEFT, MIDDLE, RIGHT]` |
 
 - Relays turn off/on (LOW/HIGH) the device connected to it.
-- FlapDiverterValves actuate the position of the interal flap to predefined positions. 
+- FlapDiverterValves actuate the position of the interal flap to predefined degree. 
 
 ## Standardization
 
