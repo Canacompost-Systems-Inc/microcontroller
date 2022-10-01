@@ -1,14 +1,13 @@
 #ifndef ARRAY_H
 #define ARRAY_H
 
+#define ARRAY_MAX_SIZE 10
 #include <Arduino.h>
 
-#define ARRAY_MAX_SIZE 100
-
-template <class T>
+template <class T, int S = ARRAY_MAX_SIZE>
 class Array {
  private:
-  T data[ARRAY_MAX_SIZE];
+  T data[S];
   int size;
 
  public:
@@ -18,6 +17,15 @@ class Array {
    */ 
   Array() {
     clear();
+  }
+  
+  template <int N>
+  Array(const T (&initialData)[N]) {
+    clear();
+    Serial.print(N);
+    for (int i = 0; i < N; i++) {
+      insert(initialData[i]);
+    }
   }
 
   /**
@@ -56,9 +64,6 @@ class Array {
    */ 
   void clear() {
     size = 0;
-    for (int i = 0; i < ARRAY_MAX_SIZE; i++) {
-      data[i] = NULL;
-    }
   }
 };
 

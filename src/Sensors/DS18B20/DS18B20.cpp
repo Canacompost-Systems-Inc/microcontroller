@@ -6,7 +6,7 @@ Array<float> DS18B20::read() {
   ds18b20.requestTemperatures(); 
   reading.insert(ds18b20.getTempCByIndex(0));
   return reading;
-}   
+}
 
 void DS18B20::begin() {
   ds18b20.begin();

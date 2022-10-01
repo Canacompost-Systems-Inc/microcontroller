@@ -6,21 +6,26 @@
 
 #include <Arduino.h>
 #include "Array.hpp"
-#include "Boards/MQx/MQx.hpp"
-#include "Boards/SHT40/SHT40.hpp"
-#include "Boards/SCD41/SCD41.hpp"
-#include "Boards/IPC10100/IPC10100.hpp"
-#include "Boards/DS18B20/DS18B20.hpp"
+#include "Sensors/MQx/MQx.hpp"
+#include "Sensors/SHT40/SHT40.hpp"
+#include "Sensors/SCD41/SCD41.hpp"
+#include "Sensors/IPC10100/IPC10100.hpp"
+#include "Sensors/DS18B20/DS18B20.hpp"
+#include "Actuators/FlapDiverterValve/FlapDiverterValve.hpp"
+#include "Actuators/Relay/Relay.hpp"
 #include "ControlUnit/ControlUnit.hpp"
 
 // ----- CONSTANTS ----- //
-const unsigned long DEFAULT_POLLING_INTERVAL = 5000;
+static const unsigned long DEFAULT_POLLING_INTERVAL = 5000;
+static const Array<int> RELAY_STATES({0, 1});
+static const Array<int> VALVE0_STATES({35, 80, 130});
 
 // ----- OBJECTS ----- //
-// Actuator Objects
-Actuator valve0(0xE0, 0);
+// Actuators
+Relay relay0(0xE0, 13, RELAY_STATES);
+FlapDiverterValve valve0(0xE1, 12, VALVE0_STATES);
 
-// Sensor Objects
+// Sensors
 SHT40 	    sht40(0xC0, DEFAULT_POLLING_INTERVAL, -1);
 SCD41 	    scd41(0xC1, DEFAULT_POLLING_INTERVAL, -1);
 IPC10100 ipc10100(0xC2, DEFAULT_POLLING_INTERVAL, -1);
@@ -31,6 +36,7 @@ Array<Actuator*> actuators;
 ControlUnit controller;
 
 void setupActuators() {
+  actuators.insert(&relay0);
   actuators.insert(&valve0);
 
 	for (int i = 0; i < actuators.getSize(); i++) {

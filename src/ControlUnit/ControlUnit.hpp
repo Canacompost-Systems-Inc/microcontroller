@@ -2,8 +2,6 @@
 #include "Array.hpp"
 #include "Sensor.hpp"
 #include "Actuator.hpp"
-#include "Boards/SHT40/SHT40.hpp"
-#include "Boards/SCD41/SCD41.hpp"
 
 
 class ControlUnit {

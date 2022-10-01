@@ -7,41 +7,50 @@
 
 class Actuator {
  private:
-  static const byte B_HIGH = 0x11;
-  static const byte B_LOW = 0x00;
-
   char did;
   int pin;
-  byte state;
-
- protected:
-  /**
-   * @return pin value
-   */
-  int getPin();
+  int32_t currentState; // using int32 to ensure payload of 4 bytes (consistent with sensor class)
+  Array<int> states;
 
  public:
   /**
    * @param inDid Device ID, used for identifying Actuator
    * @param inPin GPIO pin connected to the board 
    */
-  Actuator(char inDid, int inPin);
+  Actuator(char inDid, int inPin, const Array<int> &inStates);
 
   /**
-   * Sets up actuator to closed state (LOW)
+   * Inheriting class can override the begin() virtual function and implement any setup logic needed 
+   * for actuator. If no override is present this function will do nothing.
+   */ 
+  virtual void begin() {};
+  
+  /**
+   * Inheriting class is expected to override the actuateState and implement logic to update the state
+   * of actuator. If no override is present this function will do nothing.
    */
-  void begin();
+  virtual void actuateState(int desiredStateValue) {};
+
+  /**
+   * @param newState state to set actuator to
+   * @return true if state was set, false if error occurred
+   */ 
+  bool setState(int newState);
+
+  /**
+   * @return pin value
+   */
+  int getPin();
+
+  /** 
+   * @return states
+   */
+  Array<int> getStates();
 
   /**
    * Transmits actuator state in a package format.
    */
   void report();
-
-  /**
-   * @param newState state to set actuator to (HIGH or LOW)
-   * @return true if state was set, false if error occurred
-   */ 
-  bool setState(byte newState);
 };
 
 #endif

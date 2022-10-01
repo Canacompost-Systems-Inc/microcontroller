@@ -52,14 +52,15 @@ void ControlUnit::executeGetActuator() {
 
 void ControlUnit::executeSetActuator() {
   byte did = buffer[1];
-  byte newState = buffer[2];
+  int newState = int((unsigned char)(buffer[2]) << 24 |
+    (unsigned char)(buffer[3]) << 16 |
+    (unsigned char)(buffer[4]) << 8 |
+    (unsigned char)(buffer[5]));
+
   int arrayPosition = calculateArrayPositionFromDID(did);
-  
-  // Payload verification
-  bool payloadIsConsistant = (newState == buffer[3] && newState == buffer[4] && newState == buffer[5]);
   bool positionInRange = (arrayPosition >= 0 && arrayPosition < actuators.getSize());
 
-  if (payloadIsConsistant && positionInRange) {
+  if (positionInRange) {
     if (actuators.read(arrayPosition)->setState(newState) == true) {
       Serial.write(ACK);
     } else {
