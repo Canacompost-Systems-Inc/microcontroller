@@ -33,7 +33,7 @@ ser.write(b'\x01\xA2\xE0\x00\x00\x00\x00\x03')
 <STX><DID><D0><ETX>
 ```
 
-Where D0 is the actuators current state represented by a 4 byte hex string.
+Where D0 is the actuators current state (integer) represented by a 4 byte hex string.
 
 ```
 [0x01][0xe0][0x00000001][0x03]
