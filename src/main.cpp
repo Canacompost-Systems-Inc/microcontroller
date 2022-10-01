@@ -23,7 +23,13 @@ static const Array<int> VALVE0_STATES({35, 80, 130});
 // ----- OBJECTS ----- //
 // Actuators
 Relay relay0(0xE0, 13, RELAY_STATES);
-FlapDiverterValve valve0(0xE1, 12, VALVE0_STATES);
+Relay relay1(0xE1, 13, RELAY_STATES);
+Relay relay2(0xE2, 13, RELAY_STATES);
+Relay relay3(0xE3, 13, RELAY_STATES);
+Relay relay4(0xE4, 13, RELAY_STATES);
+Relay relay5(0xE5, 13, RELAY_STATES);
+Relay relay6(0xE6, 13, RELAY_STATES);
+FlapDiverterValve valve0(0xE7, 12, VALVE0_STATES);
 
 // Sensors
 SHT40 	    sht40(0xC0, DEFAULT_POLLING_INTERVAL, -1);
@@ -37,6 +43,12 @@ ControlUnit controller;
 
 void setupActuators() {
   actuators.insert(&relay0);
+  actuators.insert(&relay1);
+  actuators.insert(&relay2);
+  actuators.insert(&relay3);
+  actuators.insert(&relay4);
+  actuators.insert(&relay5);
+  actuators.insert(&relay6);
   actuators.insert(&valve0);
 
 	for (int i = 0; i < actuators.getSize(); i++) {
