@@ -22,7 +22,7 @@ class Array {
   template <int N>
   Array(const T (&initialData)[N]) {
     clear();
-    Serial.print(N);
+
     for (int i = 0; i < N; i++) {
       insert(initialData[i]);
     }
