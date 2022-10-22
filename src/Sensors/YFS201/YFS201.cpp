@@ -11,7 +11,6 @@ Array<float> YFS201::read() {
   float flow = (pulseFrequency / 7.5) / (getPollingFrequency() / 1000);
   pulseFrequency = 0;
   reading.insert(flow);
-  Serial.println(flow);
   return reading;
 }
 
