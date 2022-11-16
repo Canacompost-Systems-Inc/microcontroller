@@ -47,6 +47,16 @@ class Actuator {
    */
   Array<int> getStates();
 
+  /*
+   *
+   */
+  int getCurrentState();
+
+  /*
+   *
+   */
+  int getCurrentStateValue();
+
   /**
    * Transmits actuator state in a package format.
    */

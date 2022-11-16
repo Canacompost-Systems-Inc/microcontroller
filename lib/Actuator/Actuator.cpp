@@ -27,6 +27,14 @@ Array<int> Actuator::getStates() {
   return states;
 }
 
+int Actuator::getCurrentState() {
+  return currentState;
+}
+
+int Actuator::getCurrentStateValue() {
+  return states.read(currentState);
+}
+
 void Actuator::report() {
   Serial.write(did);
   const char *bytesPtr = reinterpret_cast<const char*>(&currentState);
