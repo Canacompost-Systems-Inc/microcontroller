@@ -12,5 +12,5 @@ Below are links to tutorials used when integrating each device. A more in depth 
 ## Actuators
 - [FlapDiverterValvue](https://docs.arduino.cc/learn/electronics/servo-motors): How to control a servo motor
 - [Relay](https://create.arduino.cc/projecthub/tarantula3/driving-a-relay-with-an-arduino-722c24): Just need to digital write HIGH/LOW to the correct pin, wiring may vary for diffrent relays
-- [RotaryValve](https://www.makerguides.com/tb6600-stepper-motor-driver-arduino-tutorial/#:~:text=About%20the%20driver,motors%20like%20a%20NEMA%2023.): Controlling stepper driver
+- [RotaryValve](https://www.makerguides.com/tb6600-stepper-motor-driver-arduino-tutorial/#:~:text=About%20the%20driver,motors%20like%20a%20NEMA%2023.): Controlling stepper driver, also has a [limit switch](https://www.youtube.com/watch?v=6wuInF9Yw08&ab_channel=MakerTutor) attached for sensing when full circle done.
 
