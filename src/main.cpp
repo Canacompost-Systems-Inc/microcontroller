@@ -13,6 +13,7 @@
 #include "Sensors/DS18B20/DS18B20.hpp"
 #include "Sensors/YFS201/YFS201.hpp"
 #include "Sensors/SEN0441/SEN0441.hpp"
+#include "Sensors/SEN0321/SEN0321.hpp"
 #include "Actuators/FlapDiverterValve/FlapDiverterValve.hpp"
 #include "Actuators/Relay/Relay.hpp"
 #include "Actuators/RotaryValve/RotaryValve.hpp"
@@ -44,6 +45,7 @@ IPC10100 ipc10100(0xC2, DEFAULT_POLLING_INTERVAL, -1);
 DS18B20	  ds18b20(0xC3, DEFAULT_POLLING_INTERVAL, 2);
 YFS201	   yfs201(0xC4, FAST_POLLING_INTERVAL, 3);
 SEN0441	  sen0441(0xC5, DEFAULT_POLLING_INTERVAL, 10);
+SEN0321	  sen0321(0xC5, DEFAULT_POLLING_INTERVAL, -1);
 
 Array<Sensor*> sensors;
 Array<Actuator*> actuators;
@@ -62,7 +64,7 @@ void setupActuators() {
   // actuators.insert(&relay5);
   // actuators.insert(&relay6);
   // actuators.insert(&valve0);
-  actuators.insert(&valve1);
+  // actuators.insert(&valve1);
 
 	for (int i = 0; i < actuators.getSize(); i++) {
 		actuators.read(i)->begin();
