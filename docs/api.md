@@ -21,7 +21,7 @@ Each sensor can hold up to three data values (D0, D1, D2). All data values are p
 | SCD41 | `0xC1` | CO2 (ppm) | Temperature (C) | Humidity (%) |
 | IPC10100 | `0xC2` | Temperature (C) | Pressure (Pa) | - |
 | DS18B20 | `0xC3` | Temperature (C) | - | - |
-| YFS201 | `0xC4` | Flow (L/min) | - | - |
+| YFS201 | `0xC4` | Flow Rate (L/min) | - | - |
 | SEN0441 | `0xC5` | H2 (ppm) | - | - |
 | SEN0321 | `0xC6` | Ozone (ppm) | - | - |
 
