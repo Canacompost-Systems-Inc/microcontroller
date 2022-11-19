@@ -17,7 +17,7 @@ Array<float> IPC10100::read() {
 }
 
 void IPC10100::begin() {
-	// TODO: Handle error case
+	// TODO: Handle error cases
 	if (!ipc10100.begin()) {
 	  Serial.println("Mikroe-3328 baro sensor failed to connect");
 	}

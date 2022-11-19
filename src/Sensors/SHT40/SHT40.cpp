@@ -21,12 +21,12 @@ Array<float> SHT40::read() {
   if(humidity > 80)
   {
     /** humidity sensor modes
-     * POWER_CONSUMPTION_H_HEATER_1S        activate highest heater power & high precis. meas. for 1s 
-     * POWER_CONSUMPTION_H_HEATER_100MS     activate highest heater power & high precis. meas. for 0.1s
-     * POWER_CONSUMPTION_M_HEATER_1S        activate medium heater power  & high precis. meas. for 1s 
-     * POWER_CONSUMPTION_M_HEATER_100MS     activate medium heater power  & high precis. meas. for 0.1s 
-     * POWER_CONSUMPTION_L_HEATER_1S        activate lowest heater power  & high precis. meas. for 1s 
-     * POWER_CONSUMPTION_L_HEATER_100MS     activate lowest heater power  & high precis. meas. for 0.1s 
+     *  POWER_CONSUMPTION_H_HEATER_1S        activate highest heater power & high precis. meas. for 1s 
+     *  POWER_CONSUMPTION_H_HEATER_100MS     activate highest heater power & high precis. meas. for 0.1s
+     *  POWER_CONSUMPTION_M_HEATER_1S        activate medium heater power  & high precis. meas. for 1s 
+     *  POWER_CONSUMPTION_M_HEATER_100MS     activate medium heater power  & high precis. meas. for 0.1s 
+     *  POWER_CONSUMPTION_L_HEATER_1S        activate lowest heater power  & high precis. meas. for 1s 
+     *  POWER_CONSUMPTION_L_HEATER_100MS     activate lowest heater power  & high precis. meas. for 0.1s 
      */
     sht40.enHeater(POWER_CONSUMPTION_H_HEATER_1S);
   }
