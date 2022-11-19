@@ -20,10 +20,13 @@ Each sensor can hold up to three data values (D0, D1, D2). All data values are p
 | SHT40 | `0xC0` | Temperature (C) | Humidity (%) | - |
 | SCD41 | `0xC1` | CO2 (ppm) | Temperature (C) | Humidity (%) |
 | IPC10100 | `0xC2` | Temperature (C) | Pressure (Pa) | - |
-| DS18B20 | `0xC3` | Temperature (C) | - | - |
-| YFS201 | `0xC4` | Flow Rate (L/min) | - | - |
-| SEN0441 | `0xC5` | H2 (ppm) | - | - |
-| SEN0321 | `0xC6` | Ozone (ppm) | - | - |
+| DS18B20 (Shredder Storage) | `0xC3` | Temperature (C) | - | - |
+| DS18B20 (Bioreactor 1) | `0xC4` | Temperature (C) | - | - |
+| DS18B20 (Bioreactor 2) | `0xC5` | Temperature (C) | - | - |
+| DS18B20 (BSF Reproduction)| `0xC6` | Temperature (C) | - | - |
+| YFS201 | `0xC7` | Flow Rate (L/min) | - | - |
+| SEN0441 | `0xC8` | H2 (ppm) | - | - |
+| SEN0321 | `0xC9` | Ozone (ppm) | - | - |
 
 ## Actuators
 
