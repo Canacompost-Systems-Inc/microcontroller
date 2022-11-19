@@ -36,7 +36,7 @@ Actuators DID's range from `0xE0` to `0xFF`. Each actuator begins in their 0th s
 | Relay5 | `0xE5` | 2 | `[LOW, HIGH]` |
 | Relay6 | `0xE6` | 2 | `[LOW, HIGH]` |
 | FlapDiverterValve0 | `0xE7` | 3 | `[LEFT, MIDDLE, RIGHT]` |
-| RotaryValve0 | `0xE8` | 3 | `[1, 2, 3, 4 ,5 ,6]` |
+| RotaryValve0 | `0xE8` | 3 | `[0, 1, 2, 3 ,4 ,5]` |
 
 - Relays turn off/on (LOW/HIGH) the device connected to it.
 - FlapDiverterValves actuate the position of the internal flap to predefined degree. 
