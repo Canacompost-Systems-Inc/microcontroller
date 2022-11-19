@@ -64,8 +64,8 @@ Actuators DID's range from `0xE0` to `0xFF`. Each actuator begins in their 0th s
 | `0xFB` | Relay | 2 | OFF, ON |
 
 - Relays turn off/on (LOW/HIGH) the device connected to it.
-- FlapDiverterValves actuate the position of the internal flap to predefined degree. 
-- RotaryValves can be rotated to 1 out of the 6 positions.
+- Flap Diverter Valves actuate the position of the internal flap to predefined degree. 
+- Rotary Valves can be rotated to 1 out of the 6 positions.
 
 ## Standardization
 
