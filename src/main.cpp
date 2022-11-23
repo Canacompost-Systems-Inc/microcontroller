@@ -24,7 +24,7 @@ const unsigned long DEFAULT_POLLING_INTERVAL = 5000;
 const unsigned long FAST_POLLING_INTERVAL = 1000;
 static const Array<int> RELAY_STATES({0, 1});
 static const Array<int> VALVE0_STATES({35, 80, 130});
-static const Array<int> VALVE1_STATES({0, 1, 2, 3, 4, 5});
+static const Array<int> VALVE1_STATES({0, 2650, 5950, 9250, 12600, 15925, 19275}); // values tuned to RED YELOW valve
 
 // ----- OBJECTS ----- //
 // Actuators
@@ -36,16 +36,19 @@ Relay relay4(0xE4, 13, RELAY_STATES);
 Relay relay5(0xE5, 13, RELAY_STATES);
 Relay relay6(0xE6, 13, RELAY_STATES);
 FlapDiverterValve valve0(0xE7, 2, VALVE0_STATES);
-RotaryValve valve1(0xE7, 2, VALVE1_STATES);
+RotaryValve valve1(0xE8, 2, VALVE1_STATES, 2750);
 
 // Sensors
 SHT40 	    sht40(0xC0, DEFAULT_POLLING_INTERVAL, -1);
 SCD41 	    scd41(0xC1, DEFAULT_POLLING_INTERVAL, -1);
 IPC10100 ipc10100(0xC2, DEFAULT_POLLING_INTERVAL, -1);
 DS18B20	  ds18b20(0xC3, DEFAULT_POLLING_INTERVAL, 2);
-YFS201	   yfs201(0xC4, FAST_POLLING_INTERVAL, 3);
-SEN0441	  sen0441(0xC5, DEFAULT_POLLING_INTERVAL, 10);
-SEN0321	  sen0321(0xC5, DEFAULT_POLLING_INTERVAL, -1);
+// DS18B20	  ds18b20(0xC4, DEFAULT_POLLING_INTERVAL, 2);
+// DS18B20	  ds18b20(0xC5, DEFAULT_POLLING_INTERVAL, 2); // TODO: need to update pins and names here
+// DS18B20	  ds18b20(0xC6, DEFAULT_POLLING_INTERVAL, 2);
+YFS201	   yfs201(0xC7, FAST_POLLING_INTERVAL, 3);
+SEN0441	  sen0441(0xC8, DEFAULT_POLLING_INTERVAL, 10);
+SEN0321	  sen0321(0xC9, DEFAULT_POLLING_INTERVAL, -1);
 
 Array<Sensor*> sensors;
 Array<Actuator*> actuators;
@@ -64,7 +67,7 @@ void setupActuators() {
   // actuators.insert(&relay5);
   // actuators.insert(&relay6);
   // actuators.insert(&valve0);
-  // actuators.insert(&valve1);
+  actuators.insert(&valve1);
 
 	for (int i = 0; i < actuators.getSize(); i++) {
 		actuators.read(i)->begin();

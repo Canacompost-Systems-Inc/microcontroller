@@ -7,9 +7,6 @@ void RotaryValve::begin() {
   pinMode(DIR_PIN, OUTPUT);
   pinMode(LIMIT_SWITCH_PIN, INPUT);
 
-  // Set the direction to clockwise
-  digitalWrite(DIR_PIN, HIGH);
-
   // move output to start position
   resetPosition();
 }
@@ -23,32 +20,32 @@ void RotaryValve::step() {
 }
 
 void RotaryValve::resetPosition() {
-  // Moves valve back to starting postion
-  // Does one full rotation, stops when limit switch is hit at position 1
-  for (int i = 0; i < 6 * DELTA_STEPS; i++) {
+  // Moves valve back to starting postion where limit switch is open
+  // TODO: Error checking if limit switch is not hit
+
+  // Move cc back to start position
+  digitalWrite(DIR_PIN, COUNTER_CLOCKWISE);
+
+  while (true) {
     if (digitalRead(LIMIT_SWITCH_PIN) == LOW) {
-      // Reached starting position
       break;
     }
     
     step();
   }
 
-  // TODO: Error checking if limit switch is not hit
+  // set dir to clockwise for actuateState to call
+  digitalWrite(DIR_PIN, CLOCKWISE);
 }
 
 void RotaryValve::actuateState(int desiredStateValue) {
-  int numStepsDistance = desiredStateValue - getCurrentStateValue();
+  resetPosition();
 
-  if (numStepsDistance < 0) {
-    // Move to start position (ie: 1) then calculate number of moves to 
-    // the desired position
-    resetPosition();
-    numStepsDistance = desiredStateValue;
-  }
+  // Need time to stop and change direction after reset
+  delay(100);
 
   // Spin the stepper motor by sending controlled pulse
-  for (int i = 0; i < numStepsDistance * DELTA_STEPS; i++) {
+  for (int i = 0; i < desiredStateValue; i++) {
     step();
   }
 }
