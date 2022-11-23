@@ -34,9 +34,9 @@ Actuators DID's range from `0xE0` to `0xFF`. Each actuator begins in their 0th s
 
 | DID | Type | Number of States | Domain [0, ..., n] | 
 |------|-----|------------------|--------------------|
-| `0xE0` | Rotary Valve | 6 | 0, 1, 2, 3 ,4 ,5 |
-| `0xE1` | Rotary Valve | 6 | 0, 1, 2, 3 ,4 ,5 |
-| `0xE2` | Rotary Valve | 6 | 0, 1, 2, 3 ,4 ,5 |
+| `0xE0` | Rotary Valve | 6 | 0, 1, 2, 3 ,4 ,5, 6 |
+| `0xE1` | Rotary Valve | 6 | 0, 1, 2, 3 ,4 ,5, 6 |
+| `0xE2` | Rotary Valve | 6 | 0, 1, 2, 3 ,4 ,5, 6 |
 | `0xE3` | Flap Diverter Valve | 10 | 0&deg;, 10&deg;, 20&deg;, ..., 90&deg; |
 | `0xE4` | Flap Diverter Valve | 10 | 0&deg;, 10&deg;, 20&deg;, ..., 90&deg; |
 | `0xE5` | Flap Diverter Valve | 10 | 0&deg;, 10&deg;, 20&deg;, ..., 90&deg; |
@@ -65,7 +65,7 @@ Actuators DID's range from `0xE0` to `0xFF`. Each actuator begins in their 0th s
 
 - Relays turn off/on (LOW/HIGH) the device connected to it.
 - Flap Diverter Valves actuate the position of the internal flap to predefined degree. 
-- Rotary Valves can be rotated to 1 out of the 6 positions.
+- Rotary Valves can be rotated to 1 out of the 6 positions. Note that `state=0` for rotary valves represents a fixed starting position and not a "valid"  position. Setting `state=0` essentially resets the valve.
 
 ## Standardization
 
