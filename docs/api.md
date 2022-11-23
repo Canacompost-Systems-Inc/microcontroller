@@ -15,35 +15,57 @@ The table below shows all the available API endpoints.
 
 Each sensor can hold up to three data values (D0, D1, D2). All data values are polled at a configured polling frequency. Sensor DID's range from `0xC0` to `0xDF`.
 
-| Name | DID | D0 | D1 | D2 |
+| DID | Type | D0 | D1 | D2 |
 |------|-----|----|----|----|
-| SHT40 | `0xC0` | Temperature (C) | Humidity (%) | - |
-| SCD41 | `0xC1` | CO2 (ppm) | Temperature (C) | Humidity (%) |
-| IPC10100 | `0xC2` | Temperature (C) | Pressure (Pa) | - |
-| DS18B20 | `0xC3` | Temperature (C) | - | - |
-| YFS201 | `0xC4` | Flow Rate (L/min) | - | - |
-| SEN0441 | `0xC5` | H2 (ppm) | - | - |
-| SEN0321 | `0xC6` | Ozone (ppm) | - | - |
+| `0xC0` | SHT40 | Temperature (C) | Humidity (%) | - |
+| `0xC1` | SCD41 | CO2 (ppm) | Temperature (C) | Humidity (%) |
+| `0xC2` | IPC10100 | Temperature (C) | Pressure (Pa) | - |
+| `0xC3` | DS18B20 | Temperature (C) | - | - |
+| `0xC4` | DS18B20 | Temperature (C) | - | - |
+| `0xC5` | DS18B20 | Temperature (C) | - | - |
+| `0xC6` | DS18B20 | Temperature (C) | - | - |
+| `0xC7` | YFS201 | Flow Rate (L/min) | - | - |
+| `0xC8` | SEN0441 | H2 (ppm) | - | - |
+| `0xC9` | SEN0321 | Ozone (ppm) | - | - |
 
 ## Actuators
 
 Actuators DID's range from `0xE0` to `0xFF`. Each actuator begins in their 0th state, and can be actuated into any of their defined states via the [SET Actuator State endpoint](endpoints/setActuatorState.md).
 
-| Name | DID | Number of States | Domain [0, ..., n] | 
+| DID | Type | Number of States | Domain [0, ..., n] | 
 |------|-----|------------------|--------------------|
-| Relay0 | `0xE0` | 2 | `[LOW, HIGH]` |
-| Relay1 | `0xE1` | 2 | `[LOW, HIGH]` |
-| Relay2 | `0xE2` | 2 | `[LOW, HIGH]` |
-| Relay3 | `0xE3` | 2 | `[LOW, HIGH]` |
-| Relay4 | `0xE4` | 2 | `[LOW, HIGH]` |
-| Relay5 | `0xE5` | 2 | `[LOW, HIGH]` |
-| Relay6 | `0xE6` | 2 | `[LOW, HIGH]` |
-| FlapDiverterValve0 | `0xE7` | 3 | `[LEFT, MIDDLE, RIGHT]` |
-| RotaryValve0 | `0xE8` | 3 | `[0, 1, 2, 3 ,4 ,5]` |
+| `0xE0` | Rotary Valve | 6 | 0, 1, 2, 3 ,4 ,5 |
+| `0xE1` | Rotary Valve | 6 | 0, 1, 2, 3 ,4 ,5 |
+| `0xE2` | Rotary Valve | 6 | 0, 1, 2, 3 ,4 ,5 |
+| `0xE3` | Flap Diverter Valve | 10 | 0&deg;, 10&deg;, 20&deg;, ..., 90&deg; |
+| `0xE4` | Flap Diverter Valve | 10 | 0&deg;, 10&deg;, 20&deg;, ..., 90&deg; |
+| `0xE5` | Flap Diverter Valve | 10 | 0&deg;, 10&deg;, 20&deg;, ..., 90&deg; |
+| `0xE6` | Flap Diverter Valve | 10 | 0&deg;, 10&deg;, 20&deg;, ..., 90&deg; |
+| `0xE7` | Flap Diverter Valve | 2 | 0&deg;, 100&deg; |
+| `0xE8` | Flap Diverter Valve | 2 | 0&deg;, 100&deg; |
+| `0xE9` | Relay | 2 | OFF, ON |
+| `0xEA` | Flap Diverter Valve | 2 | 0&deg;, 100&deg; |
+| `0xEB` | Flap Diverter Valve | 20 | 0&deg;, 5&deg;, 10&deg;, ..., 100&deg; |
+| `0xEC` | Flap Diverter Valve | 20 | 0&deg;, 5&deg;, 10&deg;, ..., 100&deg; |
+| `0xED` | Relay | 2 | OFF, ON |
+| `0xEE` | Relay | 2 | OFF, ON |
+| `0xEF` | Relay | 2 | OFF, ON |
+| `0xF0` | Relay | 2 | OFF, ON |
+| `0xF1` | Relay | 2 | OFF, ON |
+| `0xF2` | Relay | 2 | OFF, ON |
+| `0xF3` | Relay | 2 | OFF, ON |
+| `0xF4` | Flap Diverter Valve | 20 | 0&deg;, 5&deg;, 10&deg;, ..., 100&deg; |
+| `0xF5` | Relay | 2 | OFF, ON |
+| `0xF6` | Relay | 2 | OFF, ON |
+| `0xF7` | Relay | 2 | OFF, ON |
+| `0xF8` | Relay | 2 | OFF, ON |
+| `0xF9` | Relay | 2 | OFF, ON |
+| `0xFA` | Relay | 2 | OFF, ON |
+| `0xFB` | Relay | 2 | OFF, ON |
 
 - Relays turn off/on (LOW/HIGH) the device connected to it.
-- FlapDiverterValves actuate the position of the internal flap to predefined degree. 
-- RotaryValves can be rotated to 1 out of the 6 positions.
+- Flap Diverter Valves actuate the position of the internal flap to predefined degree. 
+- Rotary Valves can be rotated to 1 out of the 6 positions.
 
 ## Standardization
 
