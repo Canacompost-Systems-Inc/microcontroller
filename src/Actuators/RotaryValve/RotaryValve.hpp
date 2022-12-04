@@ -12,16 +12,15 @@ class RotaryValve: public Actuator {
   static const int DELTA_STEPS = 3298; // MAX step size == 19788
   static const int DIR_PIN = 2;
   static const int STEP_PIN = 3;
-  static const int LIMIT_SWITCH_PIN = 7;
 
-  int startOffset;
+  int limitSwitchPin;
 
   void step();
   void resetPosition();
 
  public:
-  RotaryValve(char inDid, int inPin, const Array<int> &inStates, int inStartOffset): 
-    Actuator(inDid, inPin, inStates), startOffset(inStartOffset) {};
+  RotaryValve(char inDid, int inPin, int inLimitSwitchPin, const Array<int> &inStates): 
+    Actuator(inDid, inPin, inStates), limitSwitchPin(inLimitSwitchPin) {};
   void begin();
   void actuateState(int desiredStateValue);
 };

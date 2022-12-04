@@ -5,7 +5,7 @@ void RotaryValve::begin() {
   // Setup pins
   pinMode(STEP_PIN, OUTPUT);
   pinMode(DIR_PIN, OUTPUT);
-  pinMode(LIMIT_SWITCH_PIN, INPUT);
+  pinMode(limitSwitchPin, INPUT);
 
   // move output to start position
   resetPosition();
@@ -27,7 +27,7 @@ void RotaryValve::resetPosition() {
   digitalWrite(DIR_PIN, COUNTER_CLOCKWISE);
 
   while (true) {
-    if (digitalRead(LIMIT_SWITCH_PIN) == LOW) {
+    if (digitalRead(limitSwitchPin) == LOW) {
       break;
     }
     
