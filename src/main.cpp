@@ -61,6 +61,11 @@ FlapDiverterValve eb(0xEB, 33, config::FD_TWENTY_STATES_EB);
 FlapDiverterValve ec(0xEC, 34, config::FD_TWENTY_STATES_EC);
 FlapDiverterValve f4(0xF4, 42, config::FD_TWENTY_STATES_F4);
 
+// 6 state rotary valves
+RotaryValve e0(0xE0, 2, 1, config::ROTARY_STATES_E1);
+// RotaryValve e1(0xE1, 2, 1, config::ROTARY_STATES_E1);
+// RotaryValve e2(0xE2, 2, 1, config::ROTARY_STATES_E1);
+
 void YSF201InterruptHandler() {
 	yfs201.pulse();
 }

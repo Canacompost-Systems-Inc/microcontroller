@@ -6,10 +6,12 @@
 
 class RotaryValve: public Actuator {
  private:
-  static const int CLOCKWISE = HIGH;
   static const int COUNTER_CLOCKWISE = LOW;
+  static const int CLOCKWISE = HIGH;
+
+  // TODO: add settings used for stepper controller
+  // MAX step size == 19788
   static const int PULSE_DELAY = 300; // delay between pulses sent to stepper
-  static const int DELTA_STEPS = 3298; // MAX step size == 19788
   static const int DIR_PIN = 2;
   static const int STEP_PIN = 3;
 

@@ -20,9 +20,6 @@ const unsigned long FAST_POLLING_INTERVAL = 1000;
  * actuator having its own domain).
  */
 
-// 0=OFF, 1=OFF
-static const Array<int> RELAY_STATES({0, 1});
-
 // Rotation in degrees of the flap arm, diverts between two output valves. Note that the total rotation angle 
 // (180 degrees) is much larger than the flap can physically do. This is due to these valves having different 
 // starting positions (0 degrees). By having a large window we ensure that the flap is all the way to one side
@@ -38,9 +35,11 @@ static const Array<int> FD_TWENTY_STATES_EB({0, 50, 52, 55, 57, 59, 62, 64, 66, 
 static const Array<int> FD_TWENTY_STATES_EC({0, 76, 78, 81, 83, 85, 88, 90, 92, 95, 97, 100, 102, 104, 107, 109, 111, 114, 116, 180});
 static const Array<int> FD_TWENTY_STATES_F4({0, 38, 40, 43, 45, 47, 50, 52, 54, 57, 59, 62, 64, 66, 69, 71, 73, 76, 78, 180});
 
-// TODO: Rename and configure these for rotary valve
-static const Array<int> VALVE1_STATES({0, 2650, 5950, 9250, 12600, 15925, 19275}); // values tuned to RED YELOW valve
+// TODO:
+static const Array<int> ROTARY_STATES_E1({0, 2650, 5950, 9250, 12600, 15925, 19275}); // values tuned to RED YELOW valve
 
+// 0=OFF, 1=OFF TODO:
+static const Array<int> RELAY_STATES({0, 1});
 } // namespace config
 
 #endif
