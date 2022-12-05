@@ -1,7 +1,8 @@
 #ifndef ARRAY_H
 #define ARRAY_H
 
-#define ARRAY_MAX_SIZE 10
+// TODO: Can we dynamically change this size so that we dont waste any space!
+#define ARRAY_MAX_SIZE 20
 #include <Arduino.h>
 
 template <class T, int S = ARRAY_MAX_SIZE>
