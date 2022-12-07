@@ -7,17 +7,17 @@
 
 class Actuator {
  private:
-  char did;
-  int pin;
+  char did; 
   int32_t currentState; // using int32 to ensure payload of 4 bytes (consistent with sensor class)
   Array<int> states;
 
  public:
   /**
-   * @param inDid Device ID, used for identifying Actuator
-   * @param inPin GPIO pin connected to the board 
+   * @param inDid Device ID, used for identifying actuator
+   * @param inStates all possible states for this actuator (element 0 = state 0 with a state value equal to the 
+   * value at that element)
    */
-  Actuator(char inDid, int inPin, const Array<int> &inStates);
+  Actuator(char inDid, const Array<int> &inStates);
 
   /**
    * Inheriting class can override the begin() virtual function and implement any setup logic needed 
@@ -28,6 +28,8 @@ class Actuator {
   /**
    * Inheriting class is expected to override the actuateState and implement logic to update the state
    * of actuator. If no override is present this function will do nothing.
+   * 
+   * @param desiredStateValue Int value that the device is expected to be actuated to
    */
   virtual void actuateState(int desiredStateValue) {};
 
@@ -37,23 +39,18 @@ class Actuator {
    */ 
   bool setState(int newState);
 
-  /**
-   * @return pin value
-   */
-  int getPin();
-
   /** 
-   * @return states
+   * Returns the array of all possible states
    */
   Array<int> getStates();
 
   /*
-   *
+   * Returns the index of the current state (ex: returns 0 signifying that the current state is state 0)
    */
   int getCurrentState();
 
   /*
-   *
+   * Returns the value of the current state (ex: returns 100 corrsponding to the value of state 0)
    */
   int getCurrentStateValue();
 

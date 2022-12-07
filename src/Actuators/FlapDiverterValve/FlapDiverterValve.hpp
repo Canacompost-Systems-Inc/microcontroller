@@ -7,10 +7,11 @@
 class FlapDiverterValve: public Actuator {
  private:
   Servo servo;
+  int signalPin;
 
  public:
-  FlapDiverterValve(char inDid, int inPin, const Array<int> &inStates): 
-    Actuator(inDid, inPin, inStates) {};
+  FlapDiverterValve(char inDid, int inSignalPin, const Array<int> &inStates): 
+    Actuator(inDid, inStates), signalPin(inSignalPin) {};
   void begin();
   void actuateState(int desiredStateValue);
 };

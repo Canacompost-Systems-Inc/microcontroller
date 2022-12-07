@@ -12,8 +12,8 @@ class SCD41: public Sensor {
   Array<float> read();
 
  public:
-  SCD41(char inBaseDID, unsigned long inPollingFrequency, int inPin):
-    Sensor(inBaseDID, inPollingFrequency, inPin) {};
+  SCD41(char inBaseDID, unsigned long inPollingFrequency):
+    Sensor(inBaseDID, inPollingFrequency) {};
 
   void begin();
 };

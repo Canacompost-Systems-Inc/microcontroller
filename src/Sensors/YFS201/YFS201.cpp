@@ -15,8 +15,7 @@ Array<float> YFS201::read() {
 }
 
 void YFS201::begin() {
-  int configuredPin = getPin();
-  pinMode(configuredPin, INPUT);
+  pinMode(signalPin, INPUT);
 }
 
 void YFS201::pulse() {

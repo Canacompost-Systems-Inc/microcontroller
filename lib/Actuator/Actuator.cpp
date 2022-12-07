@@ -1,9 +1,8 @@
 #include "Actuator.hpp"
 
 
-Actuator::Actuator(char inDid, int inPin, const Array<int> &inStates) {
+Actuator::Actuator(char inDid, const Array<int> &inStates) {
   did = inDid;
-  pin = inPin;
   currentState = 0;
   states = inStates;
 }
@@ -17,10 +16,6 @@ bool Actuator::setState(int newState) {
   actuateState(states.read(newState));
   currentState = newState;
   return true;
-}
-
-int Actuator::getPin() {
-  return pin;
 }
 
 Array<int> Actuator::getStates() {

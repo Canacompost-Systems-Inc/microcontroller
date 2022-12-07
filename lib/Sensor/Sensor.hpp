@@ -13,7 +13,6 @@ class Sensor {
   Array<float> data;
   unsigned long dataTimestamp;
   unsigned long pollingFrequency;
-  int pin;
 
   /**
    * Used to print data to serial monitor when debugging.
@@ -32,9 +31,8 @@ class Sensor {
   /**
    * @param inDid Device ID, used for identifying sensor
    * @param inPollingFrequency number of milliseconds between data samples
-   * @param inPin GPIO pin connected to the board 
    */
-  Sensor(char inDid, unsigned long inPollingFrequency, int inPin);
+  Sensor(char inDid, unsigned long inPollingFrequency);
 
   /**
    * Inheriting class can override the begin() virtual function and implement any setup logic needed 
@@ -59,11 +57,6 @@ class Sensor {
    * @return current value for pollingFrequency
    */
   unsigned long getPollingFrequency();
-
-  /**
-   * @return pin value
-   */
-  int getPin();
 
   /**
    * @param newPollingFrequency milliseconds of new desired frequency

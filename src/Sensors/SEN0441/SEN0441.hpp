@@ -16,8 +16,8 @@ class SEN0441: public Sensor {
   Array<float> read();
 
  public:
-  SEN0441(char inBaseDID, unsigned long inPollingFrequency, int inPin):
-    Sensor(inBaseDID, inPollingFrequency, inPin), sen0441(A0, inPin)  {};
+  SEN0441(char inBaseDID, unsigned long inPollingFrequency, int inSignalPin):
+    Sensor(inBaseDID, inPollingFrequency), sen0441(A0, inSignalPin)  {};
 
   void begin();
 };

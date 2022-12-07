@@ -11,8 +11,8 @@ class IPC10100: public Sensor {
   Array<float> read();
 
  public:
-  IPC10100(char inBaseDID, unsigned long inPollingFrequency, int inPin):
-    Sensor(inBaseDID, inPollingFrequency,  inPin) {};
+  IPC10100(char inBaseDID, unsigned long inPollingFrequency):
+    Sensor(inBaseDID, inPollingFrequency) {};
 
   void begin();
 };

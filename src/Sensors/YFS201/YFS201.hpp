@@ -9,13 +9,15 @@ class YFS201: public Sensor {
  private:
   float pulseFrequency;
   Array<float> read();
+  int signalPin;
 
  public:
-  YFS201(char inBaseDID, unsigned long inPollingFrequency, int inPin):
-    Sensor(inBaseDID, inPollingFrequency, inPin) {};
+  YFS201(char inBaseDID, unsigned long inPollingFrequency, int inSignalPin):
+    Sensor(inBaseDID, inPollingFrequency), signalPin(inSignalPin) {};
 
   void begin();
   void pulse();
+  int getSignalPin() { return signalPin; }
 };
 
 #endif

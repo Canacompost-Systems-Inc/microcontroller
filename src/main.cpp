@@ -30,16 +30,16 @@ ControlUnit controller;
  */
 Array<Sensor*> sensors;
 
-SHT40 	    sht40(0xC0, config::DEFAULT_POLLING_INTERVAL, -1);
-SCD41 	    scd41(0xC1, config::DEFAULT_POLLING_INTERVAL, -1);
-IPC10100 ipc10100(0xC2, config::DEFAULT_POLLING_INTERVAL, -1);
+SHT40 	    sht40(0xC0, config::DEFAULT_POLLING_INTERVAL);
+SCD41 	    scd41(0xC1, config::DEFAULT_POLLING_INTERVAL);
+IPC10100 ipc10100(0xC2, config::DEFAULT_POLLING_INTERVAL);
 DS18B20	  ds18b20(0xC3, config::DEFAULT_POLLING_INTERVAL, 2);
 // DS18B20	  ds18b20(0xC4, config::DEFAULT_POLLING_INTERVAL, 2);
 // DS18B20	  ds18b20(0xC5, config::DEFAULT_POLLING_INTERVAL, 2); // TODO: need to update pins and names here
 // DS18B20	  ds18b20(0xC6, config::DEFAULT_POLLING_INTERVAL, 2);
 YFS201	   yfs201(0xC7, config::FAST_POLLING_INTERVAL, 3);
 SEN0441	  sen0441(0xC8, config::DEFAULT_POLLING_INTERVAL, 10);
-SEN0321	  sen0321(0xC9, config::DEFAULT_POLLING_INTERVAL, -1);
+SEN0321	  sen0321(0xC9, config::DEFAULT_POLLING_INTERVAL);
 
 /** ----- ACTUATOR OBJECTS -----
  * Declare actuator objects using the states as defined in config.h. All devices to be used in operation must 
@@ -104,7 +104,7 @@ void setupSensors() {
 	}
 
 	// Attach interrupts
-	attachInterrupt(digitalPinToInterrupt(yfs201.getPin()), YSF201InterruptHandler, RISING);
+	attachInterrupt(digitalPinToInterrupt(yfs201.getSignalPin()), YSF201InterruptHandler, RISING);
 
 	// Wait to allow for sensors to setup
   // TODO: replace this with a better strategy that handles config times for each sensor

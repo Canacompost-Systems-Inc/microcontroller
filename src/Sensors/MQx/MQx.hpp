@@ -7,10 +7,11 @@
 class MQx: public Sensor {
  private:
   Array<float> read();
+  int analogSignalPin;
 
  public:
-  MQx(char inBaseDID, unsigned long inPollingFrequency, int inPin):
-    Sensor(inBaseDID, inPollingFrequency, inPin) {};
+  MQx(char inBaseDID, unsigned long inPollingFrequency, int inAnalogSignalPin):
+    Sensor(inBaseDID, inPollingFrequency), analogSignalPin(inAnalogSignalPin) {};
 };
 
 #endif

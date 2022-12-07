@@ -3,6 +3,6 @@
 
 Array<float> MQx::read() {
   Array<float> reading;
-  reading.insert(analogRead(getPin()));
+  reading.insert(analogRead(analogSignalPin));
   return reading;
 }

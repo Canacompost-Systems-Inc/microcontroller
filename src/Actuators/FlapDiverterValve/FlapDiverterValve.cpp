@@ -2,7 +2,7 @@
 
 
 void FlapDiverterValve::begin() {
-  servo.attach(getPin());
+  servo.attach(signalPin);
   actuateState(getStates().read(0));
 }
 

@@ -2,10 +2,10 @@
 
 
 void Relay::begin() {
-  pinMode(getPin(), OUTPUT);
+  pinMode(signalPin, OUTPUT);
   actuateState(getStates().read(0));
 }
 
 void Relay::actuateState(int desiredStateValue) {
-  digitalWrite(getPin(), desiredStateValue);
+  digitalWrite(signalPin, desiredStateValue);
 }

@@ -22,7 +22,7 @@ class RotaryValve: public Actuator {
 
  public:
   RotaryValve(char inDid, int inPulPin, int inDirPin, int inLimitSwitchPin, const Array<int> &inStates): 
-    Actuator(inDid, -1, inStates), pulPin(inPulPin), dirPin(inDirPin), limitSwitchPin(inLimitSwitchPin) {};
+    Actuator(inDid, inStates), pulPin(inPulPin), dirPin(inDirPin), limitSwitchPin(inLimitSwitchPin) {};
   void begin();
   void actuateState(int desiredStateValue);
 };

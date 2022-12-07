@@ -1,11 +1,10 @@
 #include "Sensor.hpp"
 
 
-Sensor::Sensor(char inDid, unsigned long inPollingFrequency, int inPin) {
+Sensor::Sensor(char inDid, unsigned long inPollingFrequency) {
   dataTimestamp = 0;
   did = inDid;
   pollingFrequency = inPollingFrequency;
-  pin = inPin;
 
   Array<float> emptyData;
   data = emptyData;
@@ -48,10 +47,6 @@ void Sensor::loop(unsigned long currentTimestamp) {
 
 unsigned long Sensor::getPollingFrequency() {
   return pollingFrequency;
-}
-
-int Sensor::getPin() {
-  return pin;
 }
 
 void Sensor::setPollingFrequency(unsigned long newPollingFrequency) {

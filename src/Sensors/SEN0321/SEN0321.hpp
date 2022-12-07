@@ -21,8 +21,8 @@ class SEN0321: public Sensor {
   Array<float> read();
 
  public:
-  SEN0321(char inBaseDID, unsigned long inPollingFrequency, int inPin):
-    Sensor(inBaseDID, inPollingFrequency, inPin), sen0321() {};
+  SEN0321(char inBaseDID, unsigned long inPollingFrequency):
+    Sensor(inBaseDID, inPollingFrequency), sen0321() {};
 
   void begin();
 };
