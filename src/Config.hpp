@@ -35,11 +35,16 @@ static const Array<int> FD_TWENTY_STATES_EB({0, 50, 52, 55, 57, 59, 62, 64, 66, 
 static const Array<int> FD_TWENTY_STATES_EC({0, 76, 78, 81, 83, 85, 88, 90, 92, 95, 97, 100, 102, 104, 107, 109, 111, 114, 116, 180});
 static const Array<int> FD_TWENTY_STATES_F4({0, 38, 40, 43, 45, 47, 50, 52, 54, 57, 59, 62, 64, 66, 69, 71, 73, 76, 78, 180});
 
-// TODO:
-static const Array<int> ROTARY_STATES_E1({0, 2650, 5950, 9250, 12600, 15925, 19275}); // values tuned to RED YELOW valve
+// Each element represents number of steps from the zero position (the consistant point at which the limit 
+// switch is opened) to get valve into desired position for the desired state. 
+static const Array<int> ROTARY_STATES_E0({0, 2650, 5950, 9250, 12600, 15925, 19275});
+static const Array<int> ROTARY_STATES_E1({0, 2650, 5950, 9250, 12600, 15925, 19275});
+static const Array<int> ROTARY_STATES_E2({0, 2650, 5950, 9250, 12600, 15925, 19275});
 
-// 0=OFF, 1=OFF TODO:
-static const Array<int> RELAY_STATES({0, 1});
+// Represents 0=OFF, 1=ON states of switch
+static const Array<int> RELAY_DEFAULT_LOW_STATES({0, 1});
+static const Array<int> RELAY_DEFAULT_HIGH_STATES({1, 0});
+
 } // namespace config
 
 #endif

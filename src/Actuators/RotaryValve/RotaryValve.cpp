@@ -3,8 +3,8 @@
 
 void RotaryValve::begin() {
   // Setup pins
-  pinMode(STEP_PIN, OUTPUT);
-  pinMode(DIR_PIN, OUTPUT);
+  pinMode(pulPin, OUTPUT);
+  pinMode(dirPin, OUTPUT);
   pinMode(limitSwitchPin, INPUT);
 
   // move output to start position
@@ -13,9 +13,9 @@ void RotaryValve::begin() {
 
 void RotaryValve::step() {
   // Does one motor step
-  digitalWrite(STEP_PIN, HIGH);
+  digitalWrite(pulPin, HIGH);
   delayMicroseconds(PULSE_DELAY);
-  digitalWrite(STEP_PIN, LOW);
+  digitalWrite(pulPin, LOW);
   delayMicroseconds(PULSE_DELAY);
 }
 
@@ -24,7 +24,7 @@ void RotaryValve::resetPosition() {
   // TODO: Error checking if limit switch is not hit
 
   // Move cc back to start position
-  digitalWrite(DIR_PIN, COUNTER_CLOCKWISE);
+  digitalWrite(dirPin, COUNTER_CLOCKWISE);
 
   while (true) {
     if (digitalRead(limitSwitchPin) == LOW) {
@@ -35,7 +35,7 @@ void RotaryValve::resetPosition() {
   }
 
   // set dir to clockwise for actuateState to call
-  digitalWrite(DIR_PIN, CLOCKWISE);
+  digitalWrite(dirPin, CLOCKWISE);
 }
 
 void RotaryValve::actuateState(int desiredStateValue) {
