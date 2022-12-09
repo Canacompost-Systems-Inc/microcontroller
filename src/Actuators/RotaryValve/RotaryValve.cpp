@@ -20,10 +20,7 @@ void RotaryValve::step() {
 }
 
 void RotaryValve::resetPosition() {
-  // Moves valve back to starting postion where limit switch is open
   // TODO: Error checking if limit switch is not hit
-
-  // Move cc back to start position
   digitalWrite(dirPin, COUNTER_CLOCKWISE);
 
   while (true) {

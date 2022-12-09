@@ -6,18 +6,26 @@
 
 class RotaryValve: public Actuator {
  private:
+  // Used for setting directions of spin
   static const int COUNTER_CLOCKWISE = LOW;
   static const int CLOCKWISE = HIGH;
+  
+  // delay between pulses sent to stepper in microsecond, with specified driver settings this is the shortest
+  // that was possible
+  static const int PULSE_DELAY = 400;
 
-  // TODO: add settings used for stepper controller
-  // MAX step size == 19788?
-  static const int PULSE_DELAY = 400; // delay between pulses sent to stepper
+  int pulPin; // Pin to send pulses to
+  int dirPin; // Pin to set spin direction
+  int limitSwitchPin; // When this pin is LOW we know that the rotary valve is in position 0
 
-  int pulPin;
-  int dirPin;
-  int limitSwitchPin;
-
+  /**
+   * Sends one pulse to pulPin with a period of 2*PULSE_DELAY 
+   */
   void step();
+
+  /**
+   * Moves valve COUNTER_CLOCKWISE back to starting postion where limit switch is open (LOW). 
+   */
   void resetPosition();
 
  public:
