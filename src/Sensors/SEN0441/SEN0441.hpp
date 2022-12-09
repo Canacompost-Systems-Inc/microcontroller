@@ -5,9 +5,6 @@
 #include <DFRobot_MICS.h>
 #include <Arduino.h>
 
-// TODO: Remove after confirm 
-// #define ADC_PIN   A0
-// #define POWER_PIN 10
 
 class SEN0441: public Sensor {
  private:

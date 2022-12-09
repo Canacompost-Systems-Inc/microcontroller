@@ -28,6 +28,7 @@ void RotaryValve::resetPosition() {
 
   while (true) {
     if (digitalRead(limitSwitchPin) == LOW) {
+      // Limit switch opened, start position reached
       break;
     }
     
