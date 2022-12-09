@@ -7,7 +7,7 @@
 
 // Settings used for operation
 namespace config {
-
+ 
 const unsigned long DEFAULT_POLLING_INTERVAL = 5000;
 const unsigned long FAST_POLLING_INTERVAL = 1000;
 
@@ -33,7 +33,9 @@ static const Array<int> FD_TWENTY_STATES_EC({0, 76, 78, 81, 83, 85, 88, 90, 92, 
 static const Array<int> FD_TWENTY_STATES_F4({0, 38, 40, 43, 45, 47, 50, 52, 54, 57, 59, 62, 64, 66, 69, 71, 73, 76, 78, 180});
 
 // Each element represents number of steps from the zero position (the consistant point at which the limit 
-// switch is opened) to get valve into desired position for the desired state. 
+// switch is opened) to get valve into desired position for the desired state. Note these steps are calibrated
+// for the TB6600 stepper motor driver with micro-steps = 1 and current = 1.0. Valve position will be wrong
+// if not operated with these settings.
 static const Array<int> ROTARY_STATES_E0({0, 850, 4300, 8000, 11400, 14700, 18100});
 static const Array<int> ROTARY_STATES_E1({0, 2650, 5950, 9250, 12600, 15925, 19275});
 static const Array<int> ROTARY_STATES_E2({0, 500, 3775, 7250, 10600, 13950, 17300});
