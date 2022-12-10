@@ -34,13 +34,13 @@ Actuators DID's range from `0xE0` to `0xFF`. Each actuator begins in their 0th s
 
 | DID | Type | Number of States | Domain [0, ..., n] | 
 |------|-----|------------------|--------------------|
-| `0xE0` | Rotary Valve | 6 | 0, 1, 2, 3 ,4 ,5, 6 |
-| `0xE1` | Rotary Valve | 6 | 0, 1, 2, 3 ,4 ,5, 6 |
-| `0xE2` | Rotary Valve | 6 | 0, 1, 2, 3 ,4 ,5, 6 |
-| `0xE3` | Flap Diverter Valve | 10 | 0&deg;, 10&deg;, 20&deg;, ..., 90&deg; |
-| `0xE4` | Flap Diverter Valve | 10 | 0&deg;, 10&deg;, 20&deg;, ..., 90&deg; |
-| `0xE5` | Flap Diverter Valve | 10 | 0&deg;, 10&deg;, 20&deg;, ..., 90&deg; |
-| `0xE6` | Flap Diverter Valve | 10 | 0&deg;, 10&deg;, 20&deg;, ..., 90&deg; |
+| `0xE0` | Rotary Valve | 7 | 0, 1, 2, 3 ,4 ,5, 6 |
+| `0xE1` | Rotary Valve | 7 | 0, 1, 2, 3 ,4 ,5, 6 |
+| `0xE2` | Rotary Valve | 7 | 0, 1, 2, 3 ,4 ,5, 6 |
+| `0xE3` | Flap Diverter Valve | 20 | 0&deg;, 10&deg;, 20&deg;, ..., 90&deg; |
+| `0xE4` | Flap Diverter Valve | 20 | 0&deg;, 10&deg;, 20&deg;, ..., 90&deg; |
+| `0xE5` | Flap Diverter Valve | 20 | 0&deg;, 10&deg;, 20&deg;, ..., 90&deg; |
+| `0xE6` | Flap Diverter Valve | 20 | 0&deg;, 10&deg;, 20&deg;, ..., 90&deg; |
 | `0xE7` | Flap Diverter Valve | 2 | 0&deg;, 100&deg; |
 | `0xE8` | Flap Diverter Valve | 2 | 0&deg;, 100&deg; |
 | `0xE9` | Relay | 2 | OFF, ON |
