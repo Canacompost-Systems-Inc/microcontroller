@@ -1,6 +1,9 @@
 #include "ControlUnit.hpp"
 
 
+// Initialize singleton instance
+ControlUnit *ControlUnit::instance = nullptr;
+
 int ControlUnit::calculateArrayPositionFromDID(byte inDID) {
   static int sensorIndexOffset = 192;
   static int actuatorIndexOffset = 224;
@@ -155,15 +158,12 @@ void ControlUnit::transceiverLoop() {
   }
 }
 
-ControlUnit::ControlUnit() {
+ControlUnit::ControlUnit(Array<Actuator*> configuredActuators, Array<Sensor*> configuredSensors) {
+  actuators = configuredActuators;
+  sensors = configuredSensors;
   state = IDLE;
   buffer[MAX_BUFFER_SIZE] = { NULL };
   bufferCount = 0;
-}
-
-void ControlUnit::begin(Array<Actuator*> configuredActuators, Array<Sensor*> configuredSensors) {
-  actuators = configuredActuators;
-  sensors = configuredSensors;
 }
 
 void ControlUnit::loop() {

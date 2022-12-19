@@ -21,8 +21,6 @@
 #include "Actuators/RotaryValve/RotaryValve.hpp"
 #include "ControlUnit/ControlUnit.hpp"
 
-// Main instance for control unit (should only be 1)
-ControlUnit controller;
 
 /** ----- SENSOR OBJECTS -----
  * Declare sensor objects using the states as defined in config.h. All devices to be used in operation must 
@@ -49,27 +47,28 @@ YFS201 yfs201(0xC7, config::FAST_POLLING_INTERVAL, 3); // will need to update th
  */
 Array<Actuator*> actuators;
 
+// TODO: find a easier way to calculate DID so we dont need to hardcode this
 // Two state flap diverters
-FlapDiverterValve e7(0xE7, 35, config::FD_TWO_STATES);
-FlapDiverterValve e8(0xE8, 41, config::FD_TWO_STATES);
-FlapDiverterValve ea(0xEA, 32, config::FD_TWO_STATES);
+FlapDiverterValve e7(0xE3, 35, config::FD_TWO_STATES);
+FlapDiverterValve e8(0xE4, 41, config::FD_TWO_STATES);
+FlapDiverterValve ea(0xE9, 32, config::FD_TWO_STATES);
 
 // Ten state flap diverters
-FlapDiverterValve eb(0xEB, 33, config::FD_TWENTY_STATES_EB);
-FlapDiverterValve ec(0xEC, 34, config::FD_TWENTY_STATES_EC);
-FlapDiverterValve f4(0xF4, 42, config::FD_TWENTY_STATES_F4);
+FlapDiverterValve eb(0xEA, 33, config::FD_TWENTY_STATES_EB);
+FlapDiverterValve ec(0xEB, 34, config::FD_TWENTY_STATES_EC);
+FlapDiverterValve f4(0xED, 42, config::FD_TWENTY_STATES_F4);
 
 // 6 state rotary valves
 RotaryValve e0(0xE0, 10, 11, 24, config::ROTARY_STATES_E0);
 RotaryValve e1(0xE1, 8, 9, 22, config::ROTARY_STATES_E1);
 RotaryValve e2(0xE2, 12, 13, 23, config::ROTARY_STATES_E2);
 
-// Default low relays
-Relay e3(0xE3, 13, config::RELAY_DEFAULT_LOW_STATES);
-Relay e4(0xE4, 13, config::RELAY_DEFAULT_LOW_STATES);
-Relay e5(0xE5, 27, config::RELAY_DEFAULT_LOW_STATES);
-Relay e6(0xE6, 28, config::RELAY_DEFAULT_LOW_STATES);
-Relay f0(0xf0, 13, config::RELAY_DEFAULT_LOW_STATES);
+// 16 relay module, active low
+Relay e3(0xE3, 3, config::RELAY_ACTIVE_LOW_STATES);
+Relay e4(0xE4, 4, config::RELAY_ACTIVE_LOW_STATES);
+Relay e5(0xE5, 6, config::RELAY_ACTIVE_LOW_STATES);
+Relay e6(0xE6, 5, config::RELAY_ACTIVE_LOW_STATES);
+Relay f0(0xEC, 7, config::RELAY_ACTIVE_LOW_STATES);
 
 void YSF201InterruptHandler() {
 	yfs201.pulse();
@@ -83,16 +82,16 @@ void setupActuators() {
   actuators.insert(&e0); // Element 0 = DID 0xE0
   actuators.insert(&e1);
   actuators.insert(&e2);
-  // actuators.insert(&e3);
-  // actuators.insert(&e4);
-  // actuators.insert(&e5);
-  // actuators.insert(&e6);
+  actuators.insert(&e3);
+  actuators.insert(&e4);
+  actuators.insert(&e5);
+  actuators.insert(&e6);
   actuators.insert(&e7); 
   actuators.insert(&e8);
-  actuators.insert(&ea);
+  actuators.insert(&ea); 
   actuators.insert(&eb);
   actuators.insert(&ec);
-  // actuators.insert(&f0);
+  actuators.insert(&f0);
   actuators.insert(&f4);
 
 	for (int i = 0; i < actuators.getSize(); i++) {
@@ -113,20 +112,42 @@ void setupSensors() {
 	// Attach interrupts
 	attachInterrupt(digitalPinToInterrupt(yfs201.getSignalPin()), YSF201InterruptHandler, RISING);
 
-	// Wait to allow for sensors to setup
-  // TODO: replace this with a better strategy that handles config times for each sensor
+	// Wait to allow for sensors to setup, without this sensor returns uninitilized value since it has not
+  // polled yet.
+  // TODO: can we do without this wait? maybe take an initial reading in the setup
 	delay(config::DEFAULT_POLLING_INTERVAL);
 }
 
 // Runs every time serial connection is established OR when arduino is powered on.
 void setup() {
 	Serial.begin(9600);
+
+  // Build devices
 	setupActuators();
 	setupSensors();
-	controller.begin(actuators, sensors);
+
+  // Creates single instance for control unit with given actuators and sensors
+	ControlUnit::begin(actuators, sensors);
 }
 
 // Runs every clock cycle
 void loop() {
-	controller.loop();
+	ControlUnit::get()->loop();
 }
+
+
+
+
+
+// // TESTING
+// void setup() {
+// 	Serial.begin(9600);
+//   pinMode(7, OUTPUT);
+// }
+
+// void loop() {
+//   digitalWrite(7, HIGH);
+//   delay(500);
+//   digitalWrite(7, LOW);
+//   delay(500);
+// }

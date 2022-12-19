@@ -26,6 +26,7 @@ def communicate(bytes: bytearray):
 
   while True:
     byte = ser.read()
+    # print(byte)
 
     if state == 0:
       if byte == b'\x01':

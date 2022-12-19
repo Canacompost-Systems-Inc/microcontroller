@@ -11,7 +11,7 @@ namespace config {
 const unsigned long DEFAULT_POLLING_INTERVAL = 5000;
 const unsigned long FAST_POLLING_INTERVAL = 1000;
 
-/* ----- ACTUATOR STATES -----
+/** ----- ACTUATOR STATES -----
  * Each actuator is given one of these arrays. The array represents all the possible states with the index
  * being the state id (ie: index 0 = state 0), and the value being the desired state to actuate to (with each 
  * actuator having its own domain).
@@ -40,9 +40,9 @@ static const Array<int> ROTARY_STATES_E0({0, 850, 4300, 8000, 11400, 14700, 1810
 static const Array<int> ROTARY_STATES_E1({0, 2650, 5950, 9250, 12600, 15925, 19275});
 static const Array<int> ROTARY_STATES_E2({0, 500, 3775, 7250, 10600, 13950, 17300});
 
-// Represents 0=OFF, 1=ON states of switch
-static const Array<int> RELAY_DEFAULT_LOW_STATES({0, 1});
-static const Array<int> RELAY_DEFAULT_HIGH_STATES({1, 0});
+// Represents relay switch states, for active high 1 = ON for active low 0 = ON. Defaults to OFF.
+static const Array<int> RELAY_ACTIVE_HIGH_STATES({0, 1});
+static const Array<int> RELAY_ACTIVE_LOW_STATES({1, 0});
 
 } // namespace config
 

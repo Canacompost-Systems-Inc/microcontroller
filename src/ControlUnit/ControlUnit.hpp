@@ -22,6 +22,9 @@ class ControlUnit {
   static const byte GET_ACTUATOR_OPCODE = 0xA2;
   static const byte SET_ACTUATOR_OPCODE = 0xB0;
 
+  // Singleton instance
+  static ControlUnit *instance;
+
   // States for Control unit transceiver
   enum State { IDLE, FETCH, EXECUTE };
   State state;
@@ -106,7 +109,17 @@ class ControlUnit {
   /**
    * @post State set to IDLE, buffer initialized to NULL and bufferCount to 0
    */
-  ControlUnit();
+  ControlUnit(Array<Actuator*> configuredActuators, Array<Sensor*> configuredSensors);
+
+  /**
+   * Singletons cannot be cloned.
+   */
+  ControlUnit(ControlUnit const &) = delete;
+
+  /**
+   * Singleton cannot be assigned
+   */
+  void operator=(ControlUnit const &) = delete;
 
   /**
    * sets array of actuators and sensors to values passed into constructor
@@ -114,7 +127,16 @@ class ControlUnit {
    * @param configuredActuators array of Actuator objects
    * @param configuredSensors array of Sensor objects
    */ 
-  void begin(Array<Actuator*> configuredActuators, Array<Sensor*> configuredSensors);
+  inline static void begin(Array<Actuator*> configuredActuators, Array<Sensor*> configuredSensors) {
+    ControlUnit::instance = new ControlUnit(configuredActuators, configuredSensors);
+  };
+
+  /**
+   * Returns the current singleton instance 
+   */
+  inline static ControlUnit *get() {
+    return instance;
+  }
 
   /**
    * Main loop of control unit, called ever clock cycle. Polls sensors and handles transmissions from
