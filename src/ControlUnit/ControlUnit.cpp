@@ -4,22 +4,15 @@
 // Initialize singleton instance
 ControlUnit *ControlUnit::instance = nullptr;
 
-int ControlUnit::calculateArrayPositionFromDID(byte inDID) {
-  static int sensorIndexOffset = 192;
-  static int actuatorIndexOffset = 224;
-  static int deviceListSize = 32;
-  int i_inDID = (int) inDID;
-
-  if (i_inDID >= sensorIndexOffset && i_inDID < sensorIndexOffset + deviceListSize) {
-    // Sensor DID's range from 0xC0 to 0xDF, which is the ints 192 (sensor @ el 0) to 223 (sensor @ el 31)
-    return (i_inDID - sensorIndexOffset);
-  } else if (i_inDID >= actuatorIndexOffset && i_inDID < actuatorIndexOffset + deviceListSize) {
-    // Actuator DID's range from 0xE0 to 0xFF, which is the ints 224 (actuator @ el 0) 
-    // to 255 (actuator @ el 31)
-    return (i_inDID - actuatorIndexOffset);
-  } else {
-    return -1;
+int ControlUnit::calculateArrayPositionFromDID(byte searchDid) {
+  for (int i = 0; i < sensors.getSize(); i++) {
+    if (sensors.read(i)->getDid() == searchDid) {
+      return i;
+    }
   }
+
+  // DID was not found
+  return -1;
 }
 
 void ControlUnit::executeGetSnapshot() {

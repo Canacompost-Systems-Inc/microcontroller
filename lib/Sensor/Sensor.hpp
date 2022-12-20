@@ -9,7 +9,7 @@ class Sensor {
  private:
   static const int DATA_ARRAY_SIZE = 3;
 
-  char did;
+  byte did;
   Array<float> data;
   unsigned long dataTimestamp;
   unsigned long pollingFrequency;
@@ -32,7 +32,7 @@ class Sensor {
    * @param inDid Device ID, used for identifying sensor
    * @param inPollingFrequency number of milliseconds between data samples
    */
-  Sensor(char inDid, unsigned long inPollingFrequency);
+  Sensor(byte inDid, unsigned long inPollingFrequency);
 
   /**
    * Inheriting class can override the begin() virtual function and implement any setup logic needed 
@@ -52,6 +52,11 @@ class Sensor {
    * Transmits sensor data in a package format.
    */
   void report();
+
+  /**
+   * @return device id
+   */
+  byte getDid();
 
   /**
    * @return current value for pollingFrequency

@@ -1,7 +1,7 @@
 #include "Sensor.hpp"
 
 
-Sensor::Sensor(char inDid, unsigned long inPollingFrequency) {
+Sensor::Sensor(byte inDid, unsigned long inPollingFrequency) {
   dataTimestamp = 0;
   did = inDid;
   pollingFrequency = inPollingFrequency;
@@ -43,6 +43,10 @@ void Sensor::loop(unsigned long currentTimestamp) {
     data = read();
     dataTimestamp = currentTimestamp;
   }
+}
+
+byte Sensor::getDid() {
+  return did;
 }
 
 unsigned long Sensor::getPollingFrequency() {

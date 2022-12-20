@@ -112,6 +112,11 @@ class ControlUnit {
   ControlUnit(Array<Actuator*> configuredActuators, Array<Sensor*> configuredSensors);
 
   /**
+   * Frees heap memory used for singleton instance
+   */
+  ~ControlUnit();
+
+  /**
    * Singletons cannot be cloned.
    */
   ControlUnit(ControlUnit const &) = delete;

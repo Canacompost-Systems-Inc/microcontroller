@@ -7,7 +7,7 @@
 
 class Actuator {
  private:
-  char did; 
+  byte did; 
   int32_t currentState; // using int32 to ensure payload of 4 bytes (consistent with sensor class)
   Array<int> states;
 
@@ -17,7 +17,7 @@ class Actuator {
    * @param inStates all possible states for this actuator (element 0 = state 0 with a state value equal to the 
    * value at that element)
    */
-  Actuator(char inDid, const Array<int> &inStates);
+  Actuator(byte inDid, const Array<int> &inStates);
 
   /**
    * Inheriting class can override the begin() virtual function and implement any setup logic needed 
@@ -39,6 +39,11 @@ class Actuator {
    */ 
   bool setState(int newState);
 
+  /**
+   * @return device id
+   */
+  byte getDid();
+  
   /** 
    * Returns the array of all possible states
    */
