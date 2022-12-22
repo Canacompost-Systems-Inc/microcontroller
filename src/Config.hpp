@@ -38,9 +38,7 @@ static const Array<int> FD_TWENTY_STATES_F4({0, 38, 40, 43, 45, 47, 50, 52, 54, 
 // if not operated with these settings. Valves are placed roughly 3300 steps away from each other.
 static const Array<int> ROTARY_STATES_E2({0, 0, 3300, 6600, 9900, 13200, 16500});
 static const Array<int> ROTARY_STATES_E1({0, 2675, 5950, 9350, 12700, 16000, 19400});
-
 static const Array<int> ROTARY_STATES_E0({0, 900, 4200, 7500, 10800, 14100, 17400});
-// static const Array<int> ROTARY_STATES_E0({0, 850, 4300, 8000, 11400, 14700, 18100});
 
 // Represents relay switch states, for active high 1 = ON for active low 0 = ON. Defaults to OFF.
 static const Array<int> RELAY_ACTIVE_HIGH_STATES({0, 1});
