@@ -39,11 +39,18 @@ class ControlUnit {
 
   // ----- Helpers ----- //
   /**
-   * @param inDID Device ID byte to convert to element position
-   * @return element position of sensor or actuator with given did. If inDID is not within sensor or
+   * @param inDID Sensor Device ID byte to convert to element position
+   * @return element position of sensor with given did. If inDID is not within sensor or
    *   actuator byte range then returns -1 indicating an error.
    */
-  int calculateArrayPositionFromDID(byte inDID);
+  int calculateSensorIndexFromDID(byte inDID);
+
+  /**
+   * @param inDID Actuator Device ID byte to convert to element position
+   * @return element position of actuator with given did. If inDID is not within sensor or
+   *   actuator byte range then returns -1 indicating an error.
+   */
+  int calculateActuatorIndexFromDID(byte inDID);
 
   // ----- Executors ----- //
   /**

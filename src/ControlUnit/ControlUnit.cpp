@@ -4,9 +4,20 @@
 // Initialize singleton instance
 ControlUnit *ControlUnit::instance = nullptr;
 
-int ControlUnit::calculateArrayPositionFromDID(byte searchDid) {
+int ControlUnit::calculateSensorIndexFromDID(byte searchDid) {
   for (int i = 0; i < sensors.getSize(); i++) {
     if (sensors.read(i)->getDid() == searchDid) {
+      return i;
+    }
+  }
+
+  // DID was not found
+  return -1;
+}
+
+int ControlUnit::calculateActuatorIndexFromDID(byte searchDid) {
+  for (int i = 0; i < actuators.getSize(); i++) {
+    if (actuators.read(i)->getDid() == searchDid) {
       return i;
     }
   }
@@ -26,7 +37,7 @@ void ControlUnit::executeGetSnapshot() {
 
 void ControlUnit::executeGetSensor() {
   byte did = buffer[1];
-  int arrayPosition = calculateArrayPositionFromDID(did);
+  int arrayPosition = calculateSensorIndexFromDID(did);
 
   if (arrayPosition >= 0 && arrayPosition < sensors.getSize()) {
     sensors.read(arrayPosition)->report();
@@ -37,7 +48,7 @@ void ControlUnit::executeGetSensor() {
 
 void ControlUnit::executeGetActuator() {
   byte did = buffer[1];
-  int arrayPosition = calculateArrayPositionFromDID(did);
+  int arrayPosition = calculateActuatorIndexFromDID(did);
 
   if (arrayPosition >= 0 && arrayPosition < actuators.getSize()) {
     actuators.read(arrayPosition)->report();
@@ -53,7 +64,7 @@ void ControlUnit::executeSetActuator() {
     (unsigned char)(buffer[4]) << 8 |
     (unsigned char)(buffer[5]));
 
-  int arrayPosition = calculateArrayPositionFromDID(did);
+  int arrayPosition = calculateActuatorIndexFromDID(did);
   bool positionInRange = (arrayPosition >= 0 && arrayPosition < actuators.getSize());
 
   if (positionInRange) {

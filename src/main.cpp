@@ -49,14 +49,14 @@ Array<Actuator*> actuators;
 
 // TODO: find a easier way to calculate DID so we dont need to hardcode this
 // Two state flap diverters
-FlapDiverterValve e7(0xE3, 35, config::FD_TWO_STATES);
-FlapDiverterValve e8(0xE4, 41, config::FD_TWO_STATES);
-FlapDiverterValve ea(0xE9, 32, config::FD_TWO_STATES);
+FlapDiverterValve e7(0xE7, 35, config::FD_TWO_STATES);
+FlapDiverterValve e8(0xE8, 41, config::FD_TWO_STATES);
+FlapDiverterValve ea(0xEA, 32, config::FD_TWO_STATES);
 
 // Ten state flap diverters
-FlapDiverterValve eb(0xEA, 33, config::FD_TWENTY_STATES_EB);
-FlapDiverterValve ec(0xEB, 34, config::FD_TWENTY_STATES_EC);
-FlapDiverterValve f4(0xED, 42, config::FD_TWENTY_STATES_F4);
+FlapDiverterValve eb(0xEB, 33, config::FD_TWENTY_STATES_EB);
+FlapDiverterValve ec(0xEC, 34, config::FD_TWENTY_STATES_EC);
+FlapDiverterValve f4(0xF4, 42, config::FD_TWENTY_STATES_F4);
 
 // 6 state rotary valves
 RotaryValve e0(0xE0, 10, 11, 24, config::ROTARY_STATES_E0);
@@ -68,7 +68,7 @@ Relay e3(0xE3, 3, config::RELAY_ACTIVE_LOW_STATES);
 Relay e4(0xE4, 4, config::RELAY_ACTIVE_LOW_STATES);
 Relay e5(0xE5, 6, config::RELAY_ACTIVE_LOW_STATES);
 Relay e6(0xE6, 5, config::RELAY_ACTIVE_LOW_STATES);
-Relay f0(0xEC, 7, config::RELAY_ACTIVE_LOW_STATES);
+Relay f0(0xF0, 7, config::RELAY_ACTIVE_LOW_STATES);
 
 void YSF201InterruptHandler() {
 	yfs201.pulse();
@@ -76,10 +76,8 @@ void YSF201InterruptHandler() {
 
 // Inserts desired operational devices into actuators array and calls the begin function for each
 void setupActuators() {
-  // Insert all operating actuators. Must insert the order of their desired device ids. In other words the 
-  // devices should be inserted in sequential order
-
-  actuators.insert(&e0); // Element 0 = DID 0xE0
+  // Insert all operating actuators. Insert order has no effect.
+  actuators.insert(&e0);
   actuators.insert(&e1);
   actuators.insert(&e2);
   actuators.insert(&e3);
@@ -101,7 +99,7 @@ void setupActuators() {
 
 // Inserts desired operational devices into sensors array and calls the begin function for each
 void setupSensors() {
-  sensors.insert(&c0);
+  // sensors.insert(&c0);
   sensors.insert(&c1);
   sensors.insert(&c2);
 
