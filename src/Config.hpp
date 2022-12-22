@@ -35,7 +35,8 @@ static const Array<int> FD_TWENTY_STATES_F4({0, 38, 40, 43, 45, 47, 50, 52, 54, 
 // Each element represents number of steps from the zero position (the consistant point at which the limit 
 // switch is opened) to get valve into desired position for the desired state. Note these steps are calibrated
 // for the TB6600 stepper motor driver with micro-steps = 1 and current = 1.0. Valve position will be wrong
-// if not operated with these settings. Valves are placed roughly 3300 steps away from each other.
+// if not operated with these settings. Valves are placed roughly 3300 steps away from each other, however 
+// in operation steps are skipped so in reality this doesn't hold true.
 static const Array<int> ROTARY_STATES_E2({0, 0, 3300, 6600, 9900, 13200, 16500});
 static const Array<int> ROTARY_STATES_E1({0, 2675, 5950, 9350, 12700, 16000, 19400});
 static const Array<int> ROTARY_STATES_E0({0, 900, 4200, 7500, 10800, 14100, 17400});
