@@ -55,7 +55,7 @@ Next you will need to make sure the `serial_port` variable in `shell.py` is corr
 ls /dev/tty*
 ```
 
-This command should return a list of paths. The path corresponding to the MCU should have one of these prefixes: `/dev/ttyUSB*` or `/dev/ttyACM*`. Once you have found the correct serial port, update the `serial_port` variole. then you can run the testing script (note you may need to use pip to instal `serial`):
+This command should return a list of paths. The path corresponding to the MCU should have one of these prefixes: `/dev/ttyUSB*` or `/dev/ttyACM*`. Once you have found the correct serial port, update the `serial_port` variable. then you can run the testing script (note you may need to use pip to instal `serial`):
 
 ```
 python ./shell.py
