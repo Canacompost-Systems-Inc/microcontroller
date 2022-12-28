@@ -70,6 +70,12 @@ Relay e5(0xE5, 6, config::RELAY_ACTIVE_LOW_STATES);
 Relay e6(0xE6, 5, config::RELAY_ACTIVE_LOW_STATES);
 Relay f0(0xF0, 7, config::RELAY_ACTIVE_LOW_STATES);
 
+// Water pump relays
+Relay e9(0xE9, 26, config::RELAY_ACTIVE_HIGH_STATES);
+Relay f6(0xF6, 27, config::RELAY_ACTIVE_HIGH_STATES);
+Relay f8(0xF8, 28, config::RELAY_ACTIVE_HIGH_STATES);
+Relay fa(0xFA, 29, config::RELAY_ACTIVE_HIGH_STATES);
+
 void YSF201InterruptHandler() {
 	yfs201.pulse();
 }
@@ -91,6 +97,10 @@ void setupActuators() {
   actuators.insert(&ec);
   actuators.insert(&f0);
   actuators.insert(&f4);
+  actuators.insert(&e9);
+  actuators.insert(&f6);
+  actuators.insert(&f8);
+  actuators.insert(&fa);
 
 	for (int i = 0; i < actuators.getSize(); i++) {
 		actuators.read(i)->begin();
