@@ -13,8 +13,7 @@ Array<float> SEN0321::read() {
 
 void SEN0321::begin() {
   while(!sen0321.begin(IIC_ADDRESS)) {
-    Serial.println("I2c device number error !");
-    // TODO: Handle this error case
+    Serial.println("SEN0321::begin() - Sensor failed to initialize");
     delay(1000);
   }
 

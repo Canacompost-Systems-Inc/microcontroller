@@ -10,11 +10,18 @@ class SEN0441: public Sensor {
  private:
   static const int CALIBRATION_TIME = 3;
   DFRobot_MICS_ADC sen0441;
+  bool needsCalibration;
   Array<float> read();
 
  public:
-  SEN0441(char inBaseDID, unsigned long inPollingFrequency, int inSignalPin):
-    Sensor(inBaseDID, inPollingFrequency), sen0441(A0, inSignalPin)  {};
+  SEN0441(char inBaseDID, unsigned long inPollingFrequency, int inSignalPin, bool inNeedsCalibration):
+    Sensor(inBaseDID, inPollingFrequency), sen0441(A0, inSignalPin), needsCalibration(inNeedsCalibration) {};
+
+  /**
+   * Runs calibration. Sensor must be in clean air enviornment (different environment than it reads from).
+   * Do not touch the sensor probe when preheating the sensor. Calibrates for CALIBRATION_TIME.
+   */
+  void calibrate();
 
   void begin();
 };

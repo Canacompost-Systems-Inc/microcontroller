@@ -77,3 +77,7 @@ Set Device:
 ```
 set <DID> <New_Value>
 ```
+
+### Debugging
+
+If any error is encountered during operation the MCU will continuously print the error message string. Read from the serial port using the serial monitor to fetch these error messages.
