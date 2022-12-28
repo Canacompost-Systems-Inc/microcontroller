@@ -8,12 +8,14 @@ Array<float> SHT40::read() {
 
   temperature = sht40.getTemperature(PRECISION_HIGH);
   if(temperature == MODE_ERR) {
+    //TODO: handle error
     Serial.println("Incorrect mode configuration to get temperature");
     return;
   }
 
   humidity = sht40.getHumidity(PRECISION_HIGH);
   if(humidity == MODE_ERR) {
+    //TODO: handle error
     Serial.println("The mode for getting humidity was misconfigured");
     return;
   } 
@@ -40,9 +42,8 @@ void SHT40::begin() {
   uint32_t id = 0;
   sht40.begin();
 
-  // TODO: handle error
   while((id = sht40.getDeviceID()) == 0) {
-    Serial.println("ID retrieval error, please check whether the device is connected correctly!!!");
-    return;
+    Serial.println("SHT40::begin() - Sensor failed to connect");
+    delay(1000);
   }
 }

@@ -47,7 +47,6 @@ YFS201 yfs201(0xC7, config::FAST_POLLING_INTERVAL, 3); // will need to update th
  */
 Array<Actuator*> actuators;
 
-// TODO: find a easier way to calculate DID so we dont need to hardcode this
 // Two state flap diverters
 FlapDiverterValve e7(0xE7, 35, config::FD_TWO_STATES);
 FlapDiverterValve e8(0xE8, 41, config::FD_TWO_STATES);

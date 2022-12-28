@@ -20,32 +20,28 @@ Array<float> SEN0441::read() {
   return reading;
 }
 
+void SEN0441::calibrate() {
+  while(!sen0441.warmUpTime(CALIBRATION_TIME)) {
+    Serial.println("Calibrating SEN0441 sensor...");
+    delay(1000);
+  }
+}
+
 void SEN0441::begin() {
   while(!sen0441.begin()) {
-    Serial.println("NO Devices !");
+    Serial.println("SEN0441::begin() - Failed to initialize sensor");
     delay(1000);
-  } Serial.println("Device connected successfully !");
+  }
 
-  /**
-    Gets the power mode of the sensor
-    The sensor is in sleep mode when power is on,so it needs to wake up the sensor. 
-    The data obtained in sleep mode is wrong
-   */
+  // The sensor is in sleep mode when power is on,so it needs to wake up the sensor. 
+  // The data obtained in sleep mode is wrong
   uint8_t mode = sen0441.getPowerState();
   if(mode == SLEEP_MODE) {
     sen0441.wakeUpMode();
-    Serial.println("wake up sensor success!");
-  }else{
-    Serial.println("The sensor is wake up mode");
   }
 
-  /**! UNCOMMENT TO CALIBRATE SENSOR, must do it in clean air (different environment than it reads from)
-    Do not touch the sensor probe when preheating the sensor.
-    Place the sensor in clean air.
-    The default calibration time is 3 minutes.
-  */
-  // while(!sen0441.warmUpTime(CALIBRATION_TIME)) {
-  //   Serial.println("Please wait until the warm-up time is over!");
-  //   delay(1000);
-  // }
+  // Calibrate sensor if needed
+  if(needsCalibration) {
+    calibrate();
+  }
 }
