@@ -4,16 +4,16 @@
 Actuator::Actuator(byte inDid, const Array<int> &inStates) {
   did = inDid;
   currentState = 0;
-  states = inStates;
+  states = &inStates;
 }
 
 bool Actuator::setState(int newState) {
-  bool newStateInRange = (newState >= 0 && newState < states.getSize());
+  bool newStateInRange = (newState >= 0 && newState < states->getSize());
   if (!newStateInRange) {
     return false;
   }
 
-  actuateState(states.read(newState));
+  actuateState(states->read(newState));
   currentState = newState;
   return true;
 }
@@ -23,7 +23,7 @@ byte Actuator::getDid() {
 }
 
 Array<int> Actuator::getStates() {
-  return states;
+  return *states;
 }
 
 int Actuator::getCurrentState() {
@@ -31,7 +31,7 @@ int Actuator::getCurrentState() {
 }
 
 int Actuator::getCurrentStateValue() {
-  return states.read(currentState);
+  return states->read(currentState);
 }
 
 void Actuator::report() {

@@ -9,7 +9,7 @@ class Actuator {
  private:
   byte did; 
   int32_t currentState; // using int32 to ensure payload of 4 bytes (consistent with sensor class)
-  Array<int> states;
+  const Array<int> *states;
 
  public:
   /**
