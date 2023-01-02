@@ -43,7 +43,7 @@ class Array {
   /**
    * @return current size (number of elements inserted)
    */
-  int getSize() {
+  int getSize() const {
    return size;
   }
 
@@ -51,7 +51,7 @@ class Array {
    * @param element element to read from
    * @return value of array at requested element
    */
-  T read(int element) {
+  T read(int element) const {
     if (element >= 0 && element < ARRAY_MAX_SIZE) {
       return data[element];
     } else {
