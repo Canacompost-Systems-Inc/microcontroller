@@ -31,7 +31,7 @@ Array<Sensor*> sensors;
 SHT40 c0(0xC0, config::DEFAULT_POLLING_INTERVAL);
 SCD41 c1(0xC1, config::DEFAULT_POLLING_INTERVAL);
 IPC10100 c2(0xC2, config::DEFAULT_POLLING_INTERVAL);
-YFS201 yfs201(0xC7, config::FAST_POLLING_INTERVAL, 3); // will need to update the pin
+YFS201 c7(0xC7, config::FAST_POLLING_INTERVAL, 25); // will need to update the pin
 
 // BELOW SENSORS ARE NOT INTEGRATED YET
 // DS18B20	  ds18b20(0xC3, config::DEFAULT_POLLING_INTERVAL, 2);
@@ -70,13 +70,16 @@ Relay e6(0xE6, 5, config::RELAY_ACTIVE_LOW_STATES);
 Relay f0(0xF0, 7, config::RELAY_ACTIVE_LOW_STATES);
 
 // Water pump relays
-Relay e9(0xE9, 26, config::RELAY_ACTIVE_HIGH_STATES);
-Relay f6(0xF6, 27, config::RELAY_ACTIVE_HIGH_STATES);
-Relay f8(0xF8, 28, config::RELAY_ACTIVE_HIGH_STATES);
-Relay fa(0xFA, 29, config::RELAY_ACTIVE_HIGH_STATES);
+Relay e9(0xE9, 26, config::RELAY_ACTIVE_LOW_STATES);
+Relay f6(0xF6, 27, config::RELAY_ACTIVE_LOW_STATES);
+Relay f8(0xF8, 28, config::RELAY_ACTIVE_LOW_STATES);
+Relay fa(0xFA, 29, config::RELAY_ACTIVE_LOW_STATES);
+
+// Blower
+Relay f1(0xF1, 2, config::RELAY_ACTIVE_LOW_STATES);
 
 void YSF201InterruptHandler() {
-	yfs201.pulse();
+	c7.pulse();
 }
 
 // Inserts desired operational devices into actuators array and calls the begin function for each
@@ -100,6 +103,7 @@ void setupActuators() {
   actuators.insert(&f6);
   actuators.insert(&f8);
   actuators.insert(&fa);
+  actuators.insert(&f1);
 
 	for (int i = 0; i < actuators.getSize(); i++) {
 		actuators.read(i)->begin();
@@ -111,13 +115,14 @@ void setupSensors() {
   // sensors.insert(&c0);
   sensors.insert(&c1);
   sensors.insert(&c2);
+  sensors.insert(&c7);
 
 	for (int i = 0; i < sensors.getSize(); i++) {
 		sensors.read(i)->begin();
 	}
 
 	// Attach interrupts
-	attachInterrupt(digitalPinToInterrupt(yfs201.getSignalPin()), YSF201InterruptHandler, RISING);
+	attachInterrupt(digitalPinToInterrupt(c7.getSignalPin()), YSF201InterruptHandler, RISING);
 
 	// Wait to allow for sensors to setup, without this sensor returns uninitilized value since it has not
   // polled yet.
