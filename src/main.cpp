@@ -48,14 +48,13 @@ YFS201 c7(0xC7, config::FAST_POLLING_INTERVAL, 25); // will need to update the p
 Array<Actuator*> actuators;
 
 // Two state flap diverters
-FlapDiverterValve e7(0xE7, 35, config::FD_TWO_STATES);
-FlapDiverterValve e8(0xE8, 41, config::FD_TWO_STATES);
-FlapDiverterValve ea(0xEA, 32, config::FD_TWO_STATES);
+FlapDiverterValve e7(0xE7, 35, config::FD_TWO_STATES_E7);
+FlapDiverterValve e8(0xE8, 41, config::FD_TWO_STATES_E8);
+// FlapDiverterValve ea(0xEA, 32, config::FD_TWO_STATES); // Broken valve
 
 // Ten state flap diverters
 FlapDiverterValve eb(0xEB, 33, config::FD_TWENTY_STATES_EB);
 FlapDiverterValve ec(0xEC, 34, config::FD_TWENTY_STATES_EC);
-FlapDiverterValve f4(0xF4, 42, config::FD_TWENTY_STATES_F4);
 
 // 6 state rotary valves
 RotaryValve e0(0xE0, 10, 11, 24, config::ROTARY_STATES_E0);
@@ -75,8 +74,11 @@ Relay f6(0xF6, 27, config::RELAY_ACTIVE_LOW_STATES);
 Relay f8(0xF8, 28, config::RELAY_ACTIVE_LOW_STATES);
 Relay fa(0xFA, 29, config::RELAY_ACTIVE_LOW_STATES);
 
-// Blower
-Relay f1(0xF1, 2, config::RELAY_ACTIVE_LOW_STATES);
+// Other Relays
+Relay f1(0xF1, 2, config::RELAY_ACTIVE_LOW_STATES); // Blower
+Relay f2(0xF2, 48, config::RELAY_ACTIVE_LOW_STATES); // BSF LEDs
+Relay f3(0xF3, 49, config::RELAY_ACTIVE_LOW_STATES); // Ozone gen
+Relay f4(0xF4, 47, config::RELAY_ACTIVE_LOW_STATES); // UVC Light
 
 void YSF201InterruptHandler() {
 	c7.pulse();
@@ -94,16 +96,17 @@ void setupActuators() {
   actuators.insert(&e6);
   actuators.insert(&e7); 
   actuators.insert(&e8);
-  actuators.insert(&ea); 
   actuators.insert(&eb);
   actuators.insert(&ec);
   actuators.insert(&f0);
-  actuators.insert(&f4);
   actuators.insert(&e9);
   actuators.insert(&f6);
   actuators.insert(&f8);
   actuators.insert(&fa);
   actuators.insert(&f1);
+  actuators.insert(&f2);
+  actuators.insert(&f3);
+  actuators.insert(&f4);
 
 	for (int i = 0; i < actuators.getSize(); i++) {
 		actuators.read(i)->begin();
@@ -124,7 +127,7 @@ void setupSensors() {
 	// Attach interrupts
 	attachInterrupt(digitalPinToInterrupt(c7.getSignalPin()), YSF201InterruptHandler, RISING);
 
-	// Wait to allow for sensors to setup, without this sensor returns uninitilized value since it has not
+	// Wait to allow for sensors to setup, without this sensor returns uninitialized value since it has not
   // polled yet.
   // TODO: can we do without this wait? maybe take an initial reading in the setup
 	delay(config::DEFAULT_POLLING_INTERVAL);

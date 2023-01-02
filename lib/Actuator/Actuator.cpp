@@ -13,6 +13,11 @@ bool Actuator::setState(int newState) {
     return false;
   }
 
+  // Already in the desired state
+  if(newState == currentState) {
+    return true;
+  }
+
   actuateState(states->read(newState));
   currentState = newState;
   return true;

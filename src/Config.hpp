@@ -24,14 +24,14 @@ const unsigned long FAST_POLLING_INTERVAL = 1000;
 // for all valves. The flaps have a mechanical stop when closed to one size. It is assumed that the torque 
 // applied is constant no matter how far past the mechanical stop we actuate too, therefore this large window
 // will not negatively effect the device.
-static const Array<int> FD_TWO_STATES({0, 180});
+static const Array<int> FD_TWO_STATES_E7({18, 78});
+static const Array<int> FD_TWO_STATES_E8({5, 70});
 
 // Rotation in degrees of the flap arm, controls how much air passes through by diverting to an...
 // TODO: dynamically calculate these so we dont need to hardcode it have a step size and two edge values (lambda func)
 // Right now we use the script test/flap_diverter_degree_calculator.py to calculate these values
-static const Array<int> FD_TWENTY_STATES_EB({0, 50, 52, 55, 57, 59, 62, 64, 66, 69, 71, 74, 76, 78, 81, 83, 85, 88, 90, 180});
-static const Array<int> FD_TWENTY_STATES_EC({0, 76, 78, 81, 83, 85, 88, 90, 92, 95, 97, 100, 102, 104, 107, 109, 111, 114, 116, 180});
-static const Array<int> FD_TWENTY_STATES_F4({0, 38, 40, 43, 45, 47, 50, 52, 54, 57, 59, 62, 64, 66, 69, 71, 73, 76, 78, 180});
+static const Array<int> FD_TWENTY_STATES_EB({5, 8, 12, 15, 19, 22, 26, 29, 32, 36, 39, 43, 46, 49, 53, 56, 60, 63, 67, 70});
+static const Array<int> FD_TWENTY_STATES_EC({60, 63, 67, 70, 74, 77, 81, 84, 87, 91, 94, 98, 101, 104, 108, 111, 115, 118, 122, 125});
 
 // Each element represents number of steps from the zero position (the consistant point at which the limit 
 // switch is opened) to get valve into desired position for the desired state. Note these steps are calibrated

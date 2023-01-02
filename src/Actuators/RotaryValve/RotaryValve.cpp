@@ -7,8 +7,8 @@ void RotaryValve::begin() {
   pinMode(dirPin, OUTPUT);
   pinMode(limitSwitchPin, INPUT);
 
-  // move output to start position
-  resetPosition();
+  // move valve to start position (state == 1)
+  setState(1);
 }
 
 void RotaryValve::step() {

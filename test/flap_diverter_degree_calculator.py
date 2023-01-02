@@ -1,7 +1,7 @@
-start = 38
+start = 60 # leftmost value
+distance = 65 # distance between two end positions of flap
+num_steps = 20 # how many states we want
 
-distance = 40
-num_steps = 18
 step = distance/(num_steps-1)
 output = []
 
