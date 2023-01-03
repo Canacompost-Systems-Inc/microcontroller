@@ -1,4 +1,4 @@
-# CanaCompost Microcontroller
+# Canacompost Microcontroller
 
 ## Introduction
 This repository contains the microcontroller code which will receive commands from the Integrated Computer (Jetson Nano) and then execute them by turning actuators or polling the sensors for data.
