@@ -57,9 +57,9 @@ FlapDiverterValve eb(0xEB, 33, config::FD_TWENTY_STATES_EB);
 FlapDiverterValve ec(0xEC, 34, config::FD_TWENTY_STATES_EC);
 
 // 6 state rotary valves
-RotaryValve e0(0xE0, 10, 11, 24, config::ROTARY_STATES_E0);
-RotaryValve e1(0xE1, 8, 9, 22, config::ROTARY_STATES_E1);
-RotaryValve e2(0xE2, 12, 13, 23, config::ROTARY_STATES_E2);
+RotaryValve e0(0xE0, 10, 11, 24, config::ROTARY_STATES_E0, 4);
+RotaryValve e1(0xE1, 8, 9, 22, config::ROTARY_STATES_E1, 3);
+RotaryValve e2(0xE2, 12, 13, 23, config::ROTARY_STATES_E2, 1);
 
 // 16 relay module, active low
 Relay e3(0xE3, 3, config::RELAY_ACTIVE_LOW_STATES);

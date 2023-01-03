@@ -38,9 +38,9 @@ static const Array<int> FD_TWENTY_STATES_EC({60, 63, 67, 70, 74, 77, 81, 84, 87,
 // for the TB6600 stepper motor driver with micro-steps = 1 and current = 1.0. Valve position will be wrong
 // if not operated with these settings. Valves are placed roughly 3300 steps away from each other, however 
 // in operation steps are skipped so in reality this doesn't hold true.
-static const Array<int> ROTARY_STATES_E2({0, 0, 3300, 6600, 9900, 13200, 16500});
-static const Array<int> ROTARY_STATES_E1({0, 2675, 5950, 9350, 12700, 16000, 19400});
-static const Array<int> ROTARY_STATES_E0({0, 900, 4200, 7500, 10800, 14100, 17400});
+static const Array<int> ROTARY_STATES_E2({0, 3300, 6600, 9900, 13200, 16500});
+static const Array<int> ROTARY_STATES_E1({2675, 5950, 9350, 12700, 16000, 19400});
+static const Array<int> ROTARY_STATES_E0({900, 4200, 7500, 10800, 14100, 17400});
 
 // Represents relay switch states, for active high 1 = ON for active low 0 = ON. Defaults to OFF.
 static const Array<int> RELAY_ACTIVE_HIGH_STATES({0, 1});

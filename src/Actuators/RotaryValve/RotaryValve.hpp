@@ -17,6 +17,7 @@ class RotaryValve: public Actuator {
   int pulPin; // Pin to send pulses to
   int dirPin; // Pin to set spin direction
   int limitSwitchPin; // When this pin is LOW we know that the rotary valve is in position 0
+  int startState; // State to actuate in begin()
 
   /**
    * Sends one pulse to pulPin with a period of 2*PULSE_DELAY 
@@ -29,8 +30,9 @@ class RotaryValve: public Actuator {
   void resetPosition();
 
  public:
-  RotaryValve(char inDid, int inPulPin, int inDirPin, int inLimitSwitchPin, const Array<int> &inStates): 
-    Actuator(inDid, inStates), pulPin(inPulPin), dirPin(inDirPin), limitSwitchPin(inLimitSwitchPin) {};
+  RotaryValve(char inDid, int inPulPin, int inDirPin, int inLimitSwitchPin, const Array<int> &inStates, int inStartState): 
+    Actuator(inDid, inStates), pulPin(inPulPin), dirPin(inDirPin), limitSwitchPin(inLimitSwitchPin),
+    startState(inStartState) {};
   void begin();
   void actuateState(int desiredStateValue);
 };
