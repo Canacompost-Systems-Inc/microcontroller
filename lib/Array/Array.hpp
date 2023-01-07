@@ -3,7 +3,6 @@
 
 // TODO: Can we dynamically change this size so that we dont waste any space!
 #define ARRAY_MAX_SIZE 32
-#include <Arduino.h>
 
 template <class T, int S = ARRAY_MAX_SIZE>
 class Array {
