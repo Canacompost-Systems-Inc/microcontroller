@@ -6,9 +6,39 @@ GET_SENSOR_OPCODE = 161
 GET_ACTUATOR_OPCODE = 162
 SET_ACTUATOR_OPCODE = 176
 
-serial_speed = 9600
+
+# Change this to the serial port the MCU is connected to
+# Use the command ls /dev/tty* to find the port (should be something like /dev/ttyUSB* or /dev/ttyACM*)
 serial_port = '/dev/tty.usbmodem14101'
+serial_speed = 9600
+
 ser = serial.Serial(serial_port, serial_speed, timeout=None)
+
+def loop() -> bool:
+  try: 
+    query = input('>> ').lower()
+    segmented_query = argsParser(query)
+
+    command = segmented_query[0]
+    if command == 'q':
+      return False
+
+    device_id = segmented_query[1]
+
+    if len(segmented_query) == 3:
+      arg = segmented_query[2]
+
+    if command == 'get':
+      runGet(device_id)
+    elif command == 'set':
+      runSet(device_id, arg)
+    else: 
+      print('ERR: invalid command')
+
+  except Exception as e:
+    print('ERR: ' + str(e))
+
+  return True
 
 def argsParser(q):
   seg_buff = [''] * 3
@@ -18,25 +48,6 @@ def argsParser(q):
     seg_buff[i] = seg
 
   return seg_buff
-
-def communicate(bytes: bytearray):
-  data = ''
-  state = 0
-  ser.write(bytes)
-
-  while True:
-    byte = ser.read()
-    # print(byte)
-
-    if state == 0:
-      if byte == b'\x01':
-          state = 1
-
-    if state == 1:
-      data = data + byte.hex() + ' '
-      if byte == b'\x03':
-        print(data)
-        break
 
 def runGet(s_did: str):
   buff = HEX_BUFF_TEMPLATE
@@ -72,32 +83,25 @@ def runSet(s_did, s_arg):
 
   communicate(buff)
 
-def loop() -> bool:
-  try: 
-    query = input('>> ').lower()
-    segmented_query = argsParser(query)
+def communicate(bytes: bytearray):
+  data = ''
+  state = 0
+  ser.write(bytes)
 
-    command = segmented_query[0]
-    if command == 'q':
-      return False
+  while True:
+    byte = ser.read()
+    # Uncomment to see all returned bytes
+    # print(byte)
 
-    device_id = segmented_query[1]
+    if state == 0:
+      if byte == b'\x01':
+          state = 1
 
-    if len(segmented_query) == 3:
-      arg = segmented_query[2]
-
-    if command == 'get':
-      runGet(device_id)
-    elif command == 'set':
-      runSet(device_id, arg)
-    else: 
-      print('ERR: invalid command')
-
-  except Exception as e:
-    print('ERR: ' + str(e))
-
-  return True
-
+    if state == 1:
+      data = data + byte.hex() + ' '
+      if byte == b'\x03':
+        print(data)
+        break
 
 if __name__ == '__main__' :
   while True:
