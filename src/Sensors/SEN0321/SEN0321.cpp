@@ -7,16 +7,16 @@ Array<float> SEN0321::read() {
   // gets concentration in PPM, converts uint16 to float data
   float ozoneConcentration = sen0321.readOzoneData(COLLECT_NUMBER);
   reading.insert(ozoneConcentration);
-  
+
   return reading;
 }
 
 void SEN0321::begin() {
-  while(!sen0321.begin(IIC_ADDRESS)) {
+  while(!sen0321.begin(baseAddress)) {
     Serial.println("SEN0321::begin() - Sensor failed to initialize");
     delay(1000);
   }
-
+ 
   // Set iic mode, active mode or passive mode
   //    active = MEASURE_MODE_PASSIVE
   //    passive = passive mode

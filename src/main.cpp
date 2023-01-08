@@ -28,18 +28,17 @@
  */
 Array<Sensor*> sensors;
 
+// Shared air sensors
 SHT40 c0(0xC0, config::DEFAULT_POLLING_INTERVAL);
-SCD41 c1(0xC1, config::DEFAULT_POLLING_INTERVAL);
+// SCD41 c1(0xC1, config::DEFAULT_POLLING_INTERVAL);
 IPC10100 c2(0xC2, config::DEFAULT_POLLING_INTERVAL);
-YFS201 c7(0xC7, config::FAST_POLLING_INTERVAL, 25); // will need to update the pin
 
-// BELOW SENSORS ARE NOT INTEGRATED YET
-// DS18B20	  ds18b20(0xC3, config::DEFAULT_POLLING_INTERVAL, 2);
-// DS18B20	  ds18b20(0xC4, config::DEFAULT_POLLING_INTERVAL, 2);
-// DS18B20	  ds18b20(0xC5, config::DEFAULT_POLLING_INTERVAL, 2); // TODO: need to update pins and names here
-// DS18B20	  ds18b20(0xC6, config::DEFAULT_POLLING_INTERVAL, 2);
-// SEN0441	  sen0441(0xC8, config::DEFAULT_POLLING_INTERVAL, 10);
-// SEN0321	  sen0321(0xC9, config::DEFAULT_POLLING_INTERVAL);
+// Ozone sensors
+SEN0321 c9(0xC9, config::DEFAULT_POLLING_INTERVAL, OZONE_ADDRESS_3); // Front of line
+SEN0321 ca(0xCA, config::DEFAULT_POLLING_INTERVAL, OZONE_ADDRESS_0); // End of line
+
+// Flow rate
+YFS201 c7(0xC7, config::FAST_POLLING_INTERVAL, 25);
 
 /** ----- ACTUATOR OBJECTS -----
  * Declare actuator objects using the states as defined in config.h. All devices to be used in operation must 
@@ -50,7 +49,7 @@ Array<Actuator*> actuators;
 // Two state flap diverters
 FlapDiverterValve e7(0xE7, 35, config::FD_TWO_STATES_E7);
 FlapDiverterValve e8(0xE8, 41, config::FD_TWO_STATES_E8);
-// FlapDiverterValve ea(0xEA, 32, config::FD_TWO_STATES); // Broken valve
+// FlapDiverterValve ea(0xEA, 32, config::FD_TWO_STATES); // Broken valve may add back later
 
 // Ten state flap diverters
 FlapDiverterValve eb(0xEB, 33, config::FD_TWENTY_STATES_EB);
@@ -115,10 +114,12 @@ void setupActuators() {
 
 // Inserts desired operational devices into sensors array and calls the begin function for each
 void setupSensors() {
-  // sensors.insert(&c0);
-  sensors.insert(&c1);
+  sensors.insert(&c0);
+  // sensors.insert(&c1);
   sensors.insert(&c2);
   sensors.insert(&c7);
+  sensors.insert(&c9);
+  sensors.insert(&ca);
 
 	for (int i = 0; i < sensors.getSize(); i++) {
 		sensors.read(i)->begin();

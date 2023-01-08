@@ -15,14 +15,14 @@ class SEN0321: public Sensor {
   //    ADDRESS_1    0x71
   //    ADDRESS_2    0x72
   //    ADDRESS_3    0x73
-  static const int IIC_ADDRESS = OZONE_ADDRESS_3;
-
+  int baseAddress;
   DFRobot_OzoneSensor sen0321;
+
   Array<float> read();
 
  public:
-  SEN0321(char inBaseDID, unsigned long inPollingFrequency):
-    Sensor(inBaseDID, inPollingFrequency), sen0321() {};
+  SEN0321(char inBaseDID, unsigned long inPollingFrequency, int inBaseAddress):
+    Sensor(inBaseDID, inPollingFrequency), baseAddress(inBaseAddress), sen0321() {};
 
   void begin();
 };
