@@ -99,7 +99,7 @@ def communicate(bytes: bytearray):
 
     if state == 1:
       data = data + byte.hex() + ' '
-      if byte == b'\x03':
+      if byte == b'\x03' and ser.in_waiting == 0:
         print(data)
         break
 
