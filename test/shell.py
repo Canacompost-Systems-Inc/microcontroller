@@ -34,7 +34,7 @@ def communicate(bytes: bytearray):
 
     if state == 1:
       data = data + byte.hex() + ' '
-      if byte == b'\x03':
+      if byte == b'\x03': # TODO: make sure not to terminate falsely
         print(data)
         break
 

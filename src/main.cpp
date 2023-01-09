@@ -140,7 +140,7 @@ void setup() {
 
   // Build devices
 	setupActuators();
-	setupSensors();
+	// setupSensors();
 
   // Creates single instance for control unit with given actuators and sensors
 	ControlUnit::begin(actuators, sensors);
