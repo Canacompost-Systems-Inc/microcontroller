@@ -92,26 +92,26 @@ void YSF201InterruptHandler() {
 // Inserts desired operational devices into actuators array and calls the begin function for each
 void setupActuators() {
   // Insert all operating actuators. Insert order has no effect.
-  // actuators.insert(&e0);
-  // actuators.insert(&e1);
-  // actuators.insert(&e2);
-  // actuators.insert(&e3);
-  // actuators.insert(&e4);
-  // actuators.insert(&e5);
-  // actuators.insert(&e6);
-  // actuators.insert(&e7); 
-  // actuators.insert(&e8);
-  // actuators.insert(&eb);
-  // actuators.insert(&ec);
-  // actuators.insert(&f0);
-  // actuators.insert(&e9);
-  // actuators.insert(&f6);
-  // actuators.insert(&f8);
-  // actuators.insert(&fa);
-  // actuators.insert(&f1);
-  // actuators.insert(&f2);
-  // actuators.insert(&f3);
-  // actuators.insert(&f4);
+  actuators.insert(&e0);
+  actuators.insert(&e1);
+  actuators.insert(&e2);
+  actuators.insert(&e3);
+  actuators.insert(&e4);
+  actuators.insert(&e5);
+  actuators.insert(&e6);
+  actuators.insert(&e7); 
+  actuators.insert(&e8);
+  actuators.insert(&eb);
+  actuators.insert(&ec);
+  actuators.insert(&f0);
+  actuators.insert(&e9);
+  actuators.insert(&f6);
+  actuators.insert(&f8);
+  actuators.insert(&fa);
+  actuators.insert(&f1);
+  actuators.insert(&f2);
+  actuators.insert(&f3);
+  actuators.insert(&f4);
 
 	for (int i = 0; i < actuators.getSize(); i++) {
 		actuators.read(i)->begin();
@@ -123,10 +123,10 @@ void setupSensors() {
   sensors.insert(&c0);
   sensors.insert(&cb);
   // sensors.insert(&c1);
-  // sensors.insert(&c2);
-  // sensors.insert(&c7);
-  // sensors.insert(&c9);
-  // sensors.insert(&ca);
+  sensors.insert(&c2);
+  sensors.insert(&c7);
+  sensors.insert(&c9);
+  sensors.insert(&ca);
 
 	for (int i = 0; i < sensors.getSize(); i++) {
 		sensors.read(i)->begin();
