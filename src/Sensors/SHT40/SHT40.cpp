@@ -6,6 +6,8 @@ Array<float> SHT40::read() {
   float temperature;
   float humidity;
 
+  mux->select(muxChannel);
+
   temperature = sht40.getTemperature(PRECISION_HIGH);
   if(temperature == MODE_ERR) {
     //TODO: handle error

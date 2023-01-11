@@ -28,9 +28,15 @@
  */
 Array<Sensor*> sensors;
 
-// Shared air sensors
-SHT40 c0(0xC0, config::DEFAULT_POLLING_INTERVAL);
-// SCD41 c1(0xC1, config::DEFAULT_POLLING_INTERVAL); // Was returning CRC error, need to test connection
+// SHT40 Bus. MUX 16 multiplexes the SDA line so that we can read from each SHT40 sensor individually. Needed
+// since SHT40's all have the same I2C base address.
+MUX16 sht40Mux(13, 2, 7, 6, 5, 4);
+SHT40 c0(0xC0, config::DEFAULT_POLLING_INTERVAL, sht40Mux, 0); // Shared air
+SHT40 cb(0xCB, config::DEFAULT_POLLING_INTERVAL, sht40Mux, 1);
+
+// Remaining shared air sensors
+// TODO: This was returning CRC error, need to test connection
+// SCD41 c1(0xC1, config::DEFAULT_POLLING_INTERVAL);
 IPC10100 c2(0xC2, config::DEFAULT_POLLING_INTERVAL);
 
 // Ozone sensors
@@ -115,6 +121,7 @@ void setupActuators() {
 // Inserts desired operational devices into sensors array and calls the begin function for each
 void setupSensors() {
   sensors.insert(&c0);
+  sensors.insert(&cb);
   // sensors.insert(&c1);
   // sensors.insert(&c2);
   // sensors.insert(&c7);
