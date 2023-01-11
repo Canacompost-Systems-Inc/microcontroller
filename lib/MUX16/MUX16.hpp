@@ -8,7 +8,7 @@ class MUX16 {
   static const int LUT[16][4];
 
   int sigPin;
-  int enablePin;
+  int enablePin; // assumed active low
   int selectorPin[4]; // [S3, S2, S1, S0]
 
  public:
