@@ -30,9 +30,11 @@ Array<Sensor*> sensors;
 
 // SHT40 Bus. MUX 16 multiplexes the SDA line so that we can read from each SHT40 sensor individually. Needed
 // since SHT40's all have the same I2C base address.
-MUX16 sht40Mux(13, 2, 7, 6, 5, 4);
-SHT40 c0(0xC0, config::DEFAULT_POLLING_INTERVAL, sht40Mux, 0); // Shared air
-SHT40 cb(0xCB, config::DEFAULT_POLLING_INTERVAL, sht40Mux, 1);
+MUX16 sht40Mux(13, 40, 36, 37, 38, 39);
+// SHT40 c0(0xC0, config::DEFAULT_POLLING_INTERVAL, sht40Mux, 0); // Shared air
+// SHT40 cb(0xCB, config::DEFAULT_POLLING_INTERVAL, sht40Mux, 0); // Ambient air
+// SHT40 cc(0xCC, config::DEFAULT_POLLING_INTERVAL, sht40Mux, 1); // Bioreactor 1
+// SHT40 cd(0xCD, config::DEFAULT_POLLING_INTERVAL, sht40Mux, 2); // Bioreactor 2
 
 // Remaining shared air sensors
 // TODO: This was returning CRC error, need to test connection
@@ -44,7 +46,7 @@ SEN0321 c9(0xC9, config::DEFAULT_POLLING_INTERVAL, OZONE_ADDRESS_3); // Front of
 SEN0321 ca(0xCA, config::DEFAULT_POLLING_INTERVAL, OZONE_ADDRESS_0); // End of line
 
 // Flow rate
-YFS201 c7(0xC7, config::FAST_POLLING_INTERVAL, 25);
+// YFS201 c7(0xC7, config::FAST_POLLING_INTERVAL, 25);
 
 /** ----- ACTUATOR OBJECTS -----
  * Declare actuator objects using the states as defined in config.h. All devices to be used in operation must 
@@ -62,9 +64,9 @@ FlapDiverterValve eb(0xEB, 33, config::FD_TWENTY_STATES_EB);
 FlapDiverterValve ec(0xEC, 34, config::FD_TWENTY_STATES_EC);
 
 // 6 state rotary valves
-RotaryValve e0(0xE0, 10, 11, 24, config::ROTARY_STATES_E0, 4);
-RotaryValve e1(0xE1, 8, 9, 22, config::ROTARY_STATES_E1, 3);
-RotaryValve e2(0xE2, 12, 13, 23, config::ROTARY_STATES_E2, 1);
+RotaryValve e0(0xE0, 10, 11, 24, config::ROTARY_STATES_E0, 0);
+RotaryValve e1(0xE1, 8, 9, 22, config::ROTARY_STATES_E1, 1);
+RotaryValve e2(0xE2, 12, 13, 23, config::ROTARY_STATES_E2, 0);
 
 // 16 relay module, active low
 Relay e3(0xE3, 3, config::RELAY_ACTIVE_LOW_STATES);
@@ -85,9 +87,9 @@ Relay f2(0xF2, 48, config::RELAY_ACTIVE_LOW_STATES); // BSF LEDs
 Relay f3(0xF3, 49, config::RELAY_ACTIVE_LOW_STATES); // Ozone gen
 Relay f4(0xF4, 47, config::RELAY_ACTIVE_LOW_STATES); // UVC Light
 
-void YSF201InterruptHandler() {
-	c7.pulse();
-}
+// void YSF201InterruptHandler() {
+// 	c7.pulse();
+// }
 
 // Inserts desired operational devices into actuators array and calls the begin function for each
 void setupActuators() {
@@ -120,11 +122,9 @@ void setupActuators() {
 
 // Inserts desired operational devices into sensors array and calls the begin function for each
 void setupSensors() {
-  sensors.insert(&c0);
-  sensors.insert(&cb);
+  // sensors.insert(&c0);
   // sensors.insert(&c1);
   sensors.insert(&c2);
-  sensors.insert(&c7);
   sensors.insert(&c9);
   sensors.insert(&ca);
 
@@ -133,7 +133,7 @@ void setupSensors() {
 	}
 
 	// Attach interrupts
-	attachInterrupt(digitalPinToInterrupt(c7.getSignalPin()), YSF201InterruptHandler, RISING);
+	// attachInterrupt(digitalPinToInterrupt(c7.getSignalPin()), YSF201InterruptHandler, RISING);
 
 	// Wait to allow for sensors to setup, without this sensor returns uninitialized value since it has not
   // polled yet.

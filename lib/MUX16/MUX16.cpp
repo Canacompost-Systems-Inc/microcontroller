@@ -9,7 +9,7 @@
 };
 
 void MUX16::begin() {
-  pinMode(sigPin, OUTPUT);
+  // pinMode(sigPin, OUTPUT);
   pinMode(enablePin, OUTPUT);
 
   for (int i=0; i<4; i++) {
