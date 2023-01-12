@@ -30,16 +30,23 @@ Array<Sensor*> sensors;
 
 // SHT40 Bus. MUX 16 multiplexes the SDA line so that we can read from each SHT40 sensor individually. Needed
 // since SHT40's all have the same I2C base address.
-MUX16 sht40Mux(13, 40, 36, 37, 38, 39);
+// MUX16 sht40Mux(13, 40, 36, 37, 38, 39);
 // SHT40 c0(0xC0, config::DEFAULT_POLLING_INTERVAL, sht40Mux, 0); // Shared air
 // SHT40 cb(0xCB, config::DEFAULT_POLLING_INTERVAL, sht40Mux, 0); // Ambient air
 // SHT40 cc(0xCC, config::DEFAULT_POLLING_INTERVAL, sht40Mux, 1); // Bioreactor 1
 // SHT40 cd(0xCD, config::DEFAULT_POLLING_INTERVAL, sht40Mux, 2); // Bioreactor 2
 
+// Temperature Probes
+DS18B20 c3(0xc3, config::DEFAULT_POLLING_INTERVAL, 44); // Shredder Storage
+DS18B20 c4(0xC4, config::DEFAULT_POLLING_INTERVAL, 46); // Bioreactor 1
+DS18B20 c5(0xC5, config::DEFAULT_POLLING_INTERVAL, 30); // Bioreactor 2
+DS18B20 c6(0xC6, config::DEFAULT_POLLING_INTERVAL, 45); // BSF Reproduction
+
 // Remaining shared air sensors
 // TODO: This was returning CRC error, need to test connection
 // SCD41 c1(0xC1, config::DEFAULT_POLLING_INTERVAL);
 IPC10100 c2(0xC2, config::DEFAULT_POLLING_INTERVAL);
+SEN0441 c8(0xC8, config::DEFAULT_POLLING_INTERVAL, A0, false);
 
 // Ozone sensors
 SEN0321 c9(0xC9, config::DEFAULT_POLLING_INTERVAL, OZONE_ADDRESS_3); // Front of line
@@ -122,11 +129,15 @@ void setupActuators() {
 
 // Inserts desired operational devices into sensors array and calls the begin function for each
 void setupSensors() {
-  // sensors.insert(&c0);
   // sensors.insert(&c1);
+  sensors.insert(&c4);
+  sensors.insert(&c5);
+  sensors.insert(&c6);
+  sensors.insert(&c3);
   sensors.insert(&c2);
   sensors.insert(&c9);
   sensors.insert(&ca);
+  sensors.insert(&c8);
 
 	for (int i = 0; i < sensors.getSize(); i++) {
 		sensors.read(i)->begin();
