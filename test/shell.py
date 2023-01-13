@@ -6,13 +6,22 @@ GET_SENSOR_OPCODE = 161
 GET_ACTUATOR_OPCODE = 162
 SET_ACTUATOR_OPCODE = 176
 
-
-# Change this to the serial port the MCU is connected to
-# Use the command ls /dev/tty* to find the port (should be something like /dev/ttyUSB* or /dev/ttyACM*)
-serial_port = '/dev/tty.usbmodem14101'
+# Add serial ports connected to MCU here
+serial_ports = ['/dev/tty.usbmodem14101', 'COM3']
+port_index = 0
 serial_speed = 9600
 
-ser = serial.Serial(serial_port, serial_speed, timeout=None)
+while True:
+  if port_index >= len(serial_ports):
+    print('ERR: Could not connect to MCU, please check the configured serial ports')
+    exit()
+
+  try:
+    ser = serial.Serial(serial_ports[port_index], serial_speed, timeout=None)
+    print('Connected to ' + serial_ports[port_index])
+    break
+  except(serial.SerialException):
+    port_index += 1
 
 def loop() -> bool:
   try: 

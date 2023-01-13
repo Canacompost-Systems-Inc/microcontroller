@@ -2,7 +2,6 @@
 #define YFS201_H
 
 #include "Sensor.hpp"
-#include "DFRobot_SHT40.h"
 
 
 class YFS201: public Sensor {
