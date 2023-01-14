@@ -1,5 +1,10 @@
 #include "IPC10100.hpp"
 
+void IPC10100::begin() {
+	if (!ipc10100.begin() || !ipc10100.isConnected()) {
+		raiseError(SensorErrors::SetupError);
+	}
+}
 
 Array<float> IPC10100::read() {
 	Array<float> reading;
@@ -14,11 +19,4 @@ Array<float> IPC10100::read() {
   }
 
 	return reading;
-}
-
-void IPC10100::begin() {
-	while (!ipc10100.begin() || !ipc10100.isConnected()) {
-	  Serial.println("IPC10100::begin() - Sensor failed to initialize or connect");
-		delay(1000);
-	}
 }
