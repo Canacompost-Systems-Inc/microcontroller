@@ -3,12 +3,11 @@
 
 #include "Array.hpp"
 #include "Sensor.hpp"
-#include "Actuators/FlapDiverterValve/FlapDiverterValve.hpp"
 
 // Settings used for operation. Note you may need to clean and do a fresh rebuild if updating these constant
 // values (PlatformIO seams to not rebuild the changes automatically).
 namespace config {
- 
+
 const unsigned long DEFAULT_POLLING_INTERVAL = 5000;
 const unsigned long FAST_POLLING_INTERVAL = 1000;
 
