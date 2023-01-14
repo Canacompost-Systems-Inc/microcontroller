@@ -4,8 +4,13 @@
 #include "Sensor.hpp"
 #include <DFRobot_OzoneSensor.h>
 
-
 class SEN0321: public Sensor {
+ public:
+  SEN0321(char inBaseDID, unsigned long inPollingFrequency, int inBaseAddress):
+    Sensor(inBaseDID, inPollingFrequency), baseAddress(inBaseAddress), sen0321() {};
+
+  void begin();
+
  private:
   // Smoothing rate of data collection (range 1-100)
   static const int COLLECT_NUMBER = 20;
@@ -19,12 +24,6 @@ class SEN0321: public Sensor {
   DFRobot_OzoneSensor sen0321;
 
   Array<float> read();
-
- public:
-  SEN0321(char inBaseDID, unsigned long inPollingFrequency, int inBaseAddress):
-    Sensor(inBaseDID, inPollingFrequency), baseAddress(inBaseAddress), sen0321() {};
-
-  void begin();
 };
 
 #endif
