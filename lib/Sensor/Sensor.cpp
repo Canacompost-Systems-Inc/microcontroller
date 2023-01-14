@@ -1,31 +1,36 @@
 #include "Sensor.hpp"
 
-
-Sensor::Sensor(byte inDid, unsigned long inPollingFrequency) {
-  dataTimestamp = 0;
-  did = inDid;
-  pollingFrequency = inPollingFrequency;
-
+Sensor::Sensor(byte inDid, unsigned long inPollingFrequency): 
+  did(inDid), dataTimestamp(0), pollingFrequency(inPollingFrequency) {
   Array<float> emptyData;
   data = emptyData;
 }
 
-void Sensor::debugReport() {
-  Serial.print("\n");
-  Serial.print(" [");
-  Serial.print(dataTimestamp);
-  Serial.print("]: ");
+void Sensor::loop(unsigned long currentTimestamp) {
+  if (errorCode == SensorErrors::SetupError) {
+    // device was not able to setup properly, do not take readings
+    return;
+  }
 
-  for(int i = 0; i < data.getSize(); i++) {
-    Serial.print(data.read(i));
-    Serial.print(' ');
+  bool pollingIntervalElapsed = currentTimestamp - dataTimestamp >= pollingFrequency;
+  if(pollingIntervalElapsed) {
+    // reset error code to attempt to take a reading again
+    errorCode = SensorErrors::NoError;
+
+    Array<float> tempData = read();
+    if(errorCode != SensorErrors::ReadError) {
+      data = tempData;
+      // Uncomment below to print current data to serial monitor
+      // debugReport();
+    }
+
+    dataTimestamp = currentTimestamp;
   }
 }
 
 void Sensor::report() {
   Serial.write(did);
 
-  // Send float value DATA_ARRAY_SIZE number of times
   for(int i = 0; i < data.getSize(); i++) {
     float dataToWrite = data.read(i);
     const unsigned char *bytesPtr = reinterpret_cast<const unsigned char*>(&dataToWrite);
@@ -37,22 +42,37 @@ void Sensor::report() {
   }
 }
 
-void Sensor::loop(unsigned long currentTimestamp) {
-  // Take reading once polling interval elapsed
-  if(currentTimestamp - dataTimestamp >= pollingFrequency) {
-    data = read();
-    dataTimestamp = currentTimestamp;
+void Sensor::raiseError(SensorErrors newErrorCode) {
+  errorCode = newErrorCode;
+  printErrorMessage();
+}
+
+void Sensor::printErrorMessage() {
+  Serial.print("\n");
+  Serial.print("0x");
+  Serial.print(did, HEX);
+  Serial.print(": ");
+
+  switch (errorCode) {
+    case SensorErrors::SetupError:
+      Serial.print("Setup Error");
+      break;
+    case SensorErrors::ReadError:
+      Serial.print("Read Error");
+      break;
+    default:
+      break;
   }
 }
 
-byte Sensor::getDid() {
-  return did;
-}
+void Sensor::debugReport() {
+  Serial.print("\n");
+  Serial.print("0x");
+  Serial.print(did, HEX);
+  Serial.print(": ");
 
-unsigned long Sensor::getPollingFrequency() {
-  return pollingFrequency;
-}
-
-void Sensor::setPollingFrequency(unsigned long newPollingFrequency) {
-  pollingFrequency = newPollingFrequency;
+  for(int i = 0; i < data.getSize(); i++) {
+    Serial.print(data.read(i));
+    Serial.print(" ");
+  }
 }

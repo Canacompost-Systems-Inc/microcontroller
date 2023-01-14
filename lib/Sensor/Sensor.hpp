@@ -3,31 +3,10 @@
 
 #include <Arduino.h>
 #include "Array.hpp"
-
+#include "SensorErrors.hpp"
 
 class Sensor {
- private:
-  static const int DATA_ARRAY_SIZE = 3;
-
-  byte did;
-  Array<float> data;
-  unsigned long dataTimestamp;
-  unsigned long pollingFrequency;
-
-  /**
-   * Used to print data to serial monitor when debugging.
-   */
-  void debugReport();
-
- protected:
-  /**
-   * Inheriting class should override the read() virtual function and implement the logic for reading 
-   * from sensor. If no override is present will return current value of data. 
-   */
-  virtual Array<float> read() { return data; };
-
  public:
-
   /**
    * @param inDid Device ID, used for identifying sensor
    * @param inPollingFrequency number of milliseconds between data samples
@@ -56,17 +35,43 @@ class Sensor {
   /**
    * @return device id
    */
-  byte getDid();
+  inline byte getDid() { return did; };
 
   /**
    * @return current value for pollingFrequency
    */
-  unsigned long getPollingFrequency();
+  inline unsigned long getPollingFrequency() {return pollingFrequency; };
+
+ protected:
+  /**
+   * Inheriting class should override the read() virtual function and implement the logic for reading 
+   * from sensor. If no override is present will return current value of data. 
+   */
+  virtual Array<float> read() { return data; };
 
   /**
-   * @param newPollingFrequency milliseconds of new desired frequency
+   * Sets sensor errorCode to given newErrorCode.
+   * 
+   * @param newErrorCode error code to set, see SensorErrors.hpp for possible values
    */
-  void setPollingFrequency(unsigned long newPollingFrequency);
+  void raiseError(SensorErrors newErrorCode);
+
+ private:
+  /**
+   * Prints the current error message to serial monitor.
+   */
+  void printErrorMessage();
+
+  /**
+   * Used to print data to serial monitor when debugging.
+   */
+  void debugReport();
+
+  byte did;
+  SensorErrors errorCode;
+  Array<float> data;
+  unsigned long dataTimestamp;
+  unsigned long pollingFrequency;
 };
 
 #endif
