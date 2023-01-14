@@ -1,65 +1,40 @@
 #include "SCD41.hpp"
 
+void SCD41::begin() {
+  Wire.begin();
+  scd41.begin(Wire);
+
+  // stop potentially previously measurement proccess 
+  uint16_t startPeriodicMeasurementError = scd41.stopPeriodicMeasurement();
+
+  uint16_t serial0;
+  uint16_t serial1;
+  uint16_t serial2;
+  uint16_t serialNumberError = scd41.getSerialNumber(serial0, serial1, serial2);
+
+  // restart the measurement proccess
+  uint16_t stopPeriodicMeasurementError = scd41.startPeriodicMeasurement();
+
+  if (startPeriodicMeasurementError || serialNumberError || stopPeriodicMeasurementError) {
+    raiseError(SensorErrors::SetupError);
+  }
+}
 
 Array<float> SCD41::read() {
   Array<float> reading;
-  uint16_t error;
-  char errorMessage[256];
   uint16_t co2;
   float temperature;
   float humidity;
 
-  error = scd41.readMeasurement(co2, temperature, humidity);
-  if (error) {
-    // TODO: handle error
-    Serial.print("Error trying to execute readMeasurement(): ");
-    errorToString(error, errorMessage, 256);
-    Serial.println(errorMessage);
-    return;
+  uint16_t readError = scd41.readMeasurement(co2, temperature, humidity);
+  if (readError) {
+    raiseError(SensorErrors::ReadError);
+    return reading;
   }
 
   reading.insert(co2);
   reading.insert(temperature);
   reading.insert(humidity);
+
   return reading;
-}
-
-void SCD41::begin() {
-  uint16_t error;
-  char errorMessage[256];
-  uint16_t serial0;
-  uint16_t serial1;
-  uint16_t serial2;
-
-  Wire.begin();
-  scd41.begin(Wire);
-
-  // stop potentially previously started measurement
-  error = scd41.stopPeriodicMeasurement();
-  while (error) {
-    Serial.print("SCD41::begin() - Error trying to execute stopPeriodicMeasurement(): ");
-    errorToString(error, errorMessage, 256);
-    Serial.println(errorMessage);
-    error = scd41.stopPeriodicMeasurement();
-    delay(1000);
-  }
-
-  error = scd41.getSerialNumber(serial0, serial1, serial2);
-  while (error) {
-    Serial.print("SCD41::begin() - Error trying to execute getSerialNumber(): ");
-    errorToString(error, errorMessage, 256);
-    Serial.println(errorMessage);
-    error = scd41.getSerialNumber(serial0, serial1, serial2);
-    delay(1000);
-  }
-
-  // Start Measurement proccess
-  error = scd41.startPeriodicMeasurement();
-  while (error) {
-    Serial.print("SCD41::begin() - Error trying to execute startPeriodicMeasurement(): ");
-    errorToString(error, errorMessage, 256);
-    Serial.println(errorMessage);
-    error = scd41.startPeriodicMeasurement();
-    delay(1000);
-  }
 }
