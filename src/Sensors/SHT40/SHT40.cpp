@@ -2,6 +2,7 @@
 
 void SHT40::begin() {
   wire.begin();
+  mux->select(muxChannel);
 
   uint32_t id = wire.getDeviceID();
   bool idIsInvalid = (id == 0);

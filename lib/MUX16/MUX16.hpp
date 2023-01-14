@@ -1,5 +1,7 @@
-#include <Arduino.h>
+#ifndef MUX16_H
+#define MUX16_H
 
+#include <Arduino.h>
 
 // Tested with cd74HC4067 16-channel analog MUX, but logic should work for any MUX with 4 selector pins
 class MUX16 {
@@ -34,3 +36,5 @@ class MUX16 {
    */
   void disable();
 };
+
+#endif

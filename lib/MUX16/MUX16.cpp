@@ -1,7 +1,6 @@
 #include "MUX16.hpp"
 
-
- const int MUX16::LUT[16][4] = {
+const int MUX16::LUT[16][4] = {
   {0, 0, 0, 0}, {0, 0, 0, 1}, {0, 0, 1, 0}, {0, 0, 1, 1},
   {0, 1, 0, 0}, {0, 1, 0, 1}, {0, 1, 1, 0}, {0, 1, 1, 1},
   {1, 0, 0, 0}, {1, 0, 0, 1}, {1, 0, 1, 0}, {1, 0, 1, 1},
@@ -9,7 +8,6 @@
 };
 
 void MUX16::begin() {
-  // pinMode(sigPin, OUTPUT);
   pinMode(enablePin, OUTPUT);
 
   for (int i=0; i<4; i++) {
