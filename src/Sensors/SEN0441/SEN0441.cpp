@@ -1,5 +1,29 @@
 #include "SEN0441.hpp"
 
+void SEN0441::begin() {
+  if (!sen0441.begin()) {
+    raiseError(SensorErrors::SetupError);
+  }
+
+  // The sensor is in sleep mode when power is on,so it needs to wake up the sensor. 
+  // The data obtained in sleep mode is wrong
+  uint8_t mode = sen0441.getPowerState();
+  if(mode == SLEEP_MODE) {
+    sen0441.wakeUpMode();
+  }
+
+  // Calibrate sensor if needed
+  if(needsCalibration) {
+    calibrate();
+  }
+}
+
+void SEN0441::calibrate() {
+  while(!sen0441.warmUpTime(CALIBRATION_TIME)) {
+    Serial.println("Calibrating SEN0441 sensor...");
+    delay(1000);
+  }
+}
 
 Array<float> SEN0441::read() {
   Array<float> reading;
@@ -16,32 +40,11 @@ Array<float> SEN0441::read() {
    *   Nitrogen Dioxide (NO2)    (0.1  - 10)PPM
    */
   float h2 = sen0441.getGasData(H2);
+  if (h2 == -1) {
+    raiseError(SensorErrors::ReadError);
+    return reading;
+  }
+  
   reading.insert(h2);
   return reading;
-}
-
-void SEN0441::calibrate() {
-  while(!sen0441.warmUpTime(CALIBRATION_TIME)) {
-    Serial.println("Calibrating SEN0441 sensor...");
-    delay(1000);
-  }
-}
-
-void SEN0441::begin() {
-  while(!sen0441.begin()) {
-    Serial.println("SEN0441::begin() - Failed to initialize sensor");
-    delay(1000);
-  }
-
-  // The sensor is in sleep mode when power is on,so it needs to wake up the sensor. 
-  // The data obtained in sleep mode is wrong
-  uint8_t mode = sen0441.getPowerState();
-  if(mode == SLEEP_MODE) {
-    sen0441.wakeUpMode();
-  }
-
-  // Calibrate sensor if needed
-  if(needsCalibration) {
-    calibrate();
-  }
 }
