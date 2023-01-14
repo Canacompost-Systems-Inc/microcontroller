@@ -3,19 +3,18 @@
 
 #include <Arduino.h>
 
-// Tested with cd74HC4067 16-channel analog MUX, but logic should work for any MUX with 4 selector pins
+// Tested with cd74HC4067 16-channel analog MUX using the SDA line as the signal line
 class MUX16 {
  private:
   // States of the selector pins for each channel, indexed by selected channel number
   static const int LUT[16][4];
 
-  int sigPin;
   int enablePin; // assumed active low
   int selectorPin[4]; // [S3, S2, S1, S0]
 
  public:
-  MUX16(int inSigPin, int inEnablePin, int inS3Pin, int inS2Pin, int inS1Pin, int inS0Pin):
-  sigPin(inSigPin), enablePin(inEnablePin), selectorPin{inS3Pin, inS2Pin, inS1Pin, inS0Pin}  {};
+  MUX16(int inEnablePin, int inS3Pin, int inS2Pin, int inS1Pin, int inS0Pin):
+    enablePin(inEnablePin), selectorPin{inS3Pin, inS2Pin, inS1Pin, inS0Pin}  {};
 
   void begin();
 

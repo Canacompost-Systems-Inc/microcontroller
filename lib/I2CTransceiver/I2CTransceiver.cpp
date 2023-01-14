@@ -1,6 +1,5 @@
 #include "I2CTransceiver.hpp"
 
-
 void I2CTransceiver::begin() {
   wire->begin();
 }

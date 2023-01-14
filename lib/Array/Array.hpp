@@ -6,10 +6,6 @@
 
 template <class T, int S = ARRAY_MAX_SIZE>
 class Array {
- private:
-  T data[S];
-  int size;
-
  public:
  
   /**
@@ -64,6 +60,10 @@ class Array {
   void clear() {
     size = 0;
   }
+
+ private:
+  T data[S];
+  int size;
 };
 
 #endif

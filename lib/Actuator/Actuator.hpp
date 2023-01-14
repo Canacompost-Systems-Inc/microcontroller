@@ -4,13 +4,7 @@
 #include <Arduino.h>
 #include "Array.hpp"
 
-
 class Actuator {
- private:
-  byte did; 
-  int32_t currentState; // using int32 to ensure payload of 4 bytes (consistent with sensor class)
-  const Array<int> *states;
-
  public:
   /**
    * @param inDid Device ID, used for identifying actuator
@@ -63,6 +57,11 @@ class Actuator {
    * Transmits actuator state in a package format.
    */
   void report();
+
+ private:
+  byte did; 
+  int32_t currentState; // using int32 to ensure payload of 4 bytes (consistent with sensor class)
+  const Array<int> *states;
 };
 
 #endif

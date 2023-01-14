@@ -1,6 +1,5 @@
 #include "RotaryValve.hpp"
 
-
 void RotaryValve::begin() {
   // Setup pins
   pinMode(pulPin, OUTPUT);
@@ -9,6 +8,15 @@ void RotaryValve::begin() {
 
   // move valve to start position (state == 1)
   setState(startState);
+}
+
+void RotaryValve::actuateState(int desiredStateValue) {
+  resetPosition();
+
+  // Spin the stepper motor by sending controlled pulse
+  for (int i = 0; i < desiredStateValue; i++) {
+    step();
+  }
 }
 
 void RotaryValve::step() {
@@ -36,13 +44,4 @@ void RotaryValve::resetPosition() {
   // set dir to clockwise for actuateState to call
   digitalWrite(dirPin, CLOCKWISE);
   delay(PULSE_DELAY);
-}
-
-void RotaryValve::actuateState(int desiredStateValue) {
-  resetPosition();
-
-  // Spin the stepper motor by sending controlled pulse
-  for (int i = 0; i < desiredStateValue; i++) {
-    step();
-  }
 }

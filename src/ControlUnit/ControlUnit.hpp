@@ -3,8 +3,50 @@
 #include "Sensor.hpp"
 #include "Actuator.hpp"
 
-
 class ControlUnit {
+ public:
+  /**
+   * @post State set to IDLE, buffer initialized to NULL and bufferCount to 0
+   */
+  ControlUnit(Array<Actuator*> configuredActuators, Array<Sensor*> configuredSensors);
+
+  /**
+   * Frees heap memory used for singleton instance
+   */
+  ~ControlUnit();
+
+  /**
+   * Singletons cannot be cloned.
+   */
+  ControlUnit(ControlUnit const &) = delete;
+
+  /**
+   * Singleton cannot be assigned
+   */
+  void operator=(ControlUnit const &) = delete;
+
+  /**
+   * sets array of actuators and sensors to values passed into constructor
+   * 
+   * @param configuredActuators array of Actuator objects
+   * @param configuredSensors array of Sensor objects
+   */ 
+  inline static void begin(Array<Actuator*> configuredActuators, Array<Sensor*> configuredSensors) {
+    ControlUnit::instance = new ControlUnit(configuredActuators, configuredSensors);
+  };
+
+  /**
+   * Returns the current singleton instance 
+   */
+  inline static ControlUnit *get() {
+    return instance;
+  }
+
+  /**
+   * Main loop of control unit, called ever clock cycle. Polls sensors and handles transmissions from
+   */
+  void loop();
+
  private:
   // Sizing Constants
   static const int MAX_PAYLOAD_SIZE = 4;
@@ -37,20 +79,16 @@ class ControlUnit {
   byte buffer[MAX_BUFFER_SIZE];
   int bufferCount;
 
-  // ----- Helpers ----- //
+  // ----- Loops ----- //
   /**
-   * @param inDID Sensor Device ID byte to convert to element position
-   * @return element position of sensor with given did. If inDID is not within sensor or
-   *   actuator byte range then returns -1 indicating an error.
+   * Invokes Sensor::loop() for each sensor in sensors array
    */
-  int calculateSensorIndexFromDID(byte inDID);
+  void pollSensorsLoop();
 
   /**
-   * @param inDID Actuator Device ID byte to convert to element position
-   * @return element position of actuator with given did. If inDID is not within sensor or
-   *   actuator byte range then returns -1 indicating an error.
+   * Maps current state of transceiver to corresponding state handler
    */
-  int calculateActuatorIndexFromDID(byte inDID);
+  void transceiverLoop();
 
   // ----- Executors ----- //
   /**
@@ -101,57 +139,18 @@ class ControlUnit {
    */
   void executeHandler();
 
-  // ----- Loops ----- //
+  // ----- Helpers ----- //
   /**
-   * Invokes Sensor::loop() for each sensor in sensors array
+   * @param inDID Sensor Device ID byte to convert to element position
+   * @return element position of sensor with given did. If inDID is not within sensor or
+   *   actuator byte range then returns -1 indicating an error.
    */
-  void pollSensorsLoop();
+  int calculateSensorIndexFromDID(byte inDID);
 
   /**
-   * Maps current state of transceiver to corresponding state handler
+   * @param inDID Actuator Device ID byte to convert to element position
+   * @return element position of actuator with given did. If inDID is not within sensor or
+   *   actuator byte range then returns -1 indicating an error.
    */
-  void transceiverLoop();
-
- public:
-  /**
-   * @post State set to IDLE, buffer initialized to NULL and bufferCount to 0
-   */
-  ControlUnit(Array<Actuator*> configuredActuators, Array<Sensor*> configuredSensors);
-
-  /**
-   * Frees heap memory used for singleton instance
-   */
-  ~ControlUnit();
-
-  /**
-   * Singletons cannot be cloned.
-   */
-  ControlUnit(ControlUnit const &) = delete;
-
-  /**
-   * Singleton cannot be assigned
-   */
-  void operator=(ControlUnit const &) = delete;
-
-  /**
-   * sets array of actuators and sensors to values passed into constructor
-   * 
-   * @param configuredActuators array of Actuator objects
-   * @param configuredSensors array of Sensor objects
-   */ 
-  inline static void begin(Array<Actuator*> configuredActuators, Array<Sensor*> configuredSensors) {
-    ControlUnit::instance = new ControlUnit(configuredActuators, configuredSensors);
-  };
-
-  /**
-   * Returns the current singleton instance 
-   */
-  inline static ControlUnit *get() {
-    return instance;
-  }
-
-  /**
-   * Main loop of control unit, called ever clock cycle. Polls sensors and handles transmissions from
-   */
-  void loop();
+  int calculateActuatorIndexFromDID(byte inDID);
 };

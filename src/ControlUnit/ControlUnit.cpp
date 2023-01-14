@@ -1,29 +1,49 @@
 #include "ControlUnit.hpp"
 
-
 // Initialize singleton instance
 ControlUnit *ControlUnit::instance = nullptr;
 
-int ControlUnit::calculateSensorIndexFromDID(byte searchDid) {
-  for (int i = 0; i < sensors.getSize(); i++) {
-    if (sensors.read(i)->getDid() == searchDid) {
-      return i;
-    }
-  }
-
-  // DID was not found
-  return -1;
+ControlUnit::ControlUnit(Array<Actuator*> configuredActuators, Array<Sensor*> configuredSensors) {
+  actuators = configuredActuators;
+  sensors = configuredSensors;
+  state = IDLE;
+  buffer[MAX_BUFFER_SIZE] = { NULL };
+  bufferCount = 0;
 }
 
-int ControlUnit::calculateActuatorIndexFromDID(byte searchDid) {
-  for (int i = 0; i < actuators.getSize(); i++) {
-    if (actuators.read(i)->getDid() == searchDid) {
-      return i;
-    }
-  }
+ControlUnit::~ControlUnit() {
+  delete ControlUnit::instance;
+}
 
-  // DID was not found
-  return -1;
+void ControlUnit::loop() {
+  transceiverLoop();
+  pollSensorsLoop();
+}
+
+void ControlUnit::pollSensorsLoop() {
+  unsigned long currentTimeMs = millis();
+  for (int i = 0; i < sensors.getSize(); i++) {
+    sensors.read(i)->loop(currentTimeMs);
+  }
+}
+
+void ControlUnit::transceiverLoop() {
+  switch (state) {
+    case IDLE:
+      idleHandler();
+      break;
+    
+    case FETCH:
+      fetchHandler();
+      break;
+
+    case EXECUTE:
+      executeHandler();
+      break;
+      
+    default:
+      break;
+  }
 }
 
 void ControlUnit::executeGetSnapshot() {
@@ -133,44 +153,33 @@ void ControlUnit::executeHandler(){
   }
   Serial.write(ETX);
 
+  // Do random print TODO:remove
+  randomSeed(analogRead(0));
+  if (random(100) > 50) {
+    Serial.print("Hello");
+  }
+
   state = IDLE;
 }
 
-void ControlUnit::pollSensorsLoop() {
-  unsigned long currentTimeMs = millis();
+int ControlUnit::calculateSensorIndexFromDID(byte searchDid) {
   for (int i = 0; i < sensors.getSize(); i++) {
-    sensors.read(i)->loop(currentTimeMs);
+    if (sensors.read(i)->getDid() == searchDid) {
+      return i;
+    }
   }
+
+  // DID was not found
+  return -1;
 }
 
-void ControlUnit::transceiverLoop() {
-  switch (state) {
-    case IDLE:
-      idleHandler();
-      break;
-    
-    case FETCH:
-      fetchHandler();
-      break;
-
-    case EXECUTE:
-      executeHandler();
-      break;
-      
-    default:
-      break;
+int ControlUnit::calculateActuatorIndexFromDID(byte searchDid) {
+  for (int i = 0; i < actuators.getSize(); i++) {
+    if (actuators.read(i)->getDid() == searchDid) {
+      return i;
+    }
   }
-}
 
-ControlUnit::ControlUnit(Array<Actuator*> configuredActuators, Array<Sensor*> configuredSensors) {
-  actuators = configuredActuators;
-  sensors = configuredSensors;
-  state = IDLE;
-  buffer[MAX_BUFFER_SIZE] = { NULL };
-  bufferCount = 0;
-}
-
-void ControlUnit::loop() {
-  transceiverLoop();
-  pollSensorsLoop();
+  // DID was not found
+  return -1;
 }

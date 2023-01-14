@@ -29,11 +29,12 @@ Array<Sensor*> sensors;
 
 // SHT40 Bus. MUX 16 multiplexes the SDA line so that we can read from each SHT40 sensor individually. Needed
 // since SHT40's all have the same I2C base address.
-MUX16 sht40Mux(20, 7, 3, 4, 5, 6);
-SHT40 c0(0xC0, config::DEFAULT_POLLING_INTERVAL, sht40Mux, 0); // Shared air
-SHT40 cb(0xCB, config::DEFAULT_POLLING_INTERVAL, sht40Mux, 1); // Ambient air
-// SHT40 cc(0xCC, config::DEFAULT_POLLING_INTERVAL, sht40Mux, 1); // Bioreactor 1
-// SHT40 cd(0xCD, config::DEFAULT_POLLING_INTERVAL, sht40Mux, 2); // Bioreactor 2
+MUX16 sht40Mux(40, 36, 37, 38, 39);
+SHT40 c0(0xC0, config::DEFAULT_POLLING_INTERVAL, sht40Mux, 0); // Ambient air
+SHT40 cb(0xCB, config::DEFAULT_POLLING_INTERVAL, sht40Mux, 1); // Bioreactor 1
+SHT40 cc(0xCC, config::DEFAULT_POLLING_INTERVAL, sht40Mux, 2); // Bioreactor 2
+SHT40 cd(0xCD, config::DEFAULT_POLLING_INTERVAL, sht40Mux, 3); // Shredder
+SHT40 ce(0xCE, config::DEFAULT_POLLING_INTERVAL, sht40Mux, 4); // BSF Reproduction
 
 // Temperature Probes
 DS18B20 c3(0xc3, config::DEFAULT_POLLING_INTERVAL, 44); // Shredder Storage
@@ -50,9 +51,6 @@ SEN0441 c8(0xC8, config::DEFAULT_POLLING_INTERVAL, A0, false);
 // Ozone sensors
 SEN0321 c9(0xC9, config::DEFAULT_POLLING_INTERVAL, OZONE_ADDRESS_3); // Front of line
 SEN0321 ca(0xCA, config::DEFAULT_POLLING_INTERVAL, OZONE_ADDRESS_0); // End of line
-
-// Flow rate
-// YFS201 c7(0xC7, config::FAST_POLLING_INTERVAL, 25);
 
 /** ----- ACTUATOR OBJECTS -----
  * Declare actuator objects using the states as defined in config.h. All devices to be used in operation must 
@@ -93,33 +91,29 @@ Relay f2(0xF2, 48, config::RELAY_ACTIVE_LOW_STATES); // BSF LEDs
 Relay f3(0xF3, 49, config::RELAY_ACTIVE_LOW_STATES); // Ozone gen
 Relay f4(0xF4, 47, config::RELAY_ACTIVE_LOW_STATES); // UVC Light
 
-// void YSF201InterruptHandler() {
-// 	c7.pulse();
-// }
-
 // Inserts desired operational devices into actuators array and calls the begin function for each
 void setupActuators() {
   // Insert all operating actuators. Insert order has no effect.
-  // actuators.insert(&e0);
-  // actuators.insert(&e1);
-  // actuators.insert(&e2);
-  // actuators.insert(&e3);
-  // actuators.insert(&e4);
-  // actuators.insert(&e5);
-  // actuators.insert(&e6);
-  // actuators.insert(&e7); 
-  // actuators.insert(&e8);
-  // actuators.insert(&eb);
-  // actuators.insert(&ec);
-  // actuators.insert(&f0);
-  // actuators.insert(&e9);
-  // actuators.insert(&f6);
-  // actuators.insert(&f8);
-  // actuators.insert(&fa);
-  // actuators.insert(&f1);
-  // actuators.insert(&f2);
-  // actuators.insert(&f3);
-  // actuators.insert(&f4);
+  actuators.insert(&e0);
+  actuators.insert(&e1);
+  actuators.insert(&e2);
+  actuators.insert(&e3);
+  actuators.insert(&e4);
+  actuators.insert(&e5);
+  actuators.insert(&e6);
+  actuators.insert(&e7);
+  actuators.insert(&e8);
+  actuators.insert(&eb);
+  actuators.insert(&ec);
+  actuators.insert(&f0);
+  actuators.insert(&e9);
+  actuators.insert(&f6);
+  actuators.insert(&f8);
+  actuators.insert(&fa);
+  actuators.insert(&f1);
+  actuators.insert(&f2);
+  actuators.insert(&f3);
+  actuators.insert(&f4);
 
 	for (int i = 0; i < actuators.getSize(); i++) {
 		actuators.read(i)->begin();
@@ -128,24 +122,24 @@ void setupActuators() {
 
 // Inserts desired operational devices into sensors array and calls the begin function for each
 void setupSensors() {
+  // sensors.insert(&c1);
   sensors.insert(&c0);
   sensors.insert(&cb);
-  // sensors.insert(&c1);
-  // sensors.insert(&c4);
-  // sensors.insert(&c5);
-  // sensors.insert(&c6);
-  // sensors.insert(&c3);
-  // sensors.insert(&c2);
-  // sensors.insert(&c9);
-  // sensors.insert(&ca);
-  // sensors.insert(&c8);
+  sensors.insert(&cc);
+  sensors.insert(&cd);
+  sensors.insert(&ce);
+  sensors.insert(&c4);
+  sensors.insert(&c5);
+  sensors.insert(&c6);
+  sensors.insert(&c3);
+  sensors.insert(&c2);
+  sensors.insert(&c9);
+  sensors.insert(&ca);
+  sensors.insert(&c8);
 
 	for (int i = 0; i < sensors.getSize(); i++) {
 		sensors.read(i)->begin();
 	}
-
-	// Attach interrupts
-	// attachInterrupt(digitalPinToInterrupt(c7.getSignalPin()), YSF201InterruptHandler, RISING);
 
 	// Wait to allow for sensors to setup, without this sensor returns uninitialized value since it has not
   // polled yet.
@@ -153,7 +147,7 @@ void setupSensors() {
 	delay(config::DEFAULT_POLLING_INTERVAL);
 }
 
-// Runs every time serial connection is established OR when arduino is powered on.
+// Runs every time serial connection is established
 void setup() {
 	Serial.begin(9600);
 

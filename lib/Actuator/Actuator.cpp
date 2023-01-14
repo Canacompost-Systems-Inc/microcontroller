@@ -1,6 +1,5 @@
 #include "Actuator.hpp"
 
-
 Actuator::Actuator(byte inDid, const Array<int> &inStates) {
   did = inDid;
   currentState = 0;

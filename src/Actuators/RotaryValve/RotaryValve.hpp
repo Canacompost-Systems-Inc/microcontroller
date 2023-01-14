@@ -3,8 +3,14 @@
 
 #include "Actuator.hpp"
 
-
 class RotaryValve: public Actuator {
+ public:
+  RotaryValve(char inDid, int inPulPin, int inDirPin, int inLimitSwitchPin, const Array<int> &inStates, int inStartState): 
+    Actuator(inDid, inStates), pulPin(inPulPin), dirPin(inDirPin), limitSwitchPin(inLimitSwitchPin),
+    startState(inStartState) {};
+  void begin();
+  void actuateState(int desiredStateValue);
+
  private:
   // Used for setting directions of spin
   static const int COUNTER_CLOCKWISE = LOW;
@@ -28,13 +34,6 @@ class RotaryValve: public Actuator {
    * Moves valve COUNTER_CLOCKWISE back to starting postion where limit switch is open (LOW). 
    */
   void resetPosition();
-
- public:
-  RotaryValve(char inDid, int inPulPin, int inDirPin, int inLimitSwitchPin, const Array<int> &inStates, int inStartState): 
-    Actuator(inDid, inStates), pulPin(inPulPin), dirPin(inDirPin), limitSwitchPin(inLimitSwitchPin),
-    startState(inStartState) {};
-  void begin();
-  void actuateState(int desiredStateValue);
 };
 
 #endif

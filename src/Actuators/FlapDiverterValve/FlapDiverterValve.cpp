@@ -1,6 +1,5 @@
 #include "FlapDiverterValve.hpp"
 
-
 void FlapDiverterValve::begin() {
   servo.attach(signalPin);
   actuateState(getStates().read(0));

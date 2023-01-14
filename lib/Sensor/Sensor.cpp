@@ -21,7 +21,7 @@ void Sensor::loop(unsigned long currentTimestamp) {
     if(errorCode != SensorErrors::ReadError) {
       data = tempData;
       // Uncomment below to print current data to serial monitor
-      debugReport();
+      // debugReport();
     }
 
     dataTimestamp = currentTimestamp;

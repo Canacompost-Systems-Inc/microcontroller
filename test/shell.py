@@ -7,7 +7,14 @@ GET_ACTUATOR_OPCODE = 162
 SET_ACTUATOR_OPCODE = 176
 
 # Add serial ports connected to MCU here
-serial_ports = ['/dev/tty.usbmodem14101', 'COM3']
+serial_ports = [
+  # macos/linux
+  '/dev/tty.usbmodem14101',
+  '/dev/ttyACM0',
+  # Windows
+  'COM3'
+  ]
+
 port_index = 0
 serial_speed = 9600
 
