@@ -8,18 +8,19 @@
 
 
 class SHT40: public Sensor {
- private:
-  SHT40I2CAdapter wire;
-  MUX16 *mux;
-  int muxChannel;
-  Array<float> read();
-
  public:
   SHT40(char inBaseDID, unsigned long inPollingFrequency, MUX16 &inMux, int inMuxChannel):
     Sensor(inBaseDID, inPollingFrequency), wire(), 
     mux(&inMux), muxChannel(inMuxChannel) {};
 
   void begin();
+
+ private:
+  Array<float> read();
+
+  SHT40I2CAdapter wire;
+  MUX16 *mux;
+  int muxChannel;
 };
 
 #endif

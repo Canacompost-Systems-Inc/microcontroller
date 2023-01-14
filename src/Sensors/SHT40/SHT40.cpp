@@ -1,5 +1,14 @@
 #include "SHT40.hpp"
 
+void SHT40::begin() {
+  wire.begin();
+
+  uint32_t id = wire.getDeviceID();
+  bool idIsInvalid = (id == 0);
+  if(idIsInvalid) {
+    raiseError(SensorErrors::SetupError);
+  }
+}
 
 Array<float> SHT40::read() {
   Array<float> reading;
@@ -10,9 +19,8 @@ Array<float> SHT40::read() {
 
   bool readingIsValid = wire.getReading(temperature, humidity);
   if (!readingIsValid) {
-    // TODO: handle error
-    Serial.println("ERR:Checksum error in getReading!");
-    return;
+    raiseError(SensorErrors::ReadError);
+    return reading;
   }
 
   if (humidity > 80) {
@@ -21,15 +29,6 @@ Array<float> SHT40::read() {
 
   reading.insert(temperature);
   reading.insert(humidity);
+
   return reading;
-}
-
-void SHT40::begin() {
-  uint32_t id = 0;
-  wire.begin();
-
-  while((id = wire.getDeviceID()) == 0) {
-    Serial.println("SHT40::begin() - Sensor failed to connect");
-    delay(1000);
-  }
 }
