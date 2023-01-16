@@ -9,7 +9,6 @@
 namespace config {
 
 const unsigned long DEFAULT_POLLING_INTERVAL = 5000;
-const unsigned long FAST_POLLING_INTERVAL = 1000;
 
 /** ----- ACTUATOR STATES -----
  * Each actuator is given one of these arrays. The array represents all the possible states with the index

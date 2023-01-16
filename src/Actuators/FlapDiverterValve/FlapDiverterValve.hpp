@@ -1,5 +1,5 @@
-#ifndef FLAPDIVERTERVALVE_H
-#define FLAPDIVERTERVALVE_H
+#ifndef FLAP_DIVERTER_VALVE_H
+#define FLAP_DIVERTER_VALVE_H
 
 #include "Actuator.hpp"
 #include "Servo.h"

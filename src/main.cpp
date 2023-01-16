@@ -37,7 +37,7 @@ SHT40 cd(0xCD, config::DEFAULT_POLLING_INTERVAL, sht40Mux, 3); // Shredder
 SHT40 ce(0xCE, config::DEFAULT_POLLING_INTERVAL, sht40Mux, 4); // BSF Reproduction
 
 // Temperature Probes
-DS18B20 c3(0xc3, config::DEFAULT_POLLING_INTERVAL, 44); // Shredder Storage
+DS18B20 c3(0xC3, config::DEFAULT_POLLING_INTERVAL, 44); // Shredder Storage
 DS18B20 c4(0xC4, config::DEFAULT_POLLING_INTERVAL, 46); // Bioreactor 1
 DS18B20 c5(0xC5, config::DEFAULT_POLLING_INTERVAL, 30); // Bioreactor 2
 DS18B20 c6(0xC6, config::DEFAULT_POLLING_INTERVAL, 45); // BSF Reproduction
@@ -128,11 +128,11 @@ void setupSensors() {
   sensors.insert(&cc);
   sensors.insert(&cd);
   sensors.insert(&ce);
+  sensors.insert(&c2);
+  sensors.insert(&c3);
   sensors.insert(&c4);
   sensors.insert(&c5);
   sensors.insert(&c6);
-  sensors.insert(&c3);
-  sensors.insert(&c2);
   sensors.insert(&c9);
   sensors.insert(&ca);
   sensors.insert(&c8);

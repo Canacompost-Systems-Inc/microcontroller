@@ -6,8 +6,8 @@ void RotaryValve::begin() {
   pinMode(dirPin, OUTPUT);
   pinMode(limitSwitchPin, INPUT);
 
-  // move valve to start position (state == 1)
-  setState(startState);
+  // move valve to start position
+  Actuator::setState(startState);
 }
 
 void RotaryValve::actuateState(int desiredStateValue) {
@@ -17,14 +17,6 @@ void RotaryValve::actuateState(int desiredStateValue) {
   for (int i = 0; i < desiredStateValue; i++) {
     step();
   }
-}
-
-void RotaryValve::step() {
-  // Does one motor step
-  digitalWrite(pulPin, HIGH);
-  delayMicroseconds(PULSE_DELAY);
-  digitalWrite(pulPin, LOW);
-  delayMicroseconds(PULSE_DELAY);
 }
 
 void RotaryValve::resetPosition() {
@@ -44,4 +36,12 @@ void RotaryValve::resetPosition() {
   // set dir to clockwise for actuateState to call
   digitalWrite(dirPin, CLOCKWISE);
   delay(PULSE_DELAY);
+}
+
+void RotaryValve::step() {
+  // Does one motor step
+  digitalWrite(pulPin, HIGH);
+  delayMicroseconds(PULSE_DELAY);
+  digitalWrite(pulPin, LOW);
+  delayMicroseconds(PULSE_DELAY);
 }

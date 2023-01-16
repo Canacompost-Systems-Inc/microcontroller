@@ -69,15 +69,6 @@ class ControlUnit {
 
   // States for Control unit transceiver
   enum State { IDLE, FETCH, EXECUTE };
-  State state;
-  
-  // Arrays of connected devices
-  Array<Actuator*> actuators;
-  Array<Sensor*> sensors;
-
-  // Transceiver buffer of incoming bytes for current request
-  byte buffer[MAX_BUFFER_SIZE];
-  int bufferCount;
 
   // ----- Loops ----- //
   /**
@@ -153,4 +144,14 @@ class ControlUnit {
    *   actuator byte range then returns -1 indicating an error.
    */
   int calculateActuatorIndexFromDID(byte inDID);
+
+  State state; // Current state of transceiver
+  
+  // Arrays of connected devices
+  Array<Actuator*> actuators;
+  Array<Sensor*> sensors;
+
+  // Transceiver buffer of incoming bytes for current request
+  byte buffer[MAX_BUFFER_SIZE];
+  int bufferCount;
 };

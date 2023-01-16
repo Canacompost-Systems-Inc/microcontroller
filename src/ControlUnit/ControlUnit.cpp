@@ -153,12 +153,6 @@ void ControlUnit::executeHandler(){
   }
   Serial.write(ETX);
 
-  // Do random print TODO:remove
-  randomSeed(analogRead(0));
-  if (random(100) > 50) {
-    Serial.print("Hello");
-  }
-
   state = IDLE;
 }
 

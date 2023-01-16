@@ -26,7 +26,7 @@ class MUX16 {
   void select(int channel);
 
   /**
-   * Enables signal output from the MUX16
+   * Enables signal output from the MUX16, assumes active low
    */
   void enable();
 

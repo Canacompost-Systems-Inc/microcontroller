@@ -6,7 +6,6 @@
 #include "SHT40I2CAdapter.hpp"
 #include "MUX16.hpp"
 
-
 class SHT40: public Sensor {
  public:
   SHT40(char inBaseDID, unsigned long inPollingFrequency, MUX16 &inMux, int inMuxChannel):

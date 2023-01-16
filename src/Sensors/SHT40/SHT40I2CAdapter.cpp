@@ -1,14 +1,13 @@
 #include "SHT40I2CAdapter.hpp"
 
-
-// redeclare consts so it generates an address
+// declare consts here so it generates an address to reference 
 const byte SHT40I2CAdapter::RESET_COMMAND;
 const byte SHT40I2CAdapter::GET_ID_COMMAND;
 const byte SHT40I2CAdapter::GET_DATA_COMMAND;
 
 void SHT40I2CAdapter::begin() {
   i2cBus.begin();
-  i2cBus.transmitFrame((byte *) &RESET_COMMAND, 1);
+  communicateWithI2CBus((byte *) &RESET_COMMAND, NULL, 0);
 
   // Delay extra time for startup
   delayMicroseconds(1000);
@@ -16,11 +15,10 @@ void SHT40I2CAdapter::begin() {
 
 uint32_t SHT40I2CAdapter::getDeviceID() {
   uint32_t id = 0;
+  size_t idArraySize = 6;
   byte idArray[6];
 
-  i2cBus.transmitFrame((byte *) &GET_ID_COMMAND, 1);
-  delayBeforeReadingWire(GET_ID_COMMAND);
-  i2cBus.receiveFrame(idArray, 6);
+  communicateWithI2CBus((byte *) &GET_ID_COMMAND, idArray, idArraySize);
 
   bool crcIsValid = checkCrc(idArray[0], idArray[1], idArray[2]) && checkCrc(idArray[3], idArray[4], idArray[5]);
   if(crcIsValid) {
@@ -49,12 +47,40 @@ bool SHT40I2CAdapter::getReading(float &temperature, float &humidity) {
   return true;
 }
 
+void SHT40I2CAdapter::runHeater(uint8_t powerMode) {
+  communicateWithI2CBus((byte *) &powerMode, NULL, 0);
+}
+
+bool SHT40I2CAdapter::checkCrc(uint8_t data1, uint8_t data2, uint8_t crcValue) {
+  uint8_t crc = 0xFF;
+  uint8_t crcData[2];
+  crcData[0] = data1;
+  crcData[1] = data2;
+  bool ret = true;
+
+  for(int i = 0; i < 2; i++ ) {
+    crc ^= crcData[i];
+    for(uint8_t bit = 8; bit > 0; --bit) {
+      if(crc & 0x80) {
+        crc = ( crc << 1 ) ^ 0x31;
+      } else {
+        crc = ( crc << 1 );
+      }
+    }
+  }
+
+  if(crc != crcValue) {
+    ret = false;
+  }
+
+  return ret;
+}
+
 bool SHT40I2CAdapter::getRawData(uint16_t &rawTemperature, uint16_t &rawHumidity) {
-  byte rawData[6];
-  
-  i2cBus.transmitFrame((byte *) &GET_DATA_COMMAND, 1);
-  delayBeforeReadingWire(GET_DATA_COMMAND);
-  i2cBus.receiveFrame(rawData, 6);
+  size_t rawDataSize = 6;
+  byte rawData[rawDataSize];
+
+  communicateWithI2CBus((byte *) &GET_DATA_COMMAND, rawData, rawDataSize);
 
   bool crcIsValid = checkCrc(rawData[0], rawData[1], rawData[2]) && checkCrc(rawData[3], rawData[4], rawData[5]);
   if(!crcIsValid) {
@@ -65,6 +91,13 @@ bool SHT40I2CAdapter::getRawData(uint16_t &rawTemperature, uint16_t &rawHumidity
   rawHumidity = (rawData[3] << 8) | rawData[4];
   return true;
 }
+
+void SHT40I2CAdapter::communicateWithI2CBus(byte *command, byte *outputBuffer, size_t outputBufferLength) {
+  i2cBus.transmitFrame(command, 1);
+  delayBeforeReadingWire(*command);
+  i2cBus.receiveFrame(outputBuffer, outputBufferLength);
+}
+
 
 void SHT40I2CAdapter::delayBeforeReadingWire(byte command) {
   unsigned long waitTimeMs;
@@ -103,34 +136,4 @@ void SHT40I2CAdapter::delayBeforeReadingWire(byte command) {
   }
 
   delay(waitTimeMs);
-}
-
-bool SHT40I2CAdapter::checkCrc(uint8_t data1, uint8_t data2, uint8_t crcValue) {
-  uint8_t crc = 0xFF;
-  uint8_t crcData[2];
-  crcData[0] = data1;
-  crcData[1] = data2;
-  bool ret = true;
-
-  for(int i = 0; i < 2; i++ ) {
-    crc ^= crcData[i];
-    for(uint8_t bit = 8; bit > 0; --bit) {
-      if(crc & 0x80) {
-        crc = ( crc << 1 ) ^ 0x31;
-      } else {
-        crc = ( crc << 1 );
-      }
-    }
-  }
-
-  if(crc != crcValue) {
-    ret = false;
-  }
-
-  return ret;
-}
-
-void SHT40I2CAdapter::runHeater(uint8_t powerMode) {
-  i2cBus.transmitFrame(&powerMode, 1);
-  delayBeforeReadingWire(powerMode);
 }
