@@ -20,8 +20,8 @@ void Sensor::loop(unsigned long currentTimestamp) {
     Array<float> tempData = read();
     if(errorCode != SensorErrors::ReadError) {
       data = tempData;
-      // Uncomment below to print current data to serial monitor
-      debugReport();
+      // Uncomment below to print current sensor data to serial monitor for debugging
+      // debugReport();
     }
 
     dataTimestamp = currentTimestamp;

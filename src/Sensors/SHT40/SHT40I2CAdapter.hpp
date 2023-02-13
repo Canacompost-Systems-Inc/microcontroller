@@ -41,19 +41,19 @@ class SHT40I2CAdapter {
   static const byte GET_DATA_COMMAND = SHT40Config::PRECISION_HIGH;
 
   /**
-   *  Recheck the obtained data to determine if they are correct 
-   * @param  data1  High 8 bits to check value
-   * @param  data2  LOW 8 bits to check value
+   * Check the obtained data to determine if they are correct 
+   * @param  data1  HIGH 8 bits to check
+   * @param  data2  LOW 8 bits to check
    * @param  crcValue  Check value returned by the sensor
-   * @return Check success return true ;Check failed return false
+   * @return true if check was successful (data is valid)
    */
   bool checkCrc(uint8_t data1, uint8_t data2, uint8_t crcValue);
 
   /**
    * Obtain raw data from sensor
-   * @param  temp Pointer to the address of the original value of the temperature
-   * @param  hun   Pointer to the address of the original value of the humidity
-   * @return Is the data obtained correct? return true  The data is correct ; return false  The data  is incorrect
+   * @param  rawTemperature storage to write raw temperature to
+   * @param  rawHumidity storage to write raw humidity to
+   * @return true if the values written to rawTemperature and rawHumidity are valid
    */
   bool getRawData(uint16_t &rawTemperature, uint16_t &rawHumidity);
 

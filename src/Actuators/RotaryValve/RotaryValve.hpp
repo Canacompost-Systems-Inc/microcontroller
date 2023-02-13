@@ -16,8 +16,8 @@ class RotaryValve: public Actuator {
   static const int COUNTER_CLOCKWISE = LOW;
   static const int CLOCKWISE = HIGH;
   
-  // delay between pulses sent to stepper in microsecond, with specified driver settings this is the shortest
-  // that was possible
+  // delay between pulses sent to stepper in microsecond, with specified driver settings (TB6600 stepper motor driver with 
+  // micro-steps = 1 and current = 1.0.) this is the shortest that was possible
   static const int PULSE_DELAY = 400;
 
   /**

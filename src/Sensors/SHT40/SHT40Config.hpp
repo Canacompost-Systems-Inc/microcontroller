@@ -3,7 +3,6 @@
 
 #include <Arduino.h>
 
-
 namespace SHT40Config {
 // Precision modes for reading measurements
 static const byte PRECISION_HIGH = 0xFD; // measure T & RH with high precision (high repeatability)

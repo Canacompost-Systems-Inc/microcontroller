@@ -18,7 +18,6 @@ class SEN0441: public Sensor {
    */
   void calibrate();
 
-
  private:
   static const int CALIBRATION_TIME = 3;
 

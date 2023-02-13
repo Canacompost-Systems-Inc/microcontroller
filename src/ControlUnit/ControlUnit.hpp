@@ -43,7 +43,7 @@ class ControlUnit {
   }
 
   /**
-   * Main loop of control unit, called ever clock cycle. Polls sensors and handles transmissions from
+   * Main loop of control unit, called ever clock cycle. Polls sensors and handles transmissions
    */
   void loop();
 
@@ -112,21 +112,20 @@ class ControlUnit {
 
   // ----- FSM State Handlers ----- //
   /**
-   * Handles IDLE transceiver state. Reads incoming bytes (if serial is available), moves to FETCH state
-   * if read byte == STX
+   * Reads incoming bytes (if serial is available), moves to FETCH state if read byte == STX
    */
   void idleHandler();
 
   /**
-   * Handles FETCH transceiver state. Reads incoming transmission bytes into a buffer. Once a total of
-   * MAX_BUFFER_SIZE bytes (not including STX and ETX characters) ia read, moves to EXECUTE state. Moves 
-   * to IDLE if request is incorrectly formatted. 
+   * Reads incoming transmission bytes into a buffer. Once a total of MAX_BUFFER_SIZE bytes 
+   * (not including STX and ETX characters) is read, moves to EXECUTE state. Moves to IDLE if request 
+   * is incorrectly formatted. 
    */
   void fetchHandler();
 
   /**
-   * Handles EXECUTE transceiver state. Invokes appropriate executor based on received opcode. Moves to
-   * IDLE after executor has returned regardless if request executed successfully.
+   * Invokes appropriate executor based on received opcode. Moves to IDLE after executor has
+   * returned regardless if request executed successfully.
    */
   void executeHandler();
 

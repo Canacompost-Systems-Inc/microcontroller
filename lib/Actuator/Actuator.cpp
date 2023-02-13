@@ -7,13 +7,15 @@ Actuator::Actuator(byte inDid, const Array<int> &inStates) {
 }
 
 bool Actuator::setState(int newState) {
-  bool newStateInRange = (newState >= 0 && newState < states->getSize());
-  if (!newStateInRange) {
+  bool newStateIsInRange = (newState >= 0 && newState < states->getSize());
+  if (!newStateIsInRange) {
     return false;
   }
 
-  actuateState(states->read(newState));
+  int newStateValue = states->read(newState);
+  actuateState(newStateValue);
   currentState = newState;
+  
   return true;
 }
 

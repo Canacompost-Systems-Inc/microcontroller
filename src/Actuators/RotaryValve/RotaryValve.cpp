@@ -13,7 +13,7 @@ void RotaryValve::begin() {
 void RotaryValve::actuateState(int desiredStateValue) {
   resetPosition();
 
-  // Spin the stepper motor by sending controlled pulse
+  // Move motor number of steps to achieve the desired state (defined in Config.hpp)
   for (int i = 0; i < desiredStateValue; i++) {
     step();
   }
